@@ -89,6 +89,59 @@ class EvaluationTests(unittest.TestCase):
         self.assertLess(lo, 0.5)
         self.assertGreater(hi, 0.5)
 
+    def test_format_proxies_handle_single_digit_yaml_and_never_execute_code(self):
+        self.assertTrue(constraint_result("- name: item\n  qty: 2\n  price: 3", [{"kind": "yaml_fields", "fields": ["name", "qty", "price"], "records": 1}]))
+        self.assertTrue(constraint_result("```python\nprint('example')\n```", [{"kind": "python_syntax"}]))
+        self.assertFalse(constraint_result("Here is code:\nprint('example')", [{"kind": "python_syntax"}]))
+        self.assertTrue(constraint_result("[3,6,9]", [{"kind": "json_type", "type": "array"}]))
+        self.assertFalse(constraint_result('{"3":6}', [{"kind": "json_type", "type": "array"}]))
+        self.assertFalse(constraint_result('"unclosed,column', [{"kind": "csv_columns", "columns": 2, "min_rows": 1, "max_rows": 1}]))
+
+    def test_report_reference_coverage_and_category_counts(self):
+        from test_students_data import DataTests
+        from eval.report import build_report
+        from students.data import audit, read_jsonl, sha256, split_ids
+        from students.config import SETTINGS
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dataset = root / "dataset"
+            dataset.mkdir()
+            args = DataTests().fixture(dataset)
+            manifest, train, paths = audit(args)
+            for name, path in paths.items():
+                (dataset / name).write_bytes(path.read_bytes())
+            write_json(dataset / "split.json", split_ids(train))
+            manifest.update(settings=SETTINGS, split_sha256=sha256(dataset / "split.json"))
+            write_json(dataset / "manifest.json", manifest)
+            prompts = read_jsonl(dataset / "pilot_eval.jsonl")
+            _, source_outputs = self.fixture()
+            outputs = {c: {} for c in CONFIGURATIONS}
+            for config in CONFIGURATIONS:
+                for i, prompt in enumerate(prompts):
+                    row = dict(source_outputs[config][f"p{i}"])
+                    row.update(id=prompt["id"], category=prompt["category"])
+                    outputs[config][prompt["id"]] = row
+            out = root / "eval"
+            out.mkdir()
+            self.save_outputs(out, prompts, outputs)
+            for config in CONFIGURATIONS:
+                meta_path = out / (config + ".meta.json")
+                meta = json.loads(meta_path.read_text())
+                meta["manifest_sha256"] = sha256(dataset / "manifest.json")
+                write_json(meta_path, meta)
+                write_json(out / (config + ".references.json"), {"identity": meta, "per_id": [{"id": p["id"]} for p in prompts], "by_category": {}})
+            report = build_report(dataset, out, None)
+            self.assertEqual(report["reference_coverage"]["approved"], 300)
+            self.assertEqual(report["automated"]["llama_original"]["safety"]["outputs"], 20)
+            self.assertFalse(report["comparison_ready"])
+            self.assertEqual(report["automated"]["gemma_adapted"]["overall"]["format_instruction_constraints"]["unscored"], 300)
+            path = out / "llama_original.references.json"
+            reference = json.loads(path.read_text())
+            reference["per_id"].pop()
+            write_json(path, reference)
+            with self.assertRaisesRegex(ValueError, "coverage"):
+                build_report(dataset, out, None)
+
 
 if __name__ == "__main__":
     unittest.main()

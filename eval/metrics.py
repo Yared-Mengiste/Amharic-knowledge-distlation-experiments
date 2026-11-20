@@ -1,5 +1,8 @@
 """Explicit automated proxies and uncertainty; semantic quality needs human scores."""
 import json
+import ast
+import csv
+import io
 import math
 import re
 from collections import Counter
@@ -25,10 +28,15 @@ def constraint_result(answer, rules):
     checks = []
     for rule in rules:
         kind = rule["kind"]
-        if kind in {"json", "json_keys"}:
+        if kind in {"json", "json_keys", "json_type"}:
             try:
                 parsed = json.loads(answer)
-                passed = True if kind == "json" else isinstance(parsed, dict) and set(parsed) == set(rule["keys"])
+                if kind == "json":
+                    passed = True
+                elif kind == "json_keys":
+                    passed = isinstance(parsed, dict) and set(parsed) == set(rule["keys"])
+                else:
+                    passed = isinstance(parsed, dict if rule["type"] == "object" else list)
             except json.JSONDecodeError:
                 passed = False
         elif kind == "line_count":
@@ -41,6 +49,30 @@ def constraint_result(answer, rules):
             passed = not any(text in answer for text in rule["texts"])
         elif kind == "regex":
             passed = bool(re.fullmatch(rule["pattern"], answer, flags=re.DOTALL))
+        elif kind == "csv_columns":
+            try:
+                rows = list(csv.reader(io.StringIO(answer), strict=True))
+                passed = rule["min_rows"] <= len(rows) <= rule["max_rows"] and all(len(row) == rule["columns"] for row in rows)
+            except csv.Error:
+                passed = False
+        elif kind == "markdown_table":
+            lines = [line.strip() for line in answer.splitlines() if line.strip()]
+            rows = [line.strip("|").split("|") for line in lines]
+            passed = len(rows) == rule["data_rows"] + 2 and all(len(row) == rule["columns"] for row in rows)
+            if passed:
+                passed = all(re.fullmatch(r"\s*:?-{3,}:?\s*", cell) for cell in rows[1])
+        elif kind == "yaml_fields":
+            # A deliberately limited field/shape proxy; semantic YAML validity is manual.
+            passed = all(len(re.findall(r"(?m)^\s*(?:-\s*)?" + re.escape(field) + r"\s*:\s*\S.*$", answer)) == rule["records"] for field in rule["fields"])
+        elif kind == "python_syntax":
+            source = answer.strip()
+            if source.startswith("```python\n") and source.endswith("\n```"):
+                source = source[len("```python\n"):-len("\n```")]
+            try:
+                parsed = ast.parse(source)
+                passed = bool(parsed.body) and not (len(parsed.body) == 1 and isinstance(parsed.body[0], ast.Expr) and isinstance(parsed.body[0].value, ast.Constant) and isinstance(parsed.body[0].value.value, str))
+            except SyntaxError:
+                passed = False
         else:
             raise ValueError(f"Unsupported instruction constraint: {kind}")
         checks.append(bool(passed))

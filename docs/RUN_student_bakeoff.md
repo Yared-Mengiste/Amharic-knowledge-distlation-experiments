@@ -154,7 +154,9 @@ cover 50 stratified IDs; safety sheets cover all 20 IDs independently. Ratings a
 Pair sheets compare each original/adapter and the two adapters in randomized order.
 Hash/ID checks catch changed or mismatched answers. Incomplete human review cannot
 produce a ready comparison. Optional explicit format rules use `--constraints`
-(see [eval/README.md](../eval/README.md)); absent rules are reported as unscored.
+(see [eval/README.md](../eval/README.md)); default prompt-bound shape rules cover
+all 15 format prompts, and other absent rules are reported as unscored. Rebuild
+the default rules with `python3 -m eval.build_constraints` before model generation.
 Only approved references contribute to reference-based checks. Raw perplexities
 cannot rank the two different tokenizers. Semantic math accuracy also needs human
 review because the supplied numeric checker is a presence heuristic.
@@ -195,10 +197,27 @@ python3 -m students.record --kind training --artifact outputs/bakeoff/train-llam
 The Kaggle notebook records concrete commands automatically to its working copy
 of `experiments/LOG.md`; bring those entries back before accepting the comparison.
 Record both training/runtime/cost reports, four evaluations, the comparison and
-both deployment reports. Do not upload weights, raw data or blind identity maps
+both deployment reports. Run the final deliverable gate after deployment review:
+
+```bash
+python3 -m eval.accept --report outputs/bakeoff/comparison.json \
+  --llama-run outputs/bakeoff/train-llama --gemma-run outputs/bakeoff/train-gemma \
+  --llama-deploy outputs/bakeoff/deploy-llama --gemma-deploy outputs/bakeoff/deploy-gemma \
+  --out outputs/bakeoff/acceptance.json
+```
+
+This checks the full runs, adapter hashes, identical splits/deployment prompt file,
+completed deployment quality ratings and final artifact hashes in the log. A ready
+comparison records complete evidence; it does not assume adaptation improved quality.
+
+Do not upload weights, raw data or blind identity maps
 publicly. Save a private notebook version with outputs before ending the session;
 download/verify output hashes and restore the complete resumable checkpoints, not
 just adapters. The notebook writes an artifact-hash index as the last step.
+
+```bash
+python3 -m students.verify_artifacts --directory /path/to/downloaded/bakeoff
+```
 
 Local validation:
 

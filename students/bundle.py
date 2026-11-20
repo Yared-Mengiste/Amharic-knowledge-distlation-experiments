@@ -20,7 +20,11 @@ def main():
     output.mkdir(parents=True)
     # Allowlist only source used by the notebook; no .env, .git, or raw sources.
     for name in ("students", "eval", "teacher", "tests", "docs"):
-        shutil.copytree(root / name, output / "repo" / name, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+        target = output / "repo" / name
+        target.mkdir(parents=True)
+        for source in sorted((root / name).iterdir()):
+            if source.is_file() and not source.name.startswith(".") and source.suffix in {".py", ".md", ".txt", ".json", ".jsonl", ".ipynb"}:
+                shutil.copyfile(source, target / source.name)
     (output / "repo/experiments").mkdir()
     shutil.copyfile(root / "experiments/LOG.md", output / "repo/experiments/LOG.md")
     shutil.copytree(args.dataset, output / "frozen")

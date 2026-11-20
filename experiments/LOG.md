@@ -16,6 +16,26 @@ One entry per run, newest first. Each entry should let someone rerun the experim
 
 ---
 
+### 2026-11-20 — Student bakeoff implementation and tokenizer diagnostic
+
+- **Goal:** implement the post-review two-student QLoRA protocol with review/freeze gates, private Kaggle orchestration, resumable checkpoints, four-way evaluation, blinded native-speaker review, and Q4_K_M deployment checks.
+- **Commands:**
+  ```bash
+  python3 -m students.data audit > /tmp/amharic-bakeoff-readiness.json
+  HF_HUB_OFFLINE=1 HF_HOME=/tmp/amharic-bakeoff-hf /tmp/amharic-bakeoff-venv/bin/python -m students.preflight --dataset data/sft --unreviewed-diagnostic --out outputs/bakeoff/unreviewed-tokenizer-diagnostic.json --summary experiments/student_tokenizer_preflight_2026-11-20.json
+  python3 -m unittest discover -s tests -v
+  /tmp/amharic-bakeoff-venv/bin/python -m unittest discover -s tests -p test_students_torch.py -v
+  python3 -m students.make_notebook
+  python3 -m eval.build_constraints
+  ```
+- **Inputs/revisions:** current unreviewed `data/sft/sft_train.jsonl` (4,577), `eval_teacher.jsonl` (268), and all 300 pilot eval prompts. [Tokenizer diagnostic summary](student_tokenizer_preflight_2026-11-20.json) records input/template hashes and exact candidate model/tokenizer SHAs. Llama: `354e5403992da727615164b975594cde4529ab94`; Gemma: `4adf15748de9e1a0097b6274cee9c15836c41c37`.
+- **Settings:** fixed seed 42, rank/alpha/dropout 16/32/0.05, NF4 double quantization, text-decoder adapters only, assistant/ending-token loss, length 2,048, lr 1e-4, two epochs, batch 1/accumulation 16, paged AdamW 8-bit, cosine/3% warmup, weight decay 0.01, clipping 1.0; category-stratified 10% validation. Native templates, fixed native Llama date header, Gemma thinking off. Greedy evaluation cap 1,000.
+- **Environment:** tokenizer diagnostic uses Transformers 5.5.0, tokenizers 0.22.2 and Jinja2 3.1.6 on Python 3.12. CPU loss/architecture checks use torch 2.10.0+cpu and PEFT 0.18.1. GPU requirements remain candidates until both GPU training/resume/loading smoke tests pass; no working-GPU claim.
+- **Cost/time:** $0; public tokenizer/package downloads and local CPU checks only. GPU cost, VRAM, training step time and runtime are not measured. Four CPU loss/real-architecture tests completed in about 66 s.
+- **Results:** current readiness audit exits 2: all 307 review decisions are blank, 109 rejection dispositions and the approximately 100-answer native-speaker spot check remain pending. Both actual tokenizers pass all 4,845 current train/reference conversations and 300 generation prompts: zero masking failures or overlength IDs, maximum conversation length 923 Llama / 1,518 Gemma tokens. Thirteen dependency-free tests and four CPU library-contract tests pass; the real Llama decoder has exactly 11,272,192 trainable adapter parameters with original parameters frozen. Gemma text-only adapter/frozen-component checks pass on a meta-device architecture; its GPU count will be recorded in run metrics. Notebook code cells parse. Default prompt-bound format proxies cover all 15 format IDs, without inspecting generated answers.
+- **Milestones:** `14cc382` dataset freeze/masking gates; `a030bbd` QLoRA/preflight/resume pins; `2ce21e7` evaluation, blind sheets, Kaggle notebook and deployment workflow. Commits remain on `teacher/pilot-run` while the existing teacher stage awaits commit/merge; creating `students/bakeoff` is deferred until that prerequisite is met. Existing teacher outputs/review edits are excluded from implementation commits.
+- **Next:** finish review/triage/merge and native-speaker spot checks; freeze the dataset; rerun both-tokenizer preflight; run both Kaggle GPU smoke/resume tests before full Llama then Gemma training. No GPU smoke, adapter, full evaluation, human comparison or deployment outcome has been produced. Use the [run guide](../docs/RUN_student_bakeoff.md); every actual run records hashes/settings/revisions/runtime/cost in this log before final acceptance.
+
 ### 2026-11-19 — System-prompt fix + train smoke v2 (2 × 40 prompts, DeepInfra)
 - **Goal:** check the tightened system prompt (no bracketed English glosses; ዓ.ም never on foreign-event years; translations output only the translation).
 - **Command(s):** same as the train smoke with `--out data/teacher/smoke_train_v2_same.jsonl` (the same 40 prompts), then again with `--out data/teacher/smoke_train_v2_next.jsonl` pre-filled with the first 40 rows (so the next 40 prompts ran).

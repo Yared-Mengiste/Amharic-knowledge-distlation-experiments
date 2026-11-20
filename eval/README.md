@@ -14,14 +14,19 @@ No command makes judge API calls.
 
 Math numeric-presence checks and script consistency are explicitly labeled proxies.
 Semantic correctness, fluency and instruction following come from native speakers.
-To measure an explicit formatting/instruction rule, supply `--constraints` JSONL:
+The default [format constraints](format_constraints.jsonl) cover all 15 frozen
+format prompts, authored from prompt instructions and bound to their hashes. They
+check shapes only; YAML fields and Python syntax do not prove valid semantics.
+Rebuild with `python3 -m eval.build_constraints` before viewing any model outputs.
+To supply additional explicit formatting/instruction rules, use `--constraints` JSONL:
 
 ```json
 {"id":"an-existing-eval-id","rules":[{"kind":"json_keys","keys":["name","age"]}]}
 ```
 
-Supported kinds: `json`, `json_keys`, `line_count` (`count`), `bullet_count` (`count`),
-`required_text`/`forbidden_text` (`texts`) and `regex` (`pattern`, full match).
+Supported kinds: `json`, `json_type` (`type`: object/array), `json_keys`, `line_count` (`count`), `bullet_count` (`count`),
+`required_text`/`forbidden_text` (`texts`), `regex` (`pattern`, full match),
+`csv_columns`, `markdown_table`, `yaml_fields` and `python_syntax` (see the builder).
 Derive rules from prompt instructions before seeing model answers. Missing rules
 remain unscored; do not infer semantic compliance from shape or script alone.
 

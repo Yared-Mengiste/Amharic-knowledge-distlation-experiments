@@ -2,6 +2,7 @@
 import argparse
 import json
 import socket
+import shutil
 import subprocess
 import time
 import urllib.error
@@ -61,6 +62,7 @@ def main():
     if output.exists():
         raise ValueError("Deployment output already exists; choose a new run")
     output.mkdir(parents=True)
+    shutil.copyfile(args.prompts, output / "deployment_prompts.jsonl")
     with socket.socket() as sock:
         sock.bind(("127.0.0.1", 0))
         port = sock.getsockname()[1]
@@ -89,9 +91,9 @@ def main():
                 response = call_json(url + "/completion", {"prompt": prompt, "n_predict": 1000, "temperature": 0, "seed": 42, "cache_prompt": False, "stop": [ENDINGS[args.model]]}, timeout=900)
                 peak = max(peak, process_ram(process.pid))
                 timings = response["timings"]
-                answers.append({"id": row["id"], "category": row["category"], "answer": response["content"], "output_tokens": timings["predicted_n"], "tokens_per_second": timings["predicted_per_second"], "latency_seconds": timings["predicted_ms"] / 1000, "termination_reason": "length" if response.get("stopped_limit") else "eos"})
+                answers.append({"id": row["id"], "category": row["category"], "prompt": row["messages"][0]["content"], "answer": response["content"], "output_tokens": timings["predicted_n"], "tokens_per_second": timings["predicted_per_second"], "latency_seconds": timings["predicted_ms"] / 1000, "termination_reason": "length" if response.get("stopped_limit") else "eos"})
             (output / "answers.jsonl").write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in answers))
-            write_csv(output / "quality_review.csv", [{"id": r["id"], "answer_sha256": answer_hash(r["answer"]), "answer": r["answer"], "correctness": "", "fluency": "", "instruction_following": "", "reviewer": "", "notes": ""} for r in answers], ["id", "answer_sha256", "answer", "correctness", "fluency", "instruction_following", "reviewer", "notes"])
+            write_csv(output / "quality_review.csv", [{"id": r["id"], "category": r["category"], "prompt": r["prompt"], "answer_sha256": answer_hash(r["answer"]), "answer": r["answer"], "correctness": "", "fluency": "", "instruction_following": "", "reviewer": "", "notes": ""} for r in answers], ["id", "category", "prompt", "answer_sha256", "answer", "correctness", "fluency", "instruction_following", "reviewer", "notes"])
             tokens = sum(r["output_tokens"] for r in answers)
             seconds = sum(r["latency_seconds"] for r in answers)
             write_json(output / "metrics.json", {"identity": {"model": args.model, "spec": spec, "adapter_sha256": export["adapter_sha256"], "gguf_sha256": export["gguf_sha256"], "deployment_prompts_sha256": sha256(args.prompts)}, "quantization": "Q4_K_M", "peak_process_ram_bytes": peak, "ram_measurement": "Linux process VmHWM/RSS; GPU allocations excluded", "tokens_per_second": tokens / seconds if seconds else None, "wall_seconds": time.perf_counter() - started, "server_command": command, "llama_cpp_version": version.stdout + version.stderr, "quality_review": "quality_review.csv (requires native-speaker completion)", "cost_usd": 0})

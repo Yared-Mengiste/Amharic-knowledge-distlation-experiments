@@ -1,5 +1,6 @@
 """Offline comparison report with coverage, paired human evidence and uncertainty."""
 import argparse
+import hashlib
 import json
 import math
 import random
@@ -114,13 +115,19 @@ def build_report(dataset, outputs_directory, math_path, constraints_path=None, h
     # Reference-based checks use only approved reference IDs, including numeric checks.
     approved = {r["id"] for r in refs}
     math_checks = {rid: r for rid, r in math_checks.items() if rid in approved}
-    constraints = {r["id"]: r["rules"] for r in read_jsonl(constraints_path)} if constraints_path else {}
+    constraint_rows = read_jsonl(constraints_path) if constraints_path else []
+    constraints = {r["id"]: r["rules"] for r in constraint_rows}
     if set(constraints) - {r["id"] for r in prompts}:
         raise ValueError("Instruction constraints contain unknown eval IDs")
+    prompt_map = {r["id"]: r for r in prompts}
+    for row in constraint_rows:
+        if row.get("prompt_sha256") and hashlib.sha256(prompt_map[row["id"]]["messages"][0]["content"].encode()).hexdigest() != row["prompt_sha256"]:
+            raise ValueError("Instruction constraint was authored for a different prompt")
     result = {"manifest_sha256": sha256(Path(dataset) / "manifest.json"), "dataset_counts": manifest["counts"],
               "coverage": coverage, "evaluation_metadata": metadata,
               "reference_coverage": {"approved": len(refs), "expected": len(prompts), "missing_ids": sorted({r["id"] for r in prompts} - approved)},
               "automated": {}, "reference_loss": {}, "human": None,
+              "artifacts": {},
               "notes": ["Script consistency is a heuristic, not language identification.", "Numeric presence checks reuse the supplied teacher checker; they can accept a number in incorrect reasoning and do not prove semantic math accuracy.", "Instruction constraints score only supplied explicit rules; missing rules remain unscored.", "Wilson 95% intervals describe measured proportions; human-score intervals are paired bootstrap intervals with seed 42.", "General and safety human samples are reported separately, including overlapping IDs.", "Compare perplexity within each tokenizer pair only."]}
     for config in CONFIGURATIONS:
         rows = list(outputs[config].values())
@@ -136,6 +143,7 @@ def build_report(dataset, outputs_directory, math_path, constraints_path=None, h
         if loss["identity"] != metadata[config] or {r["id"] for r in loss["per_id"]} != approved or len(loss["per_id"]) != len(approved):
             raise ValueError(f"Approved reference loss coverage/identity differs: {config}")
         result["reference_loss"][config] = loss
+        result["artifacts"][config] = {"outputs_sha256": sha256(Path(outputs_directory) / (config + ".jsonl")), "references_sha256": sha256(loss_path)}
     if human_directory:
         result["human"] = human_results(human_directory, outputs, prompts)
     result["comparison_ready"] = all(not c["missing_ids"] for c in coverage.values()) and bool(result["human"] and result["human"]["complete"])
@@ -165,7 +173,7 @@ def main():
     parser.add_argument("--dataset", required=True)
     parser.add_argument("--outputs", required=True)
     parser.add_argument("--math", help="Optional frozen-hash-matching math checks; defaults to snapshot")
-    parser.add_argument("--constraints")
+    parser.add_argument("--constraints", default=str(Path(__file__).with_name("format_constraints.jsonl")))
     parser.add_argument("--human")
     parser.add_argument("--allow-partial", action="store_true")
     parser.add_argument("--require-complete", action="store_true")

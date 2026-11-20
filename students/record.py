@@ -19,8 +19,14 @@ def main():
     provenance = {k: result[k] for k in ("identity", "evaluation_metadata", "manifest_sha256", "gpu", "adapter_parameters", "completed_steps", "resumed_from_step", "best_validation_loss", "wall_seconds", "mean_optimizer_step_seconds", "peak_vram_allocated_bytes", "cost_usd", "comparison_ready", "reference_coverage", "peak_process_ram_bytes", "tokens_per_second", "quantization") if k in result}
     today = datetime.now(timezone.utc).date().isoformat()
     entry = f"\n### {today} — Student bakeoff {args.kind}\n\n- **Command:** `{args.command}`\n- **Artifact:** `{artifact}` (SHA256 `{sha256(artifact)}`).\n- **Recorded provenance/results:**\n\n```json\n{json.dumps(provenance, ensure_ascii=False, indent=2)}\n```\n"
-    with Path(args.log).open("a", encoding="utf-8") as handle:
-        handle.write(entry)
+    path = Path(args.log)
+    existing = path.read_text()
+    marker = "\n---\n"
+    if marker in existing:
+        before, after = existing.split(marker, 1)
+        path.write_text(before + marker + entry + after)
+    else:
+        path.write_text(existing + entry)
 
 
 if __name__ == "__main__":

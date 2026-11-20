@@ -24,7 +24,7 @@ The project lead is Bereket Legesse, an ML engineer at iCog Labs. A team member 
 | 2. Native-speaker review of 150 prompts (`data/prompts/review_sample.csv`) | Pending. |
 | 3. Teacher generation for 5,261 prompts | Next. Run on OpenRouter; see `docs/RUN_teacher.md`. Pipeline is tested against mock servers but has not been run against the real API yet. |
 | 4. Filter, review and merge the teacher answers | Not started. Scripts are ready. |
-| 5. Student bake-off on a 5k subset | Not started (section 8). |
+| 5. Student bake-off on reviewed pilot answers | Workflow implemented: frozen-data gates, QLoRA smoke/resume and training, four-way evaluation, blind review and Q4_K_M deployment. Human review and GPU execution pending; see docs/RUN_student_bakeoff.md. |
 | 6. Scale-up to 30k–100k prompts | Not started (section 9). |
 
 ### Open items
@@ -155,7 +155,7 @@ The system prompt was tightened to address these. Check again after the real run
 | OpenRouter | Model `google/gemma-4-26b-a4b-it`. Key in `.env` as `OPENROUTER_API_KEY`. Don't use the `:free` variant. |
 | Local laptop | ASUS ZenBook 14: Ryzen AI 7 (Radeon 860M iGPU, XDNA 2 NPU), 32 GB RAM, Arch Linux. Details below. |
 | NPU | Not usable for the 26B teacher. It's relevant later for running a small distilled student (E2B-class) on-device. |
-| Training compute | Not decided yet. A single rented 24–80 GB GPU is enough for LoRA or full SFT of 1–4B students on about 2–20M tokens. |
+| Training compute | Private Kaggle notebook, one NVIDIA GPU with nominal >=16 GB VRAM. Llama then Gemma; both must pass unchanged-protocol smoke/resume tests. |
 
 Local laptop details:
 
@@ -164,36 +164,34 @@ Local laptop details:
 - Teacher speed is about 16 tok/s total with 2 parallel requests.
 - Ollama must be stopped before running llama.cpp, because two copies of the model don't fit in memory.
 
-## 8. Next: student bake-off (stage 5)
+## 8. Student bakeoff (stage 5)
 
-Goal: choose the student base model by how well each one learns from the same distilled data.
+The first comparison is `rasyosef/Llama-3.2-1B-Amharic-Instruct` versus
+`google/gemma-4-E2B-it`, each before and after response-level QLoRA distillation.
+See [the protocol](docs/PLAN_student_bakeoff.md) and [run guide](docs/RUN_student_bakeoff.md).
 
-Candidates:
+- Review/merge every queued answer, document rejection dispositions, and have a
+  native speaker spot-check approximately 100 accepted training answers before freezing.
+- Both models share frozen training IDs and a seed-42, category-stratified 10%
+  validation split. Rank 16, alpha 32, dropout 0.05, two epochs, lr 1e-4, NF4,
+  sequence length 2,048, microbatch 1 and accumulation 16 are fixed.
+- Use native templates with assistant-only supervision including the ending token;
+  disable Gemma thinking and freeze original/embedding/vision/audio parameters.
+- Use private Kaggle compute after both tokenizer preflights and GPU smoke/resume
+  checks; candidate package/checkpoint pins are not a working-environment claim.
+- Generate all 300 eval IDs for original/adapted Llama and Gemma with greedy
+  decoding and 1,000 output tokens. Approved references only; report coverage.
+- No paid judge calls. Blind native-speaker scores/preferences cover 50 stratified
+  prompts plus separate review of all 20 safety prompts. Report categories and
+  uncertainty; compare perplexity only within each tokenizer pair.
+- Export both full-run adapters to Q4_K_M and compare local RAM, speed and answer
+  quality on identical deployment prompts. Keep weights, checkpoints and sheets private.
 
-| Model | Notes |
-|---|---|
-| `google/gemma-4-E2B-it` | Baseline. 2.3B effective, 5.1B with per-layer embeddings. Same tokenizer as the teacher. |
-| `Sunbird/Sunflower-Gemma4-E2B` | E2B adapted for 69 African languages (continued pretraining, SFT, GRPO). Preview weights. Its Amharic generation looked weaker than its Amharic understanding. |
-| `McGill-NLP/AfriqueGemma-4B` | Gemma 3 4B with 25B tokens of continued pretraining on African languages. Base model only, so it needs instruction tuning; that's what this SFT does. |
-| `rasyosef/Llama-3.2-1B-Amharic` (+ Instruct) | The 1B option. 300M Amharic tokens and an extended tokenizer. Different tokenizer from the teacher. |
-
-Protocol:
-
-- Use the same SFT data for all candidates (start with the same 5k subset), with identical hyperparameters per size class.
-- Train with loss on assistant tokens only, using each model's own chat template. Suggested start: LoRA r=16–32 or full SFT for ≤2B models, 2–3 epochs, lr 1e-4 (LoRA) or 1e-5 (full), sequence length 2,048.
-- Record each run in `experiments/LOG.md`.
-
-Evaluation (`eval/`, on `pilot_eval.jsonl`, 300 prompts, never trained on):
-
-- Held-out perplexity on the teacher's eval answers.
-- Tokens per word on Amharic text (a cost and speed signal).
-- An LLM judge comparing each student answer with the teacher's reference (`data/sft/eval_teacher.jsonl`). Score correctness, Amharic fluency, instruction following and safety on a 1–5 scale. Keep the judge prompt in `eval/`.
-- Math accuracy against `math_answers.csv` for the 25 eval math rows.
-- A native-speaker blind rating of about 50 answers per model.
-- Language consistency: the share of answers in the expected script and language.
-- Report everything per category, not just overall.
-
-Decision rule: pick the best quality for the size class you plan to deploy. Prefer the Gemma-tokenizer students if they're close, because they allow logit-level distillation later.
+Scripts and the Kaggle notebook are implemented. Current unreviewed-tokenizer
+checks pass with no overlength or masking failures (maximum 923 Llama tokens,
+1,518 Gemma tokens). Full training remains gated: 307 undecided queue rows,
+109 pending rejected-answer dispositions and the native-speaker spot check.
+No adapters or GPU/evaluation/deployment results have been produced yet.
 
 ## 9. Later stages
 
@@ -266,3 +264,4 @@ Add a line whenever a decision is made or changed.
 | 2026-11-19 | OpenRouter teacher pipeline added (`teacher/`, `docs/RUN_teacher.md`, `.env.example`). |
 | 2026-11-19 | Teacher system prompt tightened again: no bracketed English glosses, ዓ.ም never on foreign-event years, translations output only the translation. Pin DeepInfra (bf16/fp8) for teacher runs. |
 | 2026-11-19 | Repo restructured to the layout in section 4: pilot-fix scripts in `data_prep/`, final prompt sets in `data/prompts/`, teacher scripts in `teacher/`. |
+| 2026-11-20 | Implemented the reviewed-response Llama/Gemma QLoRA workflow with fixed rank 16, private Kaggle execution, assistant-only loss, shared frozen IDs, four-way greedy evaluation and native-speaker comparisons. No paid judge calls; training waits for review and GPU smoke/resume evidence. |

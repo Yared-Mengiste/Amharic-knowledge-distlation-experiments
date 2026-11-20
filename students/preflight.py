@@ -1,5 +1,6 @@
 """Preflight BOTH native tokenizers; report every overlength or masking failure."""
 import argparse
+import importlib.metadata
 from pathlib import Path
 
 from students.config import DEFAULT_LOCK, SETTINGS, read_lock
@@ -8,7 +9,7 @@ from students.modeling import load_tokenizer
 from students.tokenization import encode_conversation, render_prompt, template_hash
 
 
-def run(dataset, lock, output, unreviewed=False, prompts=None):
+def run(dataset, lock, output, unreviewed=False, prompts=None, summary=None):
     if not unreviewed:
         load_frozen(dataset)
     result = {"manifest_sha256": None if unreviewed else sha256(Path(dataset) / "manifest.json"),
@@ -37,6 +38,18 @@ def run(dataset, lock, output, unreviewed=False, prompts=None):
         result["tokenization_passed"] &= not overlength and not failures
     result["passed"] &= result["tokenization_passed"]
     write_json(output, result)
+    if summary:
+        from datetime import datetime, timezone
+        inputs = [Path(dataset) / name for name in ("sft_train.jsonl", "eval_teacher.jsonl")]
+        inputs.append(Path(prompts) if unreviewed else Path(dataset) / "pilot_eval.jsonl")
+        write_json(summary, {"date": datetime.now(timezone.utc).date().isoformat(),
+            "unreviewed_diagnostic": unreviewed, "training_gate_passed": result["passed"],
+            "tokenization_passed": result["tokenization_passed"],
+            "models": {key: {field: model[field] for field in ("spec", "template_sha256", "maximum_tokens", "overlength", "masking_failures")} | {"reference_and_train_rows": len(model["lengths"])} for key, model in result["models"].items()},
+            "inputs": {str(path): sha256(path) for path in inputs},
+            "packages": {name: importlib.metadata.version(name) for name in ("transformers", "tokenizers", "jinja2")},
+            "cost_usd": 0, "gpu_smoke_performed": False,
+            "note": "Tokenizer checks only. Reviewed dataset preflight must be repeated after freeze."})
     if not result["tokenization_passed"]:
         raise ValueError(f"Preflight failed; inspect all IDs in {output}. No rows were truncated or removed.")
     return result
@@ -49,8 +62,9 @@ def main():
     parser.add_argument("--out", required=True)
     parser.add_argument("--unreviewed-diagnostic", action="store_true", help="Tokenizer check only; cannot authorize training")
     parser.add_argument("--prompts", default="data/prompts/pilot_eval.jsonl")
+    parser.add_argument("--summary", help="Optional compact, reproducible diagnostic summary")
     args = parser.parse_args()
-    run(args.dataset, read_lock(args.lock), args.out, args.unreviewed_diagnostic, args.prompts)
+    run(args.dataset, read_lock(args.lock), args.out, args.unreviewed_diagnostic, args.prompts, args.summary)
 
 
 if __name__ == "__main__":

@@ -155,6 +155,7 @@ def audit(args):
             r = json.loads(line)
             teacher[r["id"]] = r
     reviewed = {r["id"]: r for r in review}
+    rejected_ids = {r["id"] for r in rejected}
     for rid, row in accepted.items():
         source = teacher.get(rid)
         if source is None:
@@ -166,6 +167,8 @@ def audit(args):
             errors.append(f"Accepted prompt/metadata changed: {rid}")
         correction = reviewed.get(rid, {}).get("fixed_response", "").strip()
         disposition = triage.get(rid, {}).get("disposition")
+        if rid in rejected_ids and reviewed.get(rid, {}).get("decision_keep_yes_no", "").strip().lower() != "yes":
+            errors.append(f"Recovered rejection requires explicit yes review before acceptance: {rid}")
         if disposition == "corrected" and not correction:
             errors.append(f"Corrected rejection must be added to review queue with complete fixed_response and yes: {rid}")
         if disposition not in {"corrected", "regenerated"} and not correction and row["messages"][-1]["content"].strip() != source["response"].strip():

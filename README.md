@@ -6,6 +6,7 @@ The goal is a small Amharic chatbot model (1B–4B), built by distilling answers
 - **How to run the teacher generation:** [`docs/RUN_teacher.md`](docs/RUN_teacher.md)
 - **Prompt sets:** built and validated by `data_prep/` (`bash data_prep/run_all.sh` rebuilds `data/prompts/` from `data/raw/`); see `data/prompts/REPORT.md`.
 - **Experiment log:** [`experiments/LOG.md`](experiments/LOG.md)
+- **Student bakeoff:** [protocol](docs/PLAN_student_bakeoff.md), [run guide](docs/RUN_student_bakeoff.md), and [private Kaggle notebook](students/kaggle_bakeoff.ipynb). Full training requires completed teacher review and successful GPU smoke/resume tests.
 
 ## Quick start
 
@@ -16,4 +17,6 @@ python teacher/gen_teacher.py --train data/prompts/pilot_train.jsonl --eval data
   --out data/teacher/smoke.jsonl --openrouter --workers 8 --limit 20
 ```
 
-The scripts need only Python 3.9+ with the standard library.
+Teacher scripts use Python 3.9+ and the standard library. Student preparation and
+offline evaluation use the standard library; student GPU runs use Python 3.12 and
+the package pins validated by both GPU smoke tests.
