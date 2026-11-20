@@ -176,7 +176,8 @@ def audit(args):
     paths = {"sft_train.jsonl": args.train, "eval_teacher.jsonl": args.references,
              "pilot_eval.jsonl": args.prompts, "review_queue.csv": args.review,
              "rejected.jsonl": args.rejected, "rejected_dispositions.csv": args.dispositions,
-             "spot_check.csv": args.spot_check, "teacher_outputs.jsonl": args.teacher}
+             "spot_check.csv": args.spot_check, "teacher_outputs.jsonl": args.teacher,
+             "math_answers.csv": args.math}
     report = {"ready": not errors, "errors": errors, "undecided_review_ids": undecided,
               "counts": {"train": len(train), "references": len(refs), "eval": len(prompts)},
               "category_counts": {name: dict(Counter(r["category"] for r in rows)) for name, rows in (("train", train), ("references", refs), ("eval", prompts))},
@@ -208,12 +209,14 @@ def load_frozen(directory):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=["audit", "prepare-review", "freeze"])
-    defaults = {"train": "data/sft/sft_train.jsonl", "references": "data/sft/eval_teacher.jsonl", "prompts": "data/prompts/pilot_eval.jsonl", "review": "data/sft/review_queue.csv", "rejected": "data/sft/rejected.jsonl", "teacher": "data/teacher/teacher_outputs.jsonl", "dispositions": "data/review/rejected_dispositions.csv", "spot-check": "data/review/spot_check.csv"}
+    defaults = {"train": "data/sft/sft_train.jsonl", "references": "data/sft/eval_teacher.jsonl", "prompts": "data/prompts/pilot_eval.jsonl", "review": "data/sft/review_queue.csv", "rejected": "data/sft/rejected.jsonl", "teacher": "data/teacher/teacher_outputs.jsonl", "math": "data/prompts/math_answers.csv", "dispositions": "data/review/rejected_dispositions.csv", "spot-check": "data/review/spot_check.csv"}
     for key, default in defaults.items():
         parser.add_argument("--" + key, default=default)
     parser.add_argument("--out", default="outputs/bakeoff/frozen")
     args = parser.parse_args()
     if args.command == "prepare-review":
+        if any(Path(path).exists() for path in (args.dispositions, args.spot_check)):
+            raise ValueError("Review evidence already exists; choose new paths rather than overwrite")
         for path in (args.dispositions, args.spot_check):
             Path(path).parent.mkdir(parents=True, exist_ok=True)
         review = read_csv(args.review)
@@ -225,6 +228,8 @@ def main():
         write_csv(args.spot_check, rows, ["id", "category", "prompt", "answer", "answer_sha256", "reviewer", "accepted_yes_no", "notes"])
         return
     report, train, paths = audit(args)
+    if not Path(args.math).is_file():
+        raise ValueError("Supplied math checks are required for the frozen reference audit")
     if args.command == "audit":
         print(json.dumps(report, ensure_ascii=False, indent=2))
     elif report["ready"]:

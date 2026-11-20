@@ -94,7 +94,8 @@ class DataTests(unittest.TestCase):
         write_csv(root / "dispositions.csv", [], ["id", "disposition", "notes"])
         spots = [{"id": r["id"], "reviewer": "Native speaker", "accepted_yes_no": "yes", "answer_sha256": hashlib.sha256(r["messages"][-1]["content"].encode()).hexdigest()} for r in train[:100]]
         write_csv(root / "spot.csv", spots, ["id", "reviewer", "accepted_yes_no", "answer_sha256"])
-        return argparse.Namespace(**{name: root / (name + ".jsonl") for name in ("train", "references", "prompts", "teacher", "rejected")}, review=root / "review.csv", dispositions=root / "dispositions.csv", spot_check=root / "spot.csv")
+        write_csv(root / "math.csv", [], ["id", "status", "computed_answer"])
+        return argparse.Namespace(**{name: root / (name + ".jsonl") for name in ("train", "references", "prompts", "teacher", "rejected")}, review=root / "review.csv", dispositions=root / "dispositions.csv", spot_check=root / "spot.csv", math=root / "math.csv")
 
     def test_ready_snapshot_hashes_and_tamper(self):
         with tempfile.TemporaryDirectory() as directory:
