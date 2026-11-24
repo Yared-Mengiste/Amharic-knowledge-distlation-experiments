@@ -21,7 +21,7 @@ One entry per run, newest first. Each entry should let someone rerun the experim
 - **Result:** answer-generation work is committed independently from `main`; existing distillation commits are preserved on `students/distillation`.
 - **Dataset:** 4,952 training conversations and 299 references retained unchanged. All 300 eval prompts and audit inputs now live in `data/sft/`.
 - **Cleanup:** removed intermediate prompt, teacher-response and review folders. Retained original preparation inputs/scripts; regenerated folders are ignored.
-- **Validation:** replay the existing filter/merge commands from `data/sft/README.md` into scratch and compare accepted files byte for byte; verify unique IDs and held-out separation.
+- **Validation:** filter/merge replay reproduces both accepted files byte for byte; original SFT hashes, unique IDs and held-out separation pass. The existing suite passes 15 tests, with 2 optional PEFT architecture tests skipped because PEFT is unavailable. Default-path student audit resolves all nine inputs and reports only the 100 pending native-speaker approvals. Format constraints reproduce byte for byte.
 - **Approval state:** native-speaker spot checks remain pending; no training or paid generation was run.
 
 ### 2026-11-22 — Small Amharic model research and tokenizer comparison

@@ -212,7 +212,7 @@ def load_frozen(directory):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=["audit", "prepare-review", "freeze"])
-    defaults = {"train": "data/sft/sft_train.jsonl", "references": "data/sft/eval_teacher.jsonl", "prompts": "data/prompts/pilot_eval.jsonl", "review": "data/sft/review_queue.csv", "rejected": "data/sft/rejected.jsonl", "teacher": "data/teacher/teacher_outputs.jsonl", "math": "data/prompts/math_answers.csv", "dispositions": "data/review/rejected_dispositions.csv", "spot-check": "data/review/spot_check.csv"}
+    defaults = {"train": "data/sft/sft_train.jsonl", "references": "data/sft/eval_teacher.jsonl", "prompts": "data/sft/pilot_eval.jsonl", "review": "data/sft/review_queue.csv", "rejected": "data/sft/rejected.jsonl", "teacher": "data/sft/teacher_outputs.jsonl", "math": "data/sft/math_answers.csv", "dispositions": "data/sft/rejected_dispositions.csv", "spot-check": "data/sft/spot_check.csv"}
     for key, default in defaults.items():
         parser.add_argument("--" + key, default=default)
     parser.add_argument("--out", default="outputs/bakeoff/frozen")

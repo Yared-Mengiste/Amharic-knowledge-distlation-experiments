@@ -13,7 +13,7 @@ A native speaker must spot-check approximately 100 accepted training answers.
 
 Freeze `data/sft/sft_train.jsonl` and `data/sft/eval_teacher.jsonl`, with file hashes,
 row/category counts, review evidence, and a shared category-stratified 10% validation
-split. Generate benchmark answers for all 300 `data/prompts/pilot_eval.jsonl` IDs.
+split. Generate benchmark answers for all 300 `data/sft/pilot_eval.jsonl` IDs.
 Both students use identical frozen training and validation IDs.
 
 **Never rerun the filter into the reviewed directory: it overwrites SFT and review files.**

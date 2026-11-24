@@ -7,41 +7,28 @@ notebooks, outputs and model uploads private while source licences are unresolve
 
 ## Review and freeze on the laptop
 
-Finish the teacher stage and merge it before moving to `students/bakeoff`.
-Implementation milestone commits can be prepared on the current teacher branch
-while review is pending; branch creation remains deferred until that merge.
+Use `students/distillation` for this workflow. The completed answer-generation
+commit from `teacher/answer-generation` is already included in this branch.
+All preparation inputs are retained in `data/sft/`; see its [dataset notes](../data/sft/README.md).
 
 ```bash
 python3 -m students.data audit
 ```
 
-Exit 2 reports unresolved rows without changing source files. Fill every
-`data/sft/review_queue.csv` decision with `yes` or `no`. A correction needs the
-complete `fixed_response` and `yes`. Merge approved answers:
+Exit 2 reports unresolved rows without changing source files. The completed pilot
+already has all answer decisions and rejection dispositions recorded and merged:
+4,952 training conversations and 299 references. Its 100-answer native-speaker
+sheet is prepared in `data/sft/spot_check.csv`; approval remains pending.
+Do not rerun `prepare-review` on the completed pilot: it refuses to overwrite
+the existing evidence.
 
-```bash
-python3 teacher/merge_review.py --review data/sft/review_queue.csv \
-  --teacher data/teacher/teacher_outputs.jsonl --outdir data/sft
-python3 -m students.data prepare-review
-```
-
-The preparation command creates `data/review/rejected_dispositions.csv` and a
-100-answer stratified `spot_check.csv`. It refuses to overwrite evidence. Run it
-after the review queue decisions and corrections are final, so the spot check
-binds to accepted answer hashes. If answers change later, create a new spot sheet
-with `--spot-check` and a new dispositions path, preserving the old evidence.
-
-Give each rejected/no row a disposition (`corrected`, `regenerated`, `excluded`)
-and nonempty notes. For corrected hard rejections, add the ID to the review queue
-with the full replacement and `yes`, then merge. For regenerated rejections, review
-the new answer in the queue with `yes`, merge, and record regeneration in notes.
-No-decision rows may not remain in SFT; change to `yes` after replacement approval.
-The existing merge command appends only missing IDs: if an already accepted answer
-changes, prepare a new versioned SFT file with a script rather than rerunning the
-filter or silently retaining an old answer.
-
-Have a native speaker fill `reviewer` and `accepted_yes_no` in the spot sheet.
+Have a native speaker fill `reviewer` and `accepted_yes_no` in that spot sheet.
 Resolve any `no` before freezing. Never rerun `filter_teacher.py` into `data/sft`.
+
+For later answer changes, create a new versioned SFT dataset and new review
+evidence. The merger appends only missing IDs; an already accepted answer must
+be changed by a versioned preparation script. Use explicit `--spot-check` and
+`--dispositions` paths with `prepare-review` so previous evidence is preserved.
 
 ```bash
 python3 -m students.data freeze --out outputs/bakeoff/frozen-v1

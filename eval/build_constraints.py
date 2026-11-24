@@ -29,7 +29,7 @@ RULES = {
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--prompts", default="data/prompts/pilot_eval.jsonl")
+    parser.add_argument("--prompts", default="data/sft/pilot_eval.jsonl")
     parser.add_argument("--out", default=str(Path(__file__).with_name("format_constraints.jsonl")))
     args = parser.parse_args()
     prompts = {r["id"]: r for r in read_jsonl(args.prompts) if r["category"] == "format"}

@@ -61,7 +61,7 @@ def main():
     parser.add_argument("--lock", default=str(DEFAULT_LOCK))
     parser.add_argument("--out", required=True)
     parser.add_argument("--unreviewed-diagnostic", action="store_true", help="Tokenizer check only; cannot authorize training")
-    parser.add_argument("--prompts", default="data/prompts/pilot_eval.jsonl")
+    parser.add_argument("--prompts", default="data/sft/pilot_eval.jsonl")
     parser.add_argument("--summary", help="Optional compact, reproducible diagnostic summary")
     args = parser.parse_args()
     run(args.dataset, read_lock(args.lock), args.out, args.unreviewed_diagnostic, args.prompts, args.summary)
