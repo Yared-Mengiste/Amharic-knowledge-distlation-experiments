@@ -1,0 +1,1749 @@
+{
+  "date_utc": "2026-11-22T09:21:07.567505+00:00",
+  "dataset": "data/sft/sft_train.jsonl",
+  "dataset_sha256": "94f38a1348df4c5be554f0ccec58cea0093ee77223f2f84f4c31ba4edc72763e",
+  "training_rows": 4952,
+  "tokenizers_version": "0.22.2",
+  "method": "Encode each message independently, add_special_tokens=False; no chat template, truncation, padding, normalization or weights. Amharic-dominant means >=70% of letters have ETHIOPIC Unicode names. Whitespace-word ratios include punctuation; examples are diagnostic. Training only; no held-out eval content used.",
+  "models": {
+    "rasyosef/Llama-3.2-1B-Amharic-Instruct": {
+      "revision": "354e5403992da727615164b975594cde4529ab94",
+      "hub_metadata": {
+        "checkpoint_stored_parameters": 1266878464,
+        "card_license": null,
+        "gated": false,
+        "pipeline_tag": "text-generation",
+        "files": {
+          "README.md": {
+            "url": "https://huggingface.co/rasyosef/Llama-3.2-1B-Amharic-Instruct/resolve/354e5403992da727615164b975594cde4529ab94/README.md",
+            "sha256": "cd190d8c20ceb1bb27443ffe6e94f9dafee61f1c93d2f956fb1fa46c05b8b5a6"
+          },
+          "config.json": {
+            "url": "https://huggingface.co/rasyosef/Llama-3.2-1B-Amharic-Instruct/resolve/354e5403992da727615164b975594cde4529ab94/config.json",
+            "sha256": "b801836efb81dc34a4dd322dee4beba9a983a7d6065b1bb2af7c037beacbd5f7"
+          },
+          "adapter_config.json": {
+            "error": "File not listed by Hub"
+          },
+          "tokenizer_config.json": {
+            "url": "https://huggingface.co/rasyosef/Llama-3.2-1B-Amharic-Instruct/resolve/354e5403992da727615164b975594cde4529ab94/tokenizer_config.json",
+            "sha256": "a8909502330b2eb79b458e425724df38ede7306e8f5acc8f7564fdb80d8564c9"
+          },
+          "tokenizer.json": {
+            "url": "https://huggingface.co/rasyosef/Llama-3.2-1B-Amharic-Instruct/resolve/354e5403992da727615164b975594cde4529ab94/tokenizer.json",
+            "sha256": "712d0424187d5a4d2304e5d57bdc237178de06f0f83536b367ecacbbc292802e"
+          },
+          "LICENSE": {
+            "error": "File not listed by Hub"
+          }
+        }
+      },
+      "tokenizer_sha256": "712d0424187d5a4d2304e5d57bdc237178de06f0f83536b367ecacbbc292802e",
+      "vocabulary_size": 143378,
+      "all_training_content": {
+        "messages": 9904,
+        "whitespace_words": 520890,
+        "characters": 2799640,
+        "tokens": 929695,
+        "tokens_per_whitespace_word": 1.7848202115609821,
+        "tokens_per_100_characters": 33.20766241373891,
+        "mean_message_tokens": 93.87065831987076,
+        "p50_message_tokens": 49,
+        "p95_message_tokens": 241,
+        "maximum_message_tokens": 872
+      },
+      "amharic_dominant_content": {
+        "messages": 8805,
+        "whitespace_words": 485366,
+        "characters": 2580843,
+        "tokens": 878608,
+        "tokens_per_whitespace_word": 1.8101968411466811,
+        "tokens_per_100_characters": 34.04345014400334,
+        "mean_message_tokens": 99.78512208972175,
+        "p50_message_tokens": 58,
+        "p95_message_tokens": 246,
+        "maximum_message_tokens": 872
+      },
+      "content_only_conversations": {
+        "maximum_tokens": 1029,
+        "over_2048": 0
+      },
+      "word_examples": {
+        "ሰላም": {
+          "isolated": 1,
+          "leading_space": 1
+        },
+        "አመሰግናለሁ": {
+          "isolated": 2,
+          "leading_space": 1
+        },
+        "ትምህርት": {
+          "isolated": 1,
+          "leading_space": 1
+        },
+        "የኢትዮጵያ": {
+          "isolated": 1,
+          "leading_space": 1
+        },
+        "እንዴት": {
+          "isolated": 1,
+          "leading_space": 1
+        }
+      },
+      "roundtrip_mismatch_messages": 0
+    },
+    "rasyosef/Llama-3.2-1B-Amharic": {
+      "revision": "7bbb1206a4efa603e558d312514a8ec60014ad12",
+      "hub_metadata": {
+        "checkpoint_stored_parameters": 1266878464,
+        "card_license": null,
+        "gated": false,
+        "pipeline_tag": "text-generation",
+        "files": {
+          "README.md": {
+            "url": "https://huggingface.co/rasyosef/Llama-3.2-1B-Amharic/resolve/7bbb1206a4efa603e558d312514a8ec60014ad12/README.md",
+            "sha256": "98df22c7e1873f268e0144682e9e3fe5f3aec54d029f01f4565baf863650698c"
+          },
+          "config.json": {
+            "url": "https://huggingface.co/rasyosef/Llama-3.2-1B-Amharic/resolve/7bbb1206a4efa603e558d312514a8ec60014ad12/config.json",
+            "sha256": "b801836efb81dc34a4dd322dee4beba9a983a7d6065b1bb2af7c037beacbd5f7"
+          },
+          "adapter_config.json": {
+            "error": "File not listed by Hub"
+          },
+          "tokenizer_config.json": {
+            "url": "https://huggingface.co/rasyosef/Llama-3.2-1B-Amharic/resolve/7bbb1206a4efa603e558d312514a8ec60014ad12/tokenizer_config.json",
+            "sha256": "a8909502330b2eb79b458e425724df38ede7306e8f5acc8f7564fdb80d8564c9"
+          },
+          "tokenizer.json": {
+            "url": "https://huggingface.co/rasyosef/Llama-3.2-1B-Amharic/resolve/7bbb1206a4efa603e558d312514a8ec60014ad12/tokenizer.json",
+            "error": "curl: (28) Operation timed out after 120007 milliseconds with 4016300 out of 19215081 bytes received\ncurl: (28) Operation timed out after 120103 milliseconds with 15163286 out of 19215081 bytes received"
+          },
+          "LICENSE": {
+            "error": "File not listed by Hub"
+          }
+        }
+      },
+      "error": "curl: (28) Operation timed out after 120007 milliseconds with 4016300 out of 19215081 bytes received\ncurl: (28) Operation timed out after 120103 milliseconds with 15163286 out of 19215081 bytes received"
+    },
+    "rasyosef/Llama-3.2-400M-Amharic-Instruct": {
+      "revision": "0886f9b12b00b4084b4f9fbbcb6c4e291185cf2d",
+      "hub_metadata": {
+        "checkpoint_stored_parameters": 412531200,
+        "card_license": null,
+        "gated": false,
+        "pipeline_tag": "text-generation",
+        "files": {
+          "README.md": {
+            "url": "https://huggingface.co/rasyosef/Llama-3.2-400M-Amharic-Instruct/resolve/0886f9b12b00b4084b4f9fbbcb6c4e291185cf2d/README.md",
+            "sha256": "e3a179385422bca7595a321c4f9228c99853d8026a17613273e131b453d54ecb"
+          },
+          "config.json": {
+            "url": "https://huggingface.co/rasyosef/Llama-3.2-400M-Amharic-Instruct/resolve/0886f9b12b00b4084b4f9fbbcb6c4e291185cf2d/config.json",
+            "sha256": "b6b3456380546f7f71a31777581af079b5e9a7f4841073f9c7e1f9b16619e2ed"
+          },
+          "adapter_config.json": {
+            "error": "File not listed by Hub"
+          },
+          "tokenizer_config.json": {
+            "url": "https://huggingface.co/rasyosef/Llama-3.2-400M-Amharic-Instruct/resolve/0886f9b12b00b4084b4f9fbbcb6c4e291185cf2d/tokenizer_config.json",
+            "sha256": "4bec2debd0a10ab69d0e02a1fe4180814632db0b0c3b9a0e694f19335147691b"
+          },
+          "tokenizer.json": {
+            "url": "https://huggingface.co/rasyosef/Llama-3.2-400M-Amharic-Instruct/resolve/0886f9b12b00b4084b4f9fbbcb6c4e291185cf2d/tokenizer.json",
+            "sha256": "1839affe247d44dd702d74aff4fc4d443b1df2269e8c56fe919e3cc0ce13f081"
+          },
+          "LICENSE": {
+            "error": "File not listed by Hub"
+          }
+        }
+      },
+      "tokenizer_sha256": "1839affe247d44dd702d74aff4fc4d443b1df2269e8c56fe919e3cc0ce13f081",
+      "vocabulary_size": 32002,
+      "all_training_content": {
+        "messages": 9904,
+        "whitespace_words": 520890,
+        "characters": 2799640,
+        "tokens": 973214,
+        "tokens_per_whitespace_word": 1.8683676016049453,
+        "tokens_per_100_characters": 34.76211227157778,
+        "mean_message_tokens": 98.26474151857835,
+        "p50_message_tokens": 58,
+        "p95_message_tokens": 254,
+        "maximum_message_tokens": 966
+      },
+      "amharic_dominant_content": {
+        "messages": 8805,
+        "whitespace_words": 485366,
+        "characters": 2580843,
+        "tokens": 841039,
+        "tokens_per_whitespace_word": 1.7327933971477194,
+        "tokens_per_100_characters": 32.58776299061973,
+        "mean_message_tokens": 95.5183418512209,
+        "p50_message_tokens": 56,
+        "p95_message_tokens": 244,
+        "maximum_message_tokens": 959
+      },
+      "content_only_conversations": {
+        "maximum_tokens": 1226,
+        "over_2048": 0
+      },
+      "word_examples": {
+        "ሰላም": {
+          "isolated": 1,
+          "leading_space": 1
+        },
+        "አመሰግናለሁ": {
+          "isolated": 2,
+          "leading_space": 1
+        },
+        "ትምህርት": {
+          "isolated": 1,
+          "leading_space": 1
+        },
+        "የኢትዮጵያ": {
+          "isolated": 1,
+          "leading_space": 1
+        },
+        "እንዴት": {
+          "isolated": 1,
+          "leading_space": 1
+        }
+      },
+      "roundtrip_mismatch_messages": 0
+    },
+    "google/gemma-4-E2B-it": {
+      "revision": "4adf15748de9e1a0097b6274cee9c15836c41c37",
+      "hub_metadata": {
+        "checkpoint_stored_parameters": 5123178051,
+        "card_license": "apache-2.0",
+        "gated": false,
+        "pipeline_tag": "any-to-any",
+        "files": {
+          "README.md": {
+            "url": "https://huggingface.co/google/gemma-4-E2B-it/resolve/4adf15748de9e1a0097b6274cee9c15836c41c37/README.md",
+            "sha256": "3e0608a6be80e3eb040a5aa6c76707809503deb85be6360184a118fb6156526c"
+          },
+          "config.json": {
+            "url": "https://huggingface.co/google/gemma-4-E2B-it/resolve/4adf15748de9e1a0097b6274cee9c15836c41c37/config.json",
+            "sha256": "1b28f3d2c3100f6c594754b81107428bd7b822a7f48272ca681dae9d2ec38330"
+          },
+          "adapter_config.json": {
+            "error": "File not listed by Hub"
+          },
+          "tokenizer_config.json": {
+            "url": "https://huggingface.co/google/gemma-4-E2B-it/resolve/4adf15748de9e1a0097b6274cee9c15836c41c37/tokenizer_config.json",
+            "sha256": "9f4fec4b1dc6ecddf8f4a92e9caea5971c0e67d81309f3f9066a2bee8c362633"
+          },
+          "tokenizer.json": {
+            "url": "https://huggingface.co/google/gemma-4-E2B-it/resolve/4adf15748de9e1a0097b6274cee9c15836c41c37/tokenizer.json",
+            "sha256": "ab26b2add729e6f645bd869f228f14190a06615538f3be6f7786f33d13d78ad2"
+          },
+          "LICENSE": {
+            "error": "File not listed by Hub"
+          }
+        }
+      },
+      "tokenizer_sha256": "ab26b2add729e6f645bd869f228f14190a06615538f3be6f7786f33d13d78ad2",
+      "vocabulary_size": 262144,
+      "all_training_content": {
+        "messages": 9904,
+        "whitespace_words": 520890,
+        "characters": 2799640,
+        "tokens": 1612464,
+        "tokens_per_whitespace_word": 3.095594079364165,
+        "tokens_per_100_characters": 57.59540512351588,
+        "mean_message_tokens": 162.80936995153473,
+        "p50_message_tokens": 74,
+        "p95_message_tokens": 423,
+        "maximum_message_tokens": 1483
+      },
+      "amharic_dominant_content": {
+        "messages": 8805,
+        "whitespace_words": 485366,
+        "characters": 2580843,
+        "tokens": 1556672,
+        "tokens_per_whitespace_word": 3.207212701342904,
+        "tokens_per_100_characters": 60.316415992758955,
+        "mean_message_tokens": 176.79409426462237,
+        "p50_message_tokens": 100,
+        "p95_message_tokens": 433,
+        "maximum_message_tokens": 1483
+      },
+      "content_only_conversations": {
+        "maximum_tokens": 1954,
+        "over_2048": 0
+      },
+      "word_examples": {
+        "ሰላም": {
+          "isolated": 3,
+          "leading_space": 3
+        },
+        "አመሰግናለሁ": {
+          "isolated": 6,
+          "leading_space": 5
+        },
+        "ትምህርት": {
+          "isolated": 4,
+          "leading_space": 4
+        },
+        "የኢትዮጵያ": {
+          "isolated": 6,
+          "leading_space": 6
+        },
+        "እንዴት": {
+          "isolated": 2,
+          "leading_space": 1
+        }
+      },
+      "roundtrip_mismatch_messages": 0
+    },
+    "google/gemma-4-E4B-it": {
+      "revision": "4ecc2ba63bcac23ba4a767fc87025b1450f84c9c",
+      "hub_metadata": {
+        "checkpoint_stored_parameters": 7996156490,
+        "card_license": "apache-2.0",
+        "gated": false,
+        "pipeline_tag": "any-to-any",
+        "files": {
+          "README.md": {
+            "url": "https://huggingface.co/google/gemma-4-E4B-it/resolve/4ecc2ba63bcac23ba4a767fc87025b1450f84c9c/README.md",
+            "sha256": "b21e4f69614ccd77baa2f3797d05311040dee07b989cb9f0d25111aa4b605b2c"
+          },
+          "config.json": {
+            "url": "https://huggingface.co/google/gemma-4-E4B-it/resolve/4ecc2ba63bcac23ba4a767fc87025b1450f84c9c/config.json",
+            "sha256": "33b10c02df3c2e8536cf323d29d53262aaa2f4d11dbe19bc729373fbe90295d4"
+          },
+          "adapter_config.json": {
+            "error": "File not listed by Hub"
+          },
+          "tokenizer_config.json": {
+            "url": "https://huggingface.co/google/gemma-4-E4B-it/resolve/4ecc2ba63bcac23ba4a767fc87025b1450f84c9c/tokenizer_config.json",
+            "sha256": "9f4fec4b1dc6ecddf8f4a92e9caea5971c0e67d81309f3f9066a2bee8c362633"
+          },
+          "tokenizer.json": {
+            "url": "https://huggingface.co/google/gemma-4-E4B-it/resolve/4ecc2ba63bcac23ba4a767fc87025b1450f84c9c/tokenizer.json",
+            "error": "curl: (28) Operation timed out after 120122 milliseconds with 6353536 out of 32156428 bytes received\ncurl: (28) Operation timed out after 120037 milliseconds with 4562660 out of 32156428 bytes received"
+          },
+          "LICENSE": {
+            "error": "File not listed by Hub"
+          }
+        }
+      },
+      "error": "curl: (28) Operation timed out after 120122 milliseconds with 6353536 out of 32156428 bytes received\ncurl: (28) Operation timed out after 120037 milliseconds with 4562660 out of 32156428 bytes received"
+    },
+    "google/gemma-3-1b-it": {
+      "revision": "dcc83ea841ab6100d6b47a070329e1ba4cf78752",
+      "hub_metadata": {
+        "checkpoint_stored_parameters": 999885952,
+        "card_license": "gemma",
+        "gated": "manual",
+        "pipeline_tag": "text-generation",
+        "files": {
+          "README.md": {
+            "url": "https://huggingface.co/google/gemma-3-1b-it/resolve/dcc83ea841ab6100d6b47a070329e1ba4cf78752/README.md",
+            "sha256": "60be259533fe3acba21d109a51673815a4c29aefdb7769862695086fcedbeb7a"
+          },
+          "config.json": {
+            "url": "https://huggingface.co/google/gemma-3-1b-it/resolve/dcc83ea841ab6100d6b47a070329e1ba4cf78752/config.json",
+            "error": "curl: (22) The requested URL returned error: 401"
+          },
+          "adapter_config.json": {
+            "error": "File not listed by Hub"
+          },
+          "tokenizer_config.json": {
+            "url": "https://huggingface.co/google/gemma-3-1b-it/resolve/dcc83ea841ab6100d6b47a070329e1ba4cf78752/tokenizer_config.json",
+            "error": "curl: (22) The requested URL returned error: 401"
+          },
+          "tokenizer.json": {
+            "url": "https://huggingface.co/google/gemma-3-1b-it/resolve/dcc83ea841ab6100d6b47a070329e1ba4cf78752/tokenizer.json",
+            "error": "curl: (22) The requested URL returned error: 401"
+          },
+          "LICENSE": {
+            "error": "File not listed by Hub"
+          }
+        }
+      },
+      "error": "curl: (22) The requested URL returned error: 401"
+    },
+    "google/gemma-3-4b-it": {
+      "revision": "093f9f388b31de276ce2de164bdc2081324b9767",
+      "hub_metadata": {
+        "checkpoint_stored_parameters": 4300079472,
+        "card_license": "gemma",
+        "gated": "manual",
+        "pipeline_tag": "image-text-to-text",
+        "files": {
+          "README.md": {
+            "url": "https://huggingface.co/google/gemma-3-4b-it/resolve/093f9f388b31de276ce2de164bdc2081324b9767/README.md",
+            "sha256": "eb6df732fd79f239d46a2bbc75302795cf293acd5b75fcc01995344da02aa0bf"
+          },
+          "config.json": {
+            "url": "https://huggingface.co/google/gemma-3-4b-it/resolve/093f9f388b31de276ce2de164bdc2081324b9767/config.json",
+            "error": "curl: (22) The requested URL returned error: 401"
+          },
+          "adapter_config.json": {
+            "error": "File not listed by Hub"
+          },
+          "tokenizer_config.json": {
+            "url": "https://huggingface.co/google/gemma-3-4b-it/resolve/093f9f388b31de276ce2de164bdc2081324b9767/tokenizer_config.json",
+            "error": "curl: (22) The requested URL returned error: 401"
+          },
+          "tokenizer.json": {
+            "url": "https://huggingface.co/google/gemma-3-4b-it/resolve/093f9f388b31de276ce2de164bdc2081324b9767/tokenizer.json",
+            "error": "curl: (22) The requested URL returned error: 401"
+          },
+          "LICENSE": {
+            "error": "File not listed by Hub"
+          }
+        }
+      },
+      "error": "curl: (22) The requested URL returned error: 401"
+    },
+    "Qwen/Qwen2.5-1.5B-Instruct": {
+      "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+      "hub_metadata": {
+        "checkpoint_stored_parameters": 1543714304,
+        "card_license": "apache-2.0",
+        "gated": false,
+        "pipeline_tag": "text-generation",
+        "files": {
+          "README.md": {
+            "url": "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct/resolve/989aa7980e4cf806f80c7fef2b1adb7bc71aa306/README.md",
+            "sha256": "2e1bcd8bd964728a820be709fa0f7b9dd54817a94fd2254c535df70c5e67fada"
+          },
+          "config.json": {
+            "url": "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct/resolve/989aa7980e4cf806f80c7fef2b1adb7bc71aa306/config.json",
+            "sha256": "98d2ff8cc47488d08a2b0b3acf4eb99ef210779b42bd48605f6b8e36acdbf670"
+          },
+          "adapter_config.json": {
+            "error": "File not listed by Hub"
+          },
+          "tokenizer_config.json": {
+            "url": "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct/resolve/989aa7980e4cf806f80c7fef2b1adb7bc71aa306/tokenizer_config.json",
+            "sha256": "5b5d4f65d0acd3b2d56a35b56d374a36cbc1c8fa5cf3b3febbbfabf22f359583"
+          },
+          "tokenizer.json": {
+            "url": "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct/resolve/989aa7980e4cf806f80c7fef2b1adb7bc71aa306/tokenizer.json",
+            "sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539"
+          },
+          "LICENSE": {
+            "url": "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct/resolve/989aa7980e4cf806f80c7fef2b1adb7bc71aa306/LICENSE",
+            "sha256": "832dd9e00a68dd83b3c3fb9f5588dad7dcf337a0db50f7d9483f310cd292e92e"
+          }
+        }
+      },
+      "tokenizer_sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+      "vocabulary_size": 151665,
+      "all_training_content": {
+        "messages": 9904,
+        "whitespace_words": 520890,
+        "characters": 2799640,
+        "tokens": 3197799,
+        "tokens_per_whitespace_word": 6.139106145251397,
+        "tokens_per_100_characters": 114.22179280193167,
+        "mean_message_tokens": 322.8795436187399,
+        "p50_message_tokens": 127,
+        "p95_message_tokens": 859,
+        "maximum_message_tokens": 2946
+      },
+      "amharic_dominant_content": {
+        "messages": 8805,
+        "whitespace_words": 485366,
+        "characters": 2580843,
+        "tokens": 3130631,
+        "tokens_per_whitespace_word": 6.450041824107993,
+        "tokens_per_100_characters": 121.30265188544983,
+        "mean_message_tokens": 355.55150482680295,
+        "p50_message_tokens": 191,
+        "p95_message_tokens": 876,
+        "maximum_message_tokens": 2946
+      },
+      "content_only_conversations": {
+        "maximum_tokens": 4043,
+        "over_2048": 33
+      },
+      "word_examples": {
+        "ሰላም": {
+          "isolated": 3,
+          "leading_space": 5
+        },
+        "አመሰግናለሁ": {
+          "isolated": 8,
+          "leading_space": 10
+        },
+        "ትምህርት": {
+          "isolated": 5,
+          "leading_space": 7
+        },
+        "የኢትዮጵያ": {
+          "isolated": 6,
+          "leading_space": 8
+        },
+        "እንዴት": {
+          "isolated": 5,
+          "leading_space": 7
+        }
+      },
+      "roundtrip_mismatch_messages": 0
+    },
+    "Qwen/Qwen3-1.7B": {
+      "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+      "hub_metadata": {
+        "checkpoint_stored_parameters": 2031739904,
+        "card_license": "apache-2.0",
+        "gated": false,
+        "pipeline_tag": "text-generation",
+        "files": {
+          "README.md": {
+            "url": "https://huggingface.co/Qwen/Qwen3-1.7B/resolve/70d244cc86ccca08cf5af4e1e306ecf908b1ad5e/README.md",
+            "sha256": "257e52c419dac2258852643f18af6c974f21f8c6c1b6f371b6cca6201cf29091"
+          },
+          "config.json": {
+            "url": "https://huggingface.co/Qwen/Qwen3-1.7B/resolve/70d244cc86ccca08cf5af4e1e306ecf908b1ad5e/config.json",
+            "sha256": "1ddb5b89ebc90dcb417a45c213d818577e65976454d29385c8f6140771d95197"
+          },
+          "adapter_config.json": {
+            "error": "File not listed by Hub"
+          },
+          "tokenizer_config.json": {
+            "url": "https://huggingface.co/Qwen/Qwen3-1.7B/resolve/70d244cc86ccca08cf5af4e1e306ecf908b1ad5e/tokenizer_config.json",
+            "sha256": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101"
+          },
+          "tokenizer.json": {
+            "url": "https://huggingface.co/Qwen/Qwen3-1.7B/resolve/70d244cc86ccca08cf5af4e1e306ecf908b1ad5e/tokenizer.json",
+            "sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4"
+          },
+          "LICENSE": {
+            "url": "https://huggingface.co/Qwen/Qwen3-1.7B/resolve/70d244cc86ccca08cf5af4e1e306ecf908b1ad5e/LICENSE",
+            "sha256": "832dd9e00a68dd83b3c3fb9f5588dad7dcf337a0db50f7d9483f310cd292e92e"
+          }
+        }
+      },
+      "tokenizer_sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+      "vocabulary_size": 151669,
+      "all_training_content": {
+        "messages": 9904,
+        "whitespace_words": 520890,
+        "characters": 2799640,
+        "tokens": 3197799,
+        "tokens_per_whitespace_word": 6.139106145251397,
+        "tokens_per_100_characters": 114.22179280193167,
+        "mean_message_tokens": 322.8795436187399,
+        "p50_message_tokens": 127,
+        "p95_message_tokens": 859,
+        "maximum_message_tokens": 2946
+      },
+      "amharic_dominant_content": {
+        "messages": 8805,
+        "whitespace_words": 485366,
+        "characters": 2580843,
+        "tokens": 3130631,
+        "tokens_per_whitespace_word": 6.450041824107993,
+        "tokens_per_100_characters": 121.30265188544983,
+        "mean_message_tokens": 355.55150482680295,
+        "p50_message_tokens": 191,
+        "p95_message_tokens": 876,
+        "maximum_message_tokens": 2946
+      },
+      "content_only_conversations": {
+        "maximum_tokens": 4043,
+        "over_2048": 33
+      },
+      "word_examples": {
+        "ሰላም": {
+          "isolated": 3,
+          "leading_space": 5
+        },
+        "አመሰግናለሁ": {
+          "isolated": 8,
+          "leading_space": 10
+        },
+        "ትምህርት": {
+          "isolated": 5,
+          "leading_space": 7
+        },
+        "የኢትዮጵያ": {
+          "isolated": 6,
+          "leading_space": 8
+        },
+        "እንዴት": {
+          "isolated": 5,
+          "leading_space": 7
+        }
+      },
+      "roundtrip_mismatch_messages": 0
+    },
+    "Qwen/Qwen3.5-2B": {
+      "revision": "15852e8c16360a2fea060d615a32b45270f8a8fc",
+      "hub_metadata": {
+        "checkpoint_stored_parameters": 2274069824,
+        "card_license": "apache-2.0",
+        "gated": false,
+        "pipeline_tag": "image-text-to-text",
+        "files": {
+          "README.md": {
+            "url": "https://huggingface.co/Qwen/Qwen3.5-2B/resolve/15852e8c16360a2fea060d615a32b45270f8a8fc/README.md",
+            "sha256": "c0e83a849c776e6fa843d011f023132d942a0f0140d903205bf1c363adad2275"
+          },
+          "config.json": {
+            "url": "https://huggingface.co/Qwen/Qwen3.5-2B/resolve/15852e8c16360a2fea060d615a32b45270f8a8fc/config.json",
+            "sha256": "ed1c1723241f23f7f4e23430759cbd7dcfb4103cbdfe052bfe7626b57c2615b4"
+          },
+          "adapter_config.json": {
+            "error": "File not listed by Hub"
+          },
+          "tokenizer_config.json": {
+            "url": "https://huggingface.co/Qwen/Qwen3.5-2B/resolve/15852e8c16360a2fea060d615a32b45270f8a8fc/tokenizer_config.json",
+            "sha256": "49e2b6e395f959f077f1e992b338919c0d4a9732fc6e613995e06557f843500c"
+          },
+          "tokenizer.json": {
+            "url": "https://huggingface.co/Qwen/Qwen3.5-2B/resolve/15852e8c16360a2fea060d615a32b45270f8a8fc/tokenizer.json",
+            "sha256": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42"
+          },
+          "LICENSE": {
+            "url": "https://huggingface.co/Qwen/Qwen3.5-2B/resolve/15852e8c16360a2fea060d615a32b45270f8a8fc/LICENSE",
+            "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a"
+          }
+        }
+      },
+      "tokenizer_sha256": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+      "vocabulary_size": 248070,
+      "all_training_content": {
+        "messages": 9904,
+        "whitespace_words": 520890,
+        "characters": 2799640,
+        "tokens": 3508841,
+        "tokens_per_whitespace_word": 6.736241816890322,
+        "tokens_per_100_characters": 125.33186409681245,
+        "mean_message_tokens": 354.28523828756056,
+        "p50_message_tokens": 140,
+        "p95_message_tokens": 942,
+        "maximum_message_tokens": 3281
+      },
+      "amharic_dominant_content": {
+        "messages": 8805,
+        "whitespace_words": 485366,
+        "characters": 2580843,
+        "tokens": 3439412,
+        "tokens_per_whitespace_word": 7.086223592093389,
+        "tokens_per_100_characters": 133.26699841873372,
+        "mean_message_tokens": 390.6203293583191,
+        "p50_message_tokens": 209,
+        "p95_message_tokens": 965,
+        "maximum_message_tokens": 3281
+      },
+      "content_only_conversations": {
+        "maximum_tokens": 4498,
+        "over_2048": 49
+      },
+      "word_examples": {
+        "ሰላም": {
+          "isolated": 5,
+          "leading_space": 6
+        },
+        "አመሰግናለሁ": {
+          "isolated": 11,
+          "leading_space": 11
+        },
+        "ትምህርት": {
+          "isolated": 6,
+          "leading_space": 7
+        },
+        "የኢትዮጵያ": {
+          "isolated": 10,
+          "leading_space": 10
+        },
+        "እንዴት": {
+          "isolated": 5,
+          "leading_space": 5
+        }
+      },
+      "roundtrip_mismatch_messages": 0
+    },
+    "Qwen/Qwen3.5-4B": {
+      "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+      "hub_metadata": {
+        "checkpoint_stored_parameters": 4659865088,
+        "card_license": "apache-2.0",
+        "gated": false,
+        "pipeline_tag": "image-text-to-text",
+        "files": {
+          "README.md": {
+            "url": "https://huggingface.co/Qwen/Qwen3.5-4B/resolve/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a/README.md",
+            "sha256": "1406be1b6b8fd8a6545870da516912804756593628a1d0fb0a7965211e82a7bb"
+          },
+          "config.json": {
+            "url": "https://huggingface.co/Qwen/Qwen3.5-4B/resolve/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a/config.json",
+            "sha256": "ddc63e1c717afa86c865bb5e01313d89d72bb53b97ad4a8a03ba8510c0621670"
+          },
+          "adapter_config.json": {
+            "error": "File not listed by Hub"
+          },
+          "tokenizer_config.json": {
+            "url": "https://huggingface.co/Qwen/Qwen3.5-4B/resolve/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a/tokenizer_config.json",
+            "sha256": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8"
+          },
+          "tokenizer.json": {
+            "url": "https://huggingface.co/Qwen/Qwen3.5-4B/resolve/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a/tokenizer.json",
+            "sha256": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42"
+          },
+          "LICENSE": {
+            "url": "https://huggingface.co/Qwen/Qwen3.5-4B/resolve/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a/LICENSE",
+            "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a"
+          }
+        }
+      },
+      "tokenizer_sha256": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+      "vocabulary_size": 248070,
+      "all_training_content": {
+        "messages": 9904,
+        "whitespace_words": 520890,
+        "characters": 2799640,
+        "tokens": 3508841,
+        "tokens_per_whitespace_word": 6.736241816890322,
+        "tokens_per_100_characters": 125.33186409681245,
+        "mean_message_tokens": 354.28523828756056,
+        "p50_message_tokens": 140,
+        "p95_message_tokens": 942,
+        "maximum_message_tokens": 3281
+      },
+      "amharic_dominant_content": {
+        "messages": 8805,
+        "whitespace_words": 485366,
+        "characters": 2580843,
+        "tokens": 3439412,
+        "tokens_per_whitespace_word": 7.086223592093389,
+        "tokens_per_100_characters": 133.26699841873372,
+        "mean_message_tokens": 390.6203293583191,
+        "p50_message_tokens": 209,
+        "p95_message_tokens": 965,
+        "maximum_message_tokens": 3281
+      },
+      "content_only_conversations": {
+        "maximum_tokens": 4498,
+        "over_2048": 49
+      },
+      "word_examples": {
+        "ሰላም": {
+          "isolated": 5,
+          "leading_space": 6
+        },
+        "አመሰግናለሁ": {
+          "isolated": 11,
+          "leading_space": 11
+        },
+        "ትምህርት": {
+          "isolated": 6,
+          "leading_space": 7
+        },
+        "የኢትዮጵያ": {
+          "isolated": 10,
+          "leading_space": 10
+        },
+        "እንዴት": {
+          "isolated": 5,
+          "leading_space": 5
+        }
+      },
+      "roundtrip_mismatch_messages": 0
+    },
+    "CohereLabs/tiny-aya-earth": {
+      "revision": "0624fafbe200f930b89566fc4ec4da314ba48d89",
+      "hub_metadata": {
+        "checkpoint_stored_parameters": 3349227520,
+        "card_license": "cc-by-nc-4.0",
+        "gated": "auto",
+        "pipeline_tag": "text-generation",
+        "files": {
+          "README.md": {
+            "url": "https://huggingface.co/CohereLabs/tiny-aya-earth/resolve/0624fafbe200f930b89566fc4ec4da314ba48d89/README.md",
+            "sha256": "775d09ff8d8ebe00c4c670d3645516a9292e8475b98a31f23eb817a1bc89ccfa"
+          },
+          "config.json": {
+            "url": "https://huggingface.co/CohereLabs/tiny-aya-earth/resolve/0624fafbe200f930b89566fc4ec4da314ba48d89/config.json",
+            "error": "curl: (22) The requested URL returned error: 401"
+          },
+          "adapter_config.json": {
+            "error": "File not listed by Hub"
+          },
+          "tokenizer_config.json": {
+            "url": "https://huggingface.co/CohereLabs/tiny-aya-earth/resolve/0624fafbe200f930b89566fc4ec4da314ba48d89/tokenizer_config.json",
+            "error": "curl: (22) The requested URL returned error: 401"
+          },
+          "tokenizer.json": {
+            "url": "https://huggingface.co/CohereLabs/tiny-aya-earth/resolve/0624fafbe200f930b89566fc4ec4da314ba48d89/tokenizer.json",
+            "error": "curl: (22) The requested URL returned error: 401"
+          },
+          "LICENSE": {
+            "error": "File not listed by Hub"
+          }
+        }
+      },
+      "error": "curl: (22) The requested URL returned error: 401"
+    },
+    "5LeaderW/tiny-aya-earth-amharic-maternal-health": {
+      "revision": "bf3b433f5245b16d89a254d3d520d4f260c8c724",
+      "hub_metadata": {
+        "checkpoint_stored_parameters": 3349227520,
+        "card_license": "cc-by-nc-4.0",
+        "gated": false,
+        "pipeline_tag": "text-generation",
+        "files": {
+          "README.md": {
+            "url": "https://huggingface.co/5LeaderW/tiny-aya-earth-amharic-maternal-health/resolve/bf3b433f5245b16d89a254d3d520d4f260c8c724/README.md",
+            "sha256": "53714ef486e53143b1ee87d6d5333e5ba1baf9ef457bbbc5ba14ee5985b42ce7"
+          },
+          "config.json": {
+            "url": "https://huggingface.co/5LeaderW/tiny-aya-earth-amharic-maternal-health/resolve/bf3b433f5245b16d89a254d3d520d4f260c8c724/config.json",
+            "sha256": "485d70388cb752e87c916d89694bcc4185cc3f1f1d4b80d3aad773669da9a78b"
+          },
+          "adapter_config.json": {
+            "error": "File not listed by Hub"
+          },
+          "tokenizer_config.json": {
+            "url": "https://huggingface.co/5LeaderW/tiny-aya-earth-amharic-maternal-health/resolve/bf3b433f5245b16d89a254d3d520d4f260c8c724/tokenizer_config.json",
+            "sha256": "cce411ebdb9fe02c75e68de2d397cb45c142272377e572a13834eb14481cbd46"
+          },
+          "tokenizer.json": {
+            "url": "https://huggingface.co/5LeaderW/tiny-aya-earth-amharic-maternal-health/resolve/bf3b433f5245b16d89a254d3d520d4f260c8c724/tokenizer.json",
+            "sha256": "2227ea9c52e8afb3f98bfed2679008b275f2664de69dfde174b374389eb0225d"
+          },
+          "LICENSE": {
+            "error": "File not listed by Hub"
+          }
+        }
+      },
+      "tokenizer_sha256": "2227ea9c52e8afb3f98bfed2679008b275f2664de69dfde174b374389eb0225d",
+      "vocabulary_size": 261008,
+      "all_training_content": {
+        "messages": 9904,
+        "whitespace_words": 520890,
+        "characters": 2799640,
+        "tokens": 1713534,
+        "tokens_per_whitespace_word": 3.2896273685423028,
+        "tokens_per_100_characters": 61.205512137274795,
+        "mean_message_tokens": 173.01433764135703,
+        "p50_message_tokens": 75,
+        "p95_message_tokens": 452,
+        "maximum_message_tokens": 1535
+      },
+      "amharic_dominant_content": {
+        "messages": 8805,
+        "whitespace_words": 485366,
+        "characters": 2580843,
+        "tokens": 1658411,
+        "tokens_per_whitespace_word": 3.416825653218396,
+        "tokens_per_100_characters": 64.25850003274124,
+        "mean_message_tokens": 188.34877910278252,
+        "p50_message_tokens": 104,
+        "p95_message_tokens": 462,
+        "maximum_message_tokens": 1535
+      },
+      "content_only_conversations": {
+        "maximum_tokens": 2134,
+        "over_2048": 1
+      },
+      "word_examples": {
+        "ሰላም": {
+          "isolated": 2,
+          "leading_space": 1
+        },
+        "አመሰግናለሁ": {
+          "isolated": 7,
+          "leading_space": 6
+        },
+        "ትምህርት": {
+          "isolated": 4,
+          "leading_space": 4
+        },
+        "የኢትዮጵያ": {
+          "isolated": 3,
+          "leading_space": 2
+        },
+        "እንዴት": {
+          "isolated": 4,
+          "leading_space": 3
+        }
+      },
+      "roundtrip_mismatch_messages": 0
+    },
+    "abdukuzi45/qwen3.5-amharic-4b-thinking-uncensored": {
+      "revision": "7b2d75551bc54cfa4e2ed13d35d1820cb086840a",
+      "hub_metadata": {
+        "checkpoint_stored_parameters": 4539265536,
+        "card_license": null,
+        "gated": false,
+        "pipeline_tag": "image-text-to-text",
+        "files": {
+          "README.md": {
+            "url": "https://huggingface.co/abdukuzi45/qwen3.5-amharic-4b-thinking-uncensored/resolve/7b2d75551bc54cfa4e2ed13d35d1820cb086840a/README.md",
+            "sha256": "766460e4327fe97182513e3a6b12c926a28e3673f2242aedd7a1a3bb0232aa33"
+          },
+          "config.json": {
+            "url": "https://huggingface.co/abdukuzi45/qwen3.5-amharic-4b-thinking-uncensored/resolve/7b2d75551bc54cfa4e2ed13d35d1820cb086840a/config.json",
+            "sha256": "dcb113295094ee2a38bb9758322454ab4938901c045164a1c17e67082df71d52"
+          },
+          "adapter_config.json": {
+            "error": "File not listed by Hub"
+          },
+          "tokenizer_config.json": {
+            "url": "https://huggingface.co/abdukuzi45/qwen3.5-amharic-4b-thinking-uncensored/resolve/7b2d75551bc54cfa4e2ed13d35d1820cb086840a/tokenizer_config.json",
+            "sha256": "e98f1901ac6f0adff67b1d540bfa0c36ac1a0cf59eb72ed78146ef89aafa1182"
+          },
+          "tokenizer.json": {
+            "url": "https://huggingface.co/abdukuzi45/qwen3.5-amharic-4b-thinking-uncensored/resolve/7b2d75551bc54cfa4e2ed13d35d1820cb086840a/tokenizer.json",
+            "sha256": "87a7830d63fcf43bf241c3c5242e96e62dd3fdc29224ca26fed8ea333db72de4"
+          },
+          "LICENSE": {
+            "error": "File not listed by Hub"
+          }
+        }
+      },
+      "tokenizer_sha256": "87a7830d63fcf43bf241c3c5242e96e62dd3fdc29224ca26fed8ea333db72de4",
+      "vocabulary_size": 248077,
+      "all_training_content": {
+        "messages": 9904,
+        "whitespace_words": 520890,
+        "characters": 2799640,
+        "tokens": 3508841,
+        "tokens_per_whitespace_word": 6.736241816890322,
+        "tokens_per_100_characters": 125.33186409681245,
+        "mean_message_tokens": 354.28523828756056,
+        "p50_message_tokens": 140,
+        "p95_message_tokens": 942,
+        "maximum_message_tokens": 3281
+      },
+      "amharic_dominant_content": {
+        "messages": 8805,
+        "whitespace_words": 485366,
+        "characters": 2580843,
+        "tokens": 3439412,
+        "tokens_per_whitespace_word": 7.086223592093389,
+        "tokens_per_100_characters": 133.26699841873372,
+        "mean_message_tokens": 390.6203293583191,
+        "p50_message_tokens": 209,
+        "p95_message_tokens": 965,
+        "maximum_message_tokens": 3281
+      },
+      "content_only_conversations": {
+        "maximum_tokens": 4498,
+        "over_2048": 49
+      },
+      "word_examples": {
+        "ሰላም": {
+          "isolated": 5,
+          "leading_space": 6
+        },
+        "አመሰግናለሁ": {
+          "isolated": 11,
+          "leading_space": 11
+        },
+        "ትምህርት": {
+          "isolated": 6,
+          "leading_space": 7
+        },
+        "የኢትዮጵያ": {
+          "isolated": 10,
+          "leading_space": 10
+        },
+        "እንዴት": {
+          "isolated": 5,
+          "leading_space": 5
+        }
+      },
+      "roundtrip_mismatch_messages": 0
+    },
+    "abdukuzi45/qwen3.5-4b-amharic-sft": {
+      "revision": "61ade4eb4e9fe8b732669f6cdc5bb025b1f25a00",
+      "hub_metadata": {
+        "checkpoint_stored_parameters": null,
+        "card_license": null,
+        "gated": false,
+        "pipeline_tag": "text-generation",
+        "files": {
+          "README.md": {
+            "url": "https://huggingface.co/abdukuzi45/qwen3.5-4b-amharic-sft/resolve/61ade4eb4e9fe8b732669f6cdc5bb025b1f25a00/README.md",
+            "sha256": "b45191293e077cc61f80bbbfc0fe0e45eaf7b6cf0eb01b4bbe6b774fd53c88ca"
+          },
+          "config.json": {
+            "error": "File not listed by Hub"
+          },
+          "adapter_config.json": {
+            "url": "https://huggingface.co/abdukuzi45/qwen3.5-4b-amharic-sft/resolve/61ade4eb4e9fe8b732669f6cdc5bb025b1f25a00/adapter_config.json",
+            "sha256": "b3e6dfa347d3e70441a337d8d98d36c8da26f1c60887bd5dcad8a469d857033d"
+          },
+          "tokenizer_config.json": {
+            "url": "https://huggingface.co/abdukuzi45/qwen3.5-4b-amharic-sft/resolve/61ade4eb4e9fe8b732669f6cdc5bb025b1f25a00/tokenizer_config.json",
+            "sha256": "4aa68a1219edb7897a618cf7d7e944ba568f80c6439f4f008dab9bae10e0b6f4"
+          },
+          "tokenizer.json": {
+            "url": "https://huggingface.co/abdukuzi45/qwen3.5-4b-amharic-sft/resolve/61ade4eb4e9fe8b732669f6cdc5bb025b1f25a00/tokenizer.json",
+            "error": "curl: (28) Operation timed out after 120359 milliseconds with 9513947 out of 19989343 bytes received\ncurl: (28) Operation timed out after 120000 milliseconds with 8197003 out of 19989343 bytes received"
+          },
+          "LICENSE": {
+            "error": "File not listed by Hub"
+          }
+        }
+      },
+      "error": "curl: (28) Operation timed out after 120359 milliseconds with 9513947 out of 19989343 bytes received\ncurl: (28) Operation timed out after 120000 milliseconds with 8197003 out of 19989343 bytes received"
+    },
+    "afrisynt/amharic_llama3-dpo-dpo_afridpo_main_rLlama-3.2-1B-Instruct": {
+      "revision": "8f68a8597c4e52acf0080e1756f4ff304dc94224",
+      "hub_metadata": {
+        "checkpoint_stored_parameters": 8030261248,
+        "card_license": null,
+        "gated": false,
+        "pipeline_tag": "text-generation",
+        "files": {
+          "README.md": {
+            "url": "https://huggingface.co/afrisynt/amharic_llama3-dpo-dpo_afridpo_main_rLlama-3.2-1B-Instruct/resolve/8f68a8597c4e52acf0080e1756f4ff304dc94224/README.md",
+            "sha256": "d19e94b37cc64bcfb4eb558c710e4e6f30210947b82048364163279028824659"
+          },
+          "config.json": {
+            "url": "https://huggingface.co/afrisynt/amharic_llama3-dpo-dpo_afridpo_main_rLlama-3.2-1B-Instruct/resolve/8f68a8597c4e52acf0080e1756f4ff304dc94224/config.json",
+            "sha256": "4bf5de40d7135fe7419b3bf70b1abef4cbcfad40084786f09a99af39ed6ed5a1"
+          },
+          "adapter_config.json": {
+            "error": "File not listed by Hub"
+          },
+          "tokenizer_config.json": {
+            "url": "https://huggingface.co/afrisynt/amharic_llama3-dpo-dpo_afridpo_main_rLlama-3.2-1B-Instruct/resolve/8f68a8597c4e52acf0080e1756f4ff304dc94224/tokenizer_config.json",
+            "sha256": "b1616b80f561e5290e6d1691f496d85f7cac667b60be66218e648074783a0fe8"
+          },
+          "tokenizer.json": {
+            "url": "https://huggingface.co/afrisynt/amharic_llama3-dpo-dpo_afridpo_main_rLlama-3.2-1B-Instruct/resolve/8f68a8597c4e52acf0080e1756f4ff304dc94224/tokenizer.json",
+            "error": "curl: (28) Operation timed out after 120123 milliseconds with 5820996 out of 17210148 bytes received\ncurl: (28) Operation timed out after 120611 milliseconds with 10414644 out of 17210148 bytes received"
+          },
+          "LICENSE": {
+            "error": "File not listed by Hub"
+          }
+        }
+      },
+      "error": "curl: (28) Operation timed out after 120123 milliseconds with 5820996 out of 17210148 bytes received\ncurl: (28) Operation timed out after 120611 milliseconds with 10414644 out of 17210148 bytes received"
+    },
+    "b1n1yam/Phi-3.5-mini-instruct-amharic-wikipedia-lora": {
+      "revision": "643f0a5f4f04bca45f73d3cbf42b478dfbb666c8",
+      "hub_metadata": {
+        "checkpoint_stored_parameters": 3821079552,
+        "card_license": "apache-2.0",
+        "gated": false,
+        "pipeline_tag": "text-generation",
+        "files": {
+          "README.md": {
+            "url": "https://huggingface.co/b1n1yam/Phi-3.5-mini-instruct-amharic-wikipedia-lora/resolve/643f0a5f4f04bca45f73d3cbf42b478dfbb666c8/README.md",
+            "sha256": "fd618c42b889368090602aa4c1369e6b9beef8647045899714b3ee896a1fdf97"
+          },
+          "config.json": {
+            "url": "https://huggingface.co/b1n1yam/Phi-3.5-mini-instruct-amharic-wikipedia-lora/resolve/643f0a5f4f04bca45f73d3cbf42b478dfbb666c8/config.json",
+            "sha256": "a016e7ec9f415bfb4a243ddf5030e9afe6392da6dbccbf59a626262cea598f5a"
+          },
+          "adapter_config.json": {
+            "error": "File not listed by Hub"
+          },
+          "tokenizer_config.json": {
+            "url": "https://huggingface.co/b1n1yam/Phi-3.5-mini-instruct-amharic-wikipedia-lora/resolve/643f0a5f4f04bca45f73d3cbf42b478dfbb666c8/tokenizer_config.json",
+            "sha256": "78829cd35e226f918f9f699232e309c38786331cf9afc65cc55ad768eb0e990e"
+          },
+          "tokenizer.json": {
+            "url": "https://huggingface.co/b1n1yam/Phi-3.5-mini-instruct-amharic-wikipedia-lora/resolve/643f0a5f4f04bca45f73d3cbf42b478dfbb666c8/tokenizer.json",
+            "sha256": "3cb815b904d82b82b25dcd90edd00e71a5ee5443472ad611bcb84f1339300647"
+          },
+          "LICENSE": {
+            "error": "File not listed by Hub"
+          }
+        }
+      },
+      "tokenizer_sha256": "3cb815b904d82b82b25dcd90edd00e71a5ee5443472ad611bcb84f1339300647",
+      "vocabulary_size": 32011,
+      "all_training_content": {
+        "messages": 9904,
+        "whitespace_words": 520890,
+        "characters": 2799640,
+        "tokens": 6382854,
+        "tokens_per_whitespace_word": 12.253746472383805,
+        "tokens_per_100_characters": 227.98838422082838,
+        "mean_message_tokens": 644.4723344103393,
+        "p50_message_tokens": 246,
+        "p95_message_tokens": 1722,
+        "maximum_message_tokens": 6094
+      },
+      "amharic_dominant_content": {
+        "messages": 8805,
+        "whitespace_words": 485366,
+        "characters": 2580843,
+        "tokens": 6288862,
+        "tokens_per_whitespace_word": 12.956947952679009,
+        "tokens_per_100_characters": 243.67472178664104,
+        "mean_message_tokens": 714.2375922771153,
+        "p50_message_tokens": 378,
+        "p95_message_tokens": 1763,
+        "maximum_message_tokens": 6094
+      },
+      "content_only_conversations": {
+        "maximum_tokens": 8382,
+        "over_2048": 483
+      },
+      "word_examples": {
+        "ሰላም": {
+          "isolated": 10,
+          "leading_space": 10
+        },
+        "አመሰግናለሁ": {
+          "isolated": 22,
+          "leading_space": 22
+        },
+        "ትምህርት": {
+          "isolated": 16,
+          "leading_space": 16
+        },
+        "የኢትዮጵያ": {
+          "isolated": 19,
+          "leading_space": 19
+        },
+        "እንዴት": {
+          "isolated": 13,
+          "leading_space": 13
+        }
+      },
+      "roundtrip_mismatch_messages": 0
+    },
+    "ntily/supra15_amharic_fineweb2_clm_v1g": {
+      "revision": "97ffbb80299433dbed872761935f607be10c3469",
+      "hub_metadata": {
+        "checkpoint_stored_parameters": 51786240,
+        "card_license": null,
+        "gated": false,
+        "pipeline_tag": null,
+        "files": {
+          "README.md": {
+            "url": "https://huggingface.co/ntily/supra15_amharic_fineweb2_clm_v1g/resolve/97ffbb80299433dbed872761935f607be10c3469/README.md",
+            "sha256": "98c07a3cda08a8bd1b1a6fd17f77dc0423fe86e257395f944e3923f2a94904b2"
+          },
+          "config.json": {
+            "url": "https://huggingface.co/ntily/supra15_amharic_fineweb2_clm_v1g/resolve/97ffbb80299433dbed872761935f607be10c3469/config.json",
+            "sha256": "3c5cd2e83b760784c51faf7aacf87b448bf9d337863a023e60fb50e6fba31f55"
+          },
+          "adapter_config.json": {
+            "error": "File not listed by Hub"
+          },
+          "tokenizer_config.json": {
+            "url": "https://huggingface.co/ntily/supra15_amharic_fineweb2_clm_v1g/resolve/97ffbb80299433dbed872761935f607be10c3469/tokenizer_config.json",
+            "sha256": "6af0f3b2d01975bb0f1a72753c44797d33789d9a0a6c5da56b07a88d549689be"
+          },
+          "tokenizer.json": {
+            "url": "https://huggingface.co/ntily/supra15_amharic_fineweb2_clm_v1g/resolve/97ffbb80299433dbed872761935f607be10c3469/tokenizer.json",
+            "sha256": "9b7d5de5cce18c16a946f0315ddccbb30da093195788d187fff840bb9883da7b"
+          },
+          "LICENSE": {
+            "error": "File not listed by Hub"
+          }
+        }
+      },
+      "tokenizer_sha256": "9b7d5de5cce18c16a946f0315ddccbb30da093195788d187fff840bb9883da7b",
+      "vocabulary_size": 32000,
+      "all_training_content": {
+        "messages": 9904,
+        "whitespace_words": 520890,
+        "characters": 2799640,
+        "tokens": 923836,
+        "tokens_per_whitespace_word": 1.773572155349498,
+        "tokens_per_100_characters": 32.998385506708004,
+        "mean_message_tokens": 93.27907915993538,
+        "p50_message_tokens": 53,
+        "p95_message_tokens": 240,
+        "maximum_message_tokens": 947
+      },
+      "amharic_dominant_content": {
+        "messages": 8805,
+        "whitespace_words": 485366,
+        "characters": 2580843,
+        "tokens": 848713,
+        "tokens_per_whitespace_word": 1.7486041461495037,
+        "tokens_per_100_characters": 32.8851076954313,
+        "mean_message_tokens": 96.38989210675753,
+        "p50_message_tokens": 55,
+        "p95_message_tokens": 241,
+        "maximum_message_tokens": 947
+      },
+      "content_only_conversations": {
+        "maximum_tokens": 1000,
+        "over_2048": 0
+      },
+      "word_examples": {
+        "ሰላም": {
+          "isolated": 1,
+          "leading_space": 1
+        },
+        "አመሰግናለሁ": {
+          "isolated": 2,
+          "leading_space": 1
+        },
+        "ትምህርት": {
+          "isolated": 1,
+          "leading_space": 1
+        },
+        "የኢትዮጵያ": {
+          "isolated": 1,
+          "leading_space": 1
+        },
+        "እንዴት": {
+          "isolated": 1,
+          "leading_space": 1
+        }
+      },
+      "roundtrip_mismatch_messages": 40
+    },
+    "ntily/supra15_amharic_gec_v1g": {
+      "revision": "07afeea028398c8da3fad8686c2001e8a1e148c6",
+      "hub_metadata": {
+        "checkpoint_stored_parameters": 51786240,
+        "card_license": null,
+        "gated": false,
+        "pipeline_tag": "text-generation",
+        "files": {
+          "README.md": {
+            "url": "https://huggingface.co/ntily/supra15_amharic_gec_v1g/resolve/07afeea028398c8da3fad8686c2001e8a1e148c6/README.md",
+            "sha256": "bc0dd133e44d1ee33df540687207022532ed103aefafa7eeecfff41d3c8fe690"
+          },
+          "config.json": {
+            "url": "https://huggingface.co/ntily/supra15_amharic_gec_v1g/resolve/07afeea028398c8da3fad8686c2001e8a1e148c6/config.json",
+            "sha256": "3c5cd2e83b760784c51faf7aacf87b448bf9d337863a023e60fb50e6fba31f55"
+          },
+          "adapter_config.json": {
+            "error": "File not listed by Hub"
+          },
+          "tokenizer_config.json": {
+            "url": "https://huggingface.co/ntily/supra15_amharic_gec_v1g/resolve/07afeea028398c8da3fad8686c2001e8a1e148c6/tokenizer_config.json",
+            "sha256": "d1d388fe0921020be69287a6285c69ae29c0f40a1a02ad13941d731e2c30f45e"
+          },
+          "tokenizer.json": {
+            "url": "https://huggingface.co/ntily/supra15_amharic_gec_v1g/resolve/07afeea028398c8da3fad8686c2001e8a1e148c6/tokenizer.json",
+            "sha256": "9b7d5de5cce18c16a946f0315ddccbb30da093195788d187fff840bb9883da7b"
+          },
+          "LICENSE": {
+            "error": "File not listed by Hub"
+          }
+        }
+      },
+      "tokenizer_sha256": "9b7d5de5cce18c16a946f0315ddccbb30da093195788d187fff840bb9883da7b",
+      "vocabulary_size": 32000,
+      "all_training_content": {
+        "messages": 9904,
+        "whitespace_words": 520890,
+        "characters": 2799640,
+        "tokens": 923836,
+        "tokens_per_whitespace_word": 1.773572155349498,
+        "tokens_per_100_characters": 32.998385506708004,
+        "mean_message_tokens": 93.27907915993538,
+        "p50_message_tokens": 53,
+        "p95_message_tokens": 240,
+        "maximum_message_tokens": 947
+      },
+      "amharic_dominant_content": {
+        "messages": 8805,
+        "whitespace_words": 485366,
+        "characters": 2580843,
+        "tokens": 848713,
+        "tokens_per_whitespace_word": 1.7486041461495037,
+        "tokens_per_100_characters": 32.8851076954313,
+        "mean_message_tokens": 96.38989210675753,
+        "p50_message_tokens": 55,
+        "p95_message_tokens": 241,
+        "maximum_message_tokens": 947
+      },
+      "content_only_conversations": {
+        "maximum_tokens": 1000,
+        "over_2048": 0
+      },
+      "word_examples": {
+        "ሰላም": {
+          "isolated": 1,
+          "leading_space": 1
+        },
+        "አመሰግናለሁ": {
+          "isolated": 2,
+          "leading_space": 1
+        },
+        "ትምህርት": {
+          "isolated": 1,
+          "leading_space": 1
+        },
+        "የኢትዮጵያ": {
+          "isolated": 1,
+          "leading_space": 1
+        },
+        "እንዴት": {
+          "isolated": 1,
+          "leading_space": 1
+        }
+      },
+      "roundtrip_mismatch_messages": 40
+    },
+    "unsloth/Llama-3.2-1B-Instruct": {
+      "revision": "5a8abab4a5d6f164389b1079fb721cfab8d7126c",
+      "hub_metadata": {
+        "checkpoint_stored_parameters": 1235814400,
+        "card_license": "llama3.2",
+        "gated": false,
+        "pipeline_tag": "text-generation",
+        "files": {
+          "README.md": {
+            "url": "https://huggingface.co/unsloth/Llama-3.2-1B-Instruct/resolve/5a8abab4a5d6f164389b1079fb721cfab8d7126c/README.md",
+            "sha256": "691f034445e79cee0fac0558363db74cf664ec68cf22df82db398049610d9133"
+          },
+          "config.json": {
+            "url": "https://huggingface.co/unsloth/Llama-3.2-1B-Instruct/resolve/5a8abab4a5d6f164389b1079fb721cfab8d7126c/config.json",
+            "sha256": "dfb67fd8afe73a1c75245824ef9d64a6ba8983025447e3bf76aa1ea57ee46152"
+          },
+          "adapter_config.json": {
+            "error": "File not listed by Hub"
+          },
+          "tokenizer_config.json": {
+            "url": "https://huggingface.co/unsloth/Llama-3.2-1B-Instruct/resolve/5a8abab4a5d6f164389b1079fb721cfab8d7126c/tokenizer_config.json",
+            "sha256": "9ddd255c19fe319c8d4e891163540382e9fbda99f394674f2a929efc47d57458"
+          },
+          "tokenizer.json": {
+            "url": "https://huggingface.co/unsloth/Llama-3.2-1B-Instruct/resolve/5a8abab4a5d6f164389b1079fb721cfab8d7126c/tokenizer.json",
+            "sha256": "6b9e4e7fb171f92fd137b777cc2714bf87d11576700a1dcd7a399e7bbe39537b"
+          },
+          "LICENSE": {
+            "error": "File not listed by Hub"
+          }
+        }
+      },
+      "tokenizer_sha256": "6b9e4e7fb171f92fd137b777cc2714bf87d11576700a1dcd7a399e7bbe39537b",
+      "vocabulary_size": 128256,
+      "all_training_content": {
+        "messages": 9904,
+        "whitespace_words": 520890,
+        "characters": 2799640,
+        "tokens": 5844641,
+        "tokens_per_whitespace_word": 11.22048993069554,
+        "tokens_per_100_characters": 208.76401965967054,
+        "mean_message_tokens": 590.1293416801292,
+        "p50_message_tokens": 224,
+        "p95_message_tokens": 1585,
+        "maximum_message_tokens": 5617
+      },
+      "amharic_dominant_content": {
+        "messages": 8805,
+        "whitespace_words": 485366,
+        "characters": 2580843,
+        "tokens": 5761959,
+        "tokens_per_whitespace_word": 11.871369234763044,
+        "tokens_per_100_characters": 223.25879567257675,
+        "mean_message_tokens": 654.3962521294719,
+        "p50_message_tokens": 347,
+        "p95_message_tokens": 1622,
+        "maximum_message_tokens": 5617
+      },
+      "content_only_conversations": {
+        "maximum_tokens": 7730,
+        "over_2048": 398
+      },
+      "word_examples": {
+        "ሰላም": {
+          "isolated": 9,
+          "leading_space": 9
+        },
+        "አመሰግናለሁ": {
+          "isolated": 20,
+          "leading_space": 20
+        },
+        "ትምህርት": {
+          "isolated": 15,
+          "leading_space": 15
+        },
+        "የኢትዮጵያ": {
+          "isolated": 18,
+          "leading_space": 18
+        },
+        "እንዴት": {
+          "isolated": 12,
+          "leading_space": 12
+        }
+      },
+      "roundtrip_mismatch_messages": 0
+    },
+    "alphaedge-ai/gemma-3-1b-it-amh-16384": {
+      "revision": "9147e51e6800531f027e527fb5e1315386a57ce3",
+      "hub_metadata": {
+        "checkpoint_stored_parameters": 716770432,
+        "card_license": "gemma",
+        "gated": false,
+        "pipeline_tag": "text-generation",
+        "files": {
+          "README.md": {
+            "url": "https://huggingface.co/alphaedge-ai/gemma-3-1b-it-amh-16384/resolve/9147e51e6800531f027e527fb5e1315386a57ce3/README.md",
+            "sha256": "8045e51580adae802db19d8b2bfe26960e81dfc4a7d6d88b0cd7787fbd9ad6b9"
+          },
+          "config.json": {
+            "url": "https://huggingface.co/alphaedge-ai/gemma-3-1b-it-amh-16384/resolve/9147e51e6800531f027e527fb5e1315386a57ce3/config.json",
+            "sha256": "a53b335cb1e902fca37171864504253e3fa672c3c8ce05453d33de96c968a320"
+          },
+          "adapter_config.json": {
+            "error": "File not listed by Hub"
+          },
+          "tokenizer_config.json": {
+            "url": "https://huggingface.co/alphaedge-ai/gemma-3-1b-it-amh-16384/resolve/9147e51e6800531f027e527fb5e1315386a57ce3/tokenizer_config.json",
+            "sha256": "3d4dbb0723a3dbf1ea7bb17efbbf47fc5d85b8a1c5f3b3414aa78a7c73b028e8"
+          },
+          "tokenizer.json": {
+            "url": "https://huggingface.co/alphaedge-ai/gemma-3-1b-it-amh-16384/resolve/9147e51e6800531f027e527fb5e1315386a57ce3/tokenizer.json",
+            "sha256": "ad3f18a0e18077a7cfd9b0cbafcb5815ec1307cf0b36b73e492f553a06131c70"
+          },
+          "LICENSE": {
+            "error": "File not listed by Hub"
+          }
+        }
+      },
+      "tokenizer_sha256": "ad3f18a0e18077a7cfd9b0cbafcb5815ec1307cf0b36b73e492f553a06131c70",
+      "vocabulary_size": 16384,
+      "all_training_content": {
+        "messages": 9904,
+        "whitespace_words": 520890,
+        "characters": 2799640,
+        "tokens": 1631242,
+        "tokens_per_whitespace_word": 3.131643917141815,
+        "tokens_per_100_characters": 58.26613421725651,
+        "mean_message_tokens": 164.7053715670436,
+        "p50_message_tokens": 78,
+        "p95_message_tokens": 426,
+        "maximum_message_tokens": 1494
+      },
+      "amharic_dominant_content": {
+        "messages": 8805,
+        "whitespace_words": 485366,
+        "characters": 2580843,
+        "tokens": 1563613,
+        "tokens_per_whitespace_word": 3.221513249795,
+        "tokens_per_100_characters": 60.585359124906084,
+        "mean_message_tokens": 177.5823963657013,
+        "p50_message_tokens": 101,
+        "p95_message_tokens": 435,
+        "maximum_message_tokens": 1494
+      },
+      "content_only_conversations": {
+        "maximum_tokens": 1954,
+        "over_2048": 0
+      },
+      "word_examples": {
+        "ሰላም": {
+          "isolated": 3,
+          "leading_space": 3
+        },
+        "አመሰግናለሁ": {
+          "isolated": 6,
+          "leading_space": 5
+        },
+        "ትምህርት": {
+          "isolated": 4,
+          "leading_space": 4
+        },
+        "የኢትዮጵያ": {
+          "isolated": 6,
+          "leading_space": 6
+        },
+        "እንዴት": {
+          "isolated": 2,
+          "leading_space": 1
+        }
+      },
+      "roundtrip_mismatch_messages": 0
+    },
+    "alphaedge-ai/gemma-3-1b-it-amh-32768": {
+      "revision": "8afeeea5f8772fa2c7d6a23c1d17539b2b02b27c",
+      "hub_metadata": {
+        "checkpoint_stored_parameters": 735644800,
+        "card_license": "gemma",
+        "gated": false,
+        "pipeline_tag": "text-generation",
+        "files": {
+          "README.md": {
+            "url": "https://huggingface.co/alphaedge-ai/gemma-3-1b-it-amh-32768/resolve/8afeeea5f8772fa2c7d6a23c1d17539b2b02b27c/README.md",
+            "sha256": "50a0257f2a697cb7467ba5a579c0fe27db466f0f363353ac7de801e5446784f7"
+          },
+          "config.json": {
+            "url": "https://huggingface.co/alphaedge-ai/gemma-3-1b-it-amh-32768/resolve/8afeeea5f8772fa2c7d6a23c1d17539b2b02b27c/config.json",
+            "sha256": "bf7f5a0b2339f0de31e1f7ce9d34b62c5cf6e2c98355459aab46d31f9e1eb17e"
+          },
+          "adapter_config.json": {
+            "error": "File not listed by Hub"
+          },
+          "tokenizer_config.json": {
+            "error": "File not listed by Hub"
+          },
+          "tokenizer.json": {
+            "error": "File not listed by Hub"
+          },
+          "LICENSE": {
+            "error": "File not listed by Hub"
+          }
+        }
+      },
+      "error": "File not listed by Hub"
+    },
+    "alphaedge-ai/gemma-3-4b-it-amh-32768": {
+      "revision": "43236879714d96cffd5034f677bfe14334306f92",
+      "hub_metadata": {
+        "checkpoint_stored_parameters": 3712713072,
+        "card_license": "gemma",
+        "gated": false,
+        "pipeline_tag": "text-generation",
+        "files": {
+          "README.md": {
+            "url": "https://huggingface.co/alphaedge-ai/gemma-3-4b-it-amh-32768/resolve/43236879714d96cffd5034f677bfe14334306f92/README.md",
+            "sha256": "4ded8b34fd5a975f60635880387b83ca9d7baace1d64ccde4ae98021579fa2b5"
+          },
+          "config.json": {
+            "url": "https://huggingface.co/alphaedge-ai/gemma-3-4b-it-amh-32768/resolve/43236879714d96cffd5034f677bfe14334306f92/config.json",
+            "sha256": "2203f1041cc9012e9870521e53d709b4da762efa8e4ef062ceff65e3af2d4c65"
+          },
+          "adapter_config.json": {
+            "error": "File not listed by Hub"
+          },
+          "tokenizer_config.json": {
+            "url": "https://huggingface.co/alphaedge-ai/gemma-3-4b-it-amh-32768/resolve/43236879714d96cffd5034f677bfe14334306f92/tokenizer_config.json",
+            "sha256": "02f221d8848d3313337145726efe6bc68945716c434055ef4d30bdb709f694d3"
+          },
+          "tokenizer.json": {
+            "url": "https://huggingface.co/alphaedge-ai/gemma-3-4b-it-amh-32768/resolve/43236879714d96cffd5034f677bfe14334306f92/tokenizer.json",
+            "sha256": "43a40c71b9067e339e0b8cbe783787ff18be95250ff5b31d1a3b4d0b9960bee4"
+          },
+          "LICENSE": {
+            "error": "File not listed by Hub"
+          }
+        }
+      },
+      "tokenizer_sha256": "43a40c71b9067e339e0b8cbe783787ff18be95250ff5b31d1a3b4d0b9960bee4",
+      "vocabulary_size": 32768,
+      "all_training_content": {
+        "messages": 9904,
+        "whitespace_words": 520890,
+        "characters": 2799640,
+        "tokens": 1624687,
+        "tokens_per_whitespace_word": 3.1190596863061297,
+        "tokens_per_100_characters": 58.031996971039135,
+        "mean_message_tokens": 164.04351777059773,
+        "p50_message_tokens": 76,
+        "p95_message_tokens": 425,
+        "maximum_message_tokens": 1490
+      },
+      "amharic_dominant_content": {
+        "messages": 8805,
+        "whitespace_words": 485366,
+        "characters": 2580843,
+        "tokens": 1561611,
+        "tokens_per_whitespace_word": 3.2173885274205447,
+        "tokens_per_100_characters": 60.507787571735285,
+        "mean_message_tokens": 177.3550255536627,
+        "p50_message_tokens": 101,
+        "p95_message_tokens": 434,
+        "maximum_message_tokens": 1490
+      },
+      "content_only_conversations": {
+        "maximum_tokens": 1954,
+        "over_2048": 0
+      },
+      "word_examples": {
+        "ሰላም": {
+          "isolated": 3,
+          "leading_space": 3
+        },
+        "አመሰግናለሁ": {
+          "isolated": 6,
+          "leading_space": 5
+        },
+        "ትምህርት": {
+          "isolated": 4,
+          "leading_space": 4
+        },
+        "የኢትዮጵያ": {
+          "isolated": 6,
+          "leading_space": 6
+        },
+        "እንዴት": {
+          "isolated": 2,
+          "leading_space": 1
+        }
+      },
+      "roundtrip_mismatch_messages": 0
+    },
+    "alphaedge-ai/gemma-3-270m-it-amh-32768": {
+      "revision": "39a70912c160bfcf96ec067974cb97abb07532d3",
+      "hub_metadata": {
+        "checkpoint_stored_parameters": 121297536,
+        "card_license": "gemma",
+        "gated": false,
+        "pipeline_tag": "text-generation",
+        "files": {
+          "README.md": {
+            "url": "https://huggingface.co/alphaedge-ai/gemma-3-270m-it-amh-32768/resolve/39a70912c160bfcf96ec067974cb97abb07532d3/README.md",
+            "sha256": "d0a7c69123048a2c7db5921818d35d4e4d2e9735a925ea72b208ab1d6f2eb534"
+          },
+          "config.json": {
+            "url": "https://huggingface.co/alphaedge-ai/gemma-3-270m-it-amh-32768/resolve/39a70912c160bfcf96ec067974cb97abb07532d3/config.json",
+            "sha256": "d4a758fb4260b8359a4cc2d1098e1b818ce441c89f9668cf88238a855dbc67ac"
+          },
+          "adapter_config.json": {
+            "error": "File not listed by Hub"
+          },
+          "tokenizer_config.json": {
+            "url": "https://huggingface.co/alphaedge-ai/gemma-3-270m-it-amh-32768/resolve/39a70912c160bfcf96ec067974cb97abb07532d3/tokenizer_config.json",
+            "sha256": "5a1e428a906368646acf30f6cd5e0e05ca33d2af8a2a53cd3fb9a05263beff2f"
+          },
+          "tokenizer.json": {
+            "url": "https://huggingface.co/alphaedge-ai/gemma-3-270m-it-amh-32768/resolve/39a70912c160bfcf96ec067974cb97abb07532d3/tokenizer.json",
+            "sha256": "43a40c71b9067e339e0b8cbe783787ff18be95250ff5b31d1a3b4d0b9960bee4"
+          },
+          "LICENSE": {
+            "error": "File not listed by Hub"
+          }
+        }
+      },
+      "tokenizer_sha256": "43a40c71b9067e339e0b8cbe783787ff18be95250ff5b31d1a3b4d0b9960bee4",
+      "vocabulary_size": 32768,
+      "all_training_content": {
+        "messages": 9904,
+        "whitespace_words": 520890,
+        "characters": 2799640,
+        "tokens": 1624687,
+        "tokens_per_whitespace_word": 3.1190596863061297,
+        "tokens_per_100_characters": 58.031996971039135,
+        "mean_message_tokens": 164.04351777059773,
+        "p50_message_tokens": 76,
+        "p95_message_tokens": 425,
+        "maximum_message_tokens": 1490
+      },
+      "amharic_dominant_content": {
+        "messages": 8805,
+        "whitespace_words": 485366,
+        "characters": 2580843,
+        "tokens": 1561611,
+        "tokens_per_whitespace_word": 3.2173885274205447,
+        "tokens_per_100_characters": 60.507787571735285,
+        "mean_message_tokens": 177.3550255536627,
+        "p50_message_tokens": 101,
+        "p95_message_tokens": 434,
+        "maximum_message_tokens": 1490
+      },
+      "content_only_conversations": {
+        "maximum_tokens": 1954,
+        "over_2048": 0
+      },
+      "word_examples": {
+        "ሰላም": {
+          "isolated": 3,
+          "leading_space": 3
+        },
+        "አመሰግናለሁ": {
+          "isolated": 6,
+          "leading_space": 5
+        },
+        "ትምህርት": {
+          "isolated": 4,
+          "leading_space": 4
+        },
+        "የኢትዮጵያ": {
+          "isolated": 6,
+          "leading_space": 6
+        },
+        "እንዴት": {
+          "isolated": 2,
+          "leading_space": 1
+        }
+      },
+      "roundtrip_mismatch_messages": 0
+    },
+    "boar000/gemma4-amharic-lora": {
+      "revision": "412da04b40d98db827a94915966d94b4d0b0998e",
+      "hub_metadata": {
+        "checkpoint_stored_parameters": null,
+        "card_license": "apache-2.0",
+        "gated": false,
+        "pipeline_tag": null,
+        "files": {
+          "README.md": {
+            "url": "https://huggingface.co/boar000/gemma4-amharic-lora/resolve/412da04b40d98db827a94915966d94b4d0b0998e/README.md",
+            "sha256": "e97820402c7214baaa97cf62bff84298913d3cd1b2804cd715c6e0352c5f76d3"
+          },
+          "config.json": {
+            "error": "File not listed by Hub"
+          },
+          "adapter_config.json": {
+            "url": "https://huggingface.co/boar000/gemma4-amharic-lora/resolve/412da04b40d98db827a94915966d94b4d0b0998e/adapter_config.json",
+            "sha256": "44c57ba737e5135f8f3d79339a2886785aebdb914264aa35cf0104a304025b28"
+          },
+          "tokenizer_config.json": {
+            "error": "File not listed by Hub"
+          },
+          "tokenizer.json": {
+            "error": "File not listed by Hub"
+          },
+          "LICENSE": {
+            "error": "File not listed by Hub"
+          },
+          "e2b/final_lora/README.md": {
+            "url": "https://huggingface.co/boar000/gemma4-amharic-lora/resolve/412da04b40d98db827a94915966d94b4d0b0998e/e2b/final_lora/README.md",
+            "sha256": "f9dd163db0e5d8e9d55383b74db2aa183790e1e041ac923a7b6bbb16b7b92308"
+          },
+          "e2b/final_lora/adapter_config.json": {
+            "url": "https://huggingface.co/boar000/gemma4-amharic-lora/resolve/412da04b40d98db827a94915966d94b4d0b0998e/e2b/final_lora/adapter_config.json",
+            "sha256": "86e602c639018ab9dd364d7e91aa4ff01448386a39756f9ab8513c6b4d88f95c"
+          },
+          "e4b/final_lora/README.md": {
+            "url": "https://huggingface.co/boar000/gemma4-amharic-lora/resolve/412da04b40d98db827a94915966d94b4d0b0998e/e4b/final_lora/README.md",
+            "sha256": "c006875b47139f4a9eb5986bb8f85a0d78df5dbfd4356ebfad36d32ba4ef78dc"
+          },
+          "e4b/final_lora/adapter_config.json": {
+            "url": "https://huggingface.co/boar000/gemma4-amharic-lora/resolve/412da04b40d98db827a94915966d94b4d0b0998e/e4b/final_lora/adapter_config.json",
+            "sha256": "44c57ba737e5135f8f3d79339a2886785aebdb914264aa35cf0104a304025b28"
+          }
+        }
+      },
+      "error": "File not listed by Hub"
+    },
+    "israel/LLAMA-Walia-II": {
+      "revision": "66517db574a8092edcddfe0cb7c7c4c85b4318a9",
+      "hub_metadata": {
+        "checkpoint_stored_parameters": 6894137344,
+        "card_license": "apache-2.0",
+        "gated": false,
+        "pipeline_tag": "text-generation",
+        "files": {
+          "README.md": {
+            "url": "https://huggingface.co/israel/LLAMA-Walia-II/resolve/66517db574a8092edcddfe0cb7c7c4c85b4318a9/README.md",
+            "sha256": "0f9b8c0bc1d255e7a9e13274899bde4ebb8b54d960182d7ef516e138c09bf545"
+          },
+          "config.json": {
+            "url": "https://huggingface.co/israel/LLAMA-Walia-II/resolve/66517db574a8092edcddfe0cb7c7c4c85b4318a9/config.json",
+            "sha256": "f05ae7fdb6e35a4f72f4eea7b4862b9f01660e9f8eb01be6ba0821f39c76136b"
+          },
+          "adapter_config.json": {
+            "error": "File not listed by Hub"
+          },
+          "tokenizer_config.json": {
+            "url": "https://huggingface.co/israel/LLAMA-Walia-II/resolve/66517db574a8092edcddfe0cb7c7c4c85b4318a9/tokenizer_config.json",
+            "sha256": "1c1533f0141267c99bf49fc2043fd156d97d6d7208d1a48d15bb7ea66067005c"
+          },
+          "tokenizer.json": {
+            "error": "File not listed by Hub"
+          },
+          "LICENSE": {
+            "error": "File not listed by Hub"
+          }
+        }
+      },
+      "error": "File not listed by Hub"
+    }
+  },
+  "llama_vocabulary_comparison": {
+    "original_source": "unsloth/Llama-3.2-1B-Instruct",
+    "original_vocabulary_entries": 128256,
+    "amharic_vocabulary_entries": 143378,
+    "new_vocabulary_entries": 15122,
+    "original_token_id_mismatches": 0,
+    "note": "Dictionary entry counts can differ from padded model embedding dimensions."
+  }
+}

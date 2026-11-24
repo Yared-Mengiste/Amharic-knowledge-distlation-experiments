@@ -15,16 +15,17 @@ The method is response-level knowledge distillation:
 
 The project lead is Bereket Legesse, an ML engineer at iCog Labs. A team member prepares the prompts, and native Amharic speakers do the human review.
 
-## 2. Status (as of 2026-11-19)
+## 2. Status (as of 2026-11-22)
 
 | Stage | State |
 |---|---|
 | 0. Review of the original 50k prompt set (`prompts.csv`, "v1") | Done. It was mostly task templates with little real chat, so about 20k of it was kept as a source. |
 | 1. Pilot prompt set: 5,000 train + 300 eval | Done. Built by the team member, then fixed by Claude Code following `docs/SPEC_pilot_fix.md`. All validation checks pass. Reproducible with `bash data_prep/run_all.sh`. |
 | 2. Native-speaker review of 150 prompts (`data/prompts/review_sample.csv`) | Pending. |
-| 3. Teacher generation for 5,261 prompts | Next. Run on OpenRouter; see `docs/RUN_teacher.md`. Pipeline is tested against mock servers but has not been run against the real API yet. |
-| 4. Filter, review and merge the teacher answers | Not started. Scripts are ready. |
+| 3. Teacher generation for 5,261 prompts | Done on 2026-11-19. All prompt IDs have outputs from `google/gemma-4-26b-a4b-it` on DeepInfra; 1,220,124 output tokens, $0.629123, 1.17 h. See `experiments/LOG.md`. |
+| 4. Filter, review and merge the teacher answers | Assistant review and user-authorized merges done on 2026-11-21: original queue had 102 corrected, 197 retained, 8 excluded; hard-rejection review recovered 107 and excluded 2. Accepted: 4,952 train + 299 eval; 10 total exclusions. All 416 review decisions and 117 rejection/no-row dispositions documented. Minimal retained review artifacts and rebuild commands are listed in `data/review/README.md`. Native-speaker approval/spot check remains pending. |
 | 5. Student bake-off on reviewed pilot answers | Workflow implemented: frozen-data gates, QLoRA smoke/resume and training, four-way evaluation, blind review and Q4_K_M deployment. Human review and GPU execution pending; see docs/RUN_student_bakeoff.md. |
+| Student selection research | Public cards/metadata checked for 26 checkpoints; 16 tokenizers measured on the current 4,952 training conversations. Amharic Llama 1B averages 1.81 tokens per word versus Gemma 4 E2B 3.21 and tested Qwen 2.5/3 6.45, Qwen 3.5 7.09. Keep Llama as the cost-sensitive candidate and Gemma as the quality comparator; answer-quality and deployment results remain pending. See docs/RESEARCH_student_selection.md. |
 | 6. Scale-up to 30k–100k prompts | Not started (section 9). |
 
 ### Open items
@@ -188,9 +189,12 @@ See [the protocol](docs/PLAN_student_bakeoff.md) and [run guide](docs/RUN_studen
   quality on identical deployment prompts. Keep weights, checkpoints and sheets private.
 
 Scripts and the Kaggle notebook are implemented. Current unreviewed-tokenizer
-checks pass with no overlength or masking failures (maximum 923 Llama tokens,
-1,518 Gemma tokens). Full training remains gated: 307 undecided queue rows,
-109 pending rejected-answer dispositions and the native-speaker spot check.
+checks on the current corrected data pass with no overlength or masking failures
+(maximum 1,065 Llama tokens, 1,965 Gemma tokens; length limit 2,048). Queue decisions,
+hard-rejection dispositions and merges are complete. Full training remains gated
+by native-speaker approval/spot checks. Rerun tokenizer preflight after approval
+and freeze. The 100-answer spot-check sheet is prepared in `data/review/spot_check.csv`;
+the completed review queue exposes all newly corrected answers for review.
 No adapters or GPU/evaluation/deployment results have been produced yet.
 
 ## 9. Later stages
@@ -264,4 +268,9 @@ Add a line whenever a decision is made or changed.
 | 2026-11-19 | OpenRouter teacher pipeline added (`teacher/`, `docs/RUN_teacher.md`, `.env.example`). |
 | 2026-11-19 | Teacher system prompt tightened again: no bracketed English glosses, ዓ.ም never on foreign-event years, translations output only the translation. Pin DeepInfra (bf16/fp8) for teacher runs. |
 | 2026-11-19 | Repo restructured to the layout in section 4: pilot-fix scripts in `data_prep/`, final prompt sets in `data/prompts/`, teacher scripts in `teacher/`. |
+| 2026-11-20 | Full teacher outputs are complete and automatically filtered. Keep the current filter thresholds; human review and rejected-answer triage are required before finalizing SFT data. |
 | 2026-11-20 | Implemented the reviewed-response Llama/Gemma QLoRA workflow with fixed rank 16, private Kaggle execution, assistant-only loss, shared frozen IDs, four-way greedy evaluation and native-speaker comparisons. No paid judge calls; training waits for review and GPU smoke/resume evidence. |
+| 2026-11-21 | At the user's request, corrected 102 review-queue answers, retained 197 and excluded 8 with reasons, then ran the existing merge command. Preserve raw teacher/frozen prompt files and prior accepted bytes. Assistant decisions are distinct from native-speaker approval; no training freeze yet. |
+| 2026-11-21 | Reviewed all 109 hard rejections at the user's request; corrected/recovered 107 and excluded 2 with reasons. Merged 103 train and 4 eval rows using the existing merger. Retain raw rejection records as provenance, document two matcher/language exceptions, and preserve earlier accepted answers. Both tokenizer diagnostics pass; native-speaker review remains pending. |
+| 2026-11-21 | At the user's request, removed redundant review snapshots, manifests, reports and one-off scripts. Keep the completed queue, change/exclusion/disposition ledgers, native-review sheet, one overview and compact tokenizer evidence. Existing filter/merge commands rebuild corrected accepted files in scratch. |
+| 2026-11-22 | Researched small Amharic students and measured actual tokenizer costs. Keep the existing Llama/Gemma bakeoff: Amharic Llama 1B has a substantial content-token advantage, while final quality is unproven. Identified Amharic Gemma adapters, vocabulary-trimmed Gemma candidates and Tiny Aya as optional leads, with their evaluation, artifact and licensing limits documented. No training-protocol change or model winner declared. |
