@@ -15,15 +15,15 @@ The method is response-level knowledge distillation:
 
 The project lead is Bereket Legesse, an ML engineer at iCog Labs. A team member prepares the prompts, and native Amharic speakers do the human review.
 
-## 2. Status (as of 2026-11-19)
+## 2. Status (as of 2026-11-24)
 
 | Stage | State |
 |---|---|
 | 0. Review of the original 50k prompt set (`prompts.csv`, "v1") | Done. It was mostly task templates with little real chat, so about 20k of it was kept as a source. |
 | 1. Pilot prompt set: 5,000 train + 300 eval | Done. Built by the team member, then fixed by Claude Code following `docs/SPEC_pilot_fix.md`. All validation checks pass. Reproducible with `bash data_prep/run_all.sh`. |
 | 2. Native-speaker review of 150 prompts (`data/prompts/review_sample.csv`) | Pending. |
-| 3. Teacher generation for 5,261 prompts | Next. Run on OpenRouter; see `docs/RUN_teacher.md`. Pipeline is tested against mock servers but has not been run against the real API yet. |
-| 4. Filter, review and merge the teacher answers | Not started. Scripts are ready. |
+| 3. Teacher generation for 5,261 prompts | Done on 2026-11-19. All prompt IDs have outputs from `google/gemma-4-26b-a4b-it` on DeepInfra; 1,220,124 output tokens, $0.629123, 1.17 h. See `experiments/LOG.md`. |
+| 4. Filter, review and merge the teacher answers | Assistant review and user-authorized merges done on 2026-11-21: original queue had 102 corrected, 197 retained, 8 excluded; hard-rejection review recovered 107 and excluded 2. Accepted: 4,952 train + 299 eval; 10 total exclusions. All 416 review decisions and 117 rejection/no-row dispositions documented. Minimal retained review artifacts and rebuild commands are listed in `data/sft/README.md`. Native-speaker approval/spot check remains pending. |
 | 5. Student bake-off on a 5k subset | Not started (section 8). |
 | 6. Scale-up to 30k–100k prompts | Not started (section 9). |
 
@@ -76,14 +76,16 @@ The project lead is Bereket Legesse, an ML engineer at iCog Labs. A team member 
 └── data/                     # see data/README.md for what is committed
     ├── raw/                  # pilot inputs from the team member (read-only)
     ├── work/                 # intermediate files written by data_prep/
-    ├── prompts/              # pilot_train.jsonl, pilot_eval.jsonl, math_answers.csv, teacher_answer_review_ids.txt,
-    │                         # removed.csv, changed.csv, review_sample.csv, REPORT.md
-    ├── teacher/              # teacher_outputs.jsonl, smoke runs, error logs
-    ├── sft/                  # filtered training data, review queue, filter report
-    └── review/               # filled native-speaker review sheets
+    └── sft/                  # completed training/eval data and required audit inputs
 ```
 
-Run every command from the repo root.
+The completed pilot is retained in `data/sft/`: 4,952 training conversations
+and 299 teacher evaluation references, plus all 300 evaluation prompts and the
+evidence required by the student audit. Intermediate `data/prompts/`,
+`data/teacher/` and `data/review/` folders have been removed. Native-speaker
+spot checks remain pending; preparing this dataset does not record their approval.
+
+Run every command from the repo root. Rebuild `data/prompts/` before a new teacher run.
 
 ## 5. Data formats
 
@@ -105,7 +107,7 @@ Pilot composition:
 - Train is 4,961 rows: 82.6% am, 9.1% en, 5.3% mixed, 3.0% latin_am. About 51% of the prompts are newly written.
 - Eval is 300 rows.
 
-Teacher output row (`data/teacher/teacher_outputs.jsonl`): the prompt row's fields plus `response`, `finish_reason`, `output_tokens`, `prompt_tokens`, `max_tokens`, `seconds`, `teacher_model`, `gen_params`, and on OpenRouter also `cost_usd` and `provider`. The file is append-only. If an ID appears twice, the last line wins.
+Teacher output row (`data/sft/teacher_outputs.jsonl`): the prompt row's fields plus `response`, `finish_reason`, `output_tokens`, `prompt_tokens`, `max_tokens`, `seconds`, `teacher_model`, `gen_params`, and on OpenRouter also `cost_usd` and `provider`. The file is append-only. If an ID appears twice, the last line wins.
 
 SFT row (`data/sft/sft_train.jsonl`):
 
@@ -266,3 +268,9 @@ Add a line whenever a decision is made or changed.
 | 2026-11-19 | OpenRouter teacher pipeline added (`teacher/`, `docs/RUN_teacher.md`, `.env.example`). |
 | 2026-11-19 | Teacher system prompt tightened again: no bracketed English glosses, ዓ.ም never on foreign-event years, translations output only the translation. Pin DeepInfra (bf16/fp8) for teacher runs. |
 | 2026-11-19 | Repo restructured to the layout in section 4: pilot-fix scripts in `data_prep/`, final prompt sets in `data/prompts/`, teacher scripts in `teacher/`. |
+
+| 2026-11-20 | Full teacher outputs are complete and automatically filtered. Keep the current filter thresholds; human review and rejected-answer triage are required before finalizing SFT data. |
+| 2026-11-21 | At the user's request, corrected 102 review-queue answers, retained 197 and excluded 8 with reasons, then ran the existing merge command. Preserve raw teacher/frozen prompt files and prior accepted bytes. Assistant decisions are distinct from native-speaker approval; no training freeze yet. |
+| 2026-11-21 | Reviewed all 109 hard rejections at the user's request; corrected/recovered 107 and excluded 2 with reasons. Merged 103 train and 4 eval rows using the existing merger. Retain raw rejection records as provenance, document two matcher/language exceptions, and preserve earlier accepted answers. Both tokenizer diagnostics pass; native-speaker review remains pending. |
+| 2026-11-21 | At the user's request, removed redundant review snapshots, manifests, reports and one-off scripts. Keep the completed queue, change/exclusion/disposition ledgers, native-review sheet, one overview and compact tokenizer evidence. Existing filter/merge commands rebuild corrected accepted files in scratch. |
+| 2026-11-24 | Separate answer-generation and distillation branches. Keep the completed dataset and required audit inputs in data/sft; remove intermediate prompt, response and review folders. |
