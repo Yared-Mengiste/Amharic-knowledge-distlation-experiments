@@ -26,3 +26,8 @@ data/teacher/smoke*.jsonl
 
 # local archives
 *.zip
+
+# Regenerated intermediate teacher-stage data; completed inputs live in data/sft/.
+data/prompts/
+data/teacher/
+data/review/

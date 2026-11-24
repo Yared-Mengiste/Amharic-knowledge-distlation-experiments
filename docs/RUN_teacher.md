@@ -1,5 +1,16 @@
 # How to run the teacher generation (OpenRouter)
 
+The completed pilot is retained in `data/sft/`: 4,952 training conversations
+and 299 teacher evaluation references, plus all 300 evaluation prompts and the
+evidence required by the student audit. Intermediate `data/prompts/`,
+`data/teacher/` and `data/review/` folders have been removed. Native-speaker
+spot checks remain pending; preparing this dataset does not record their approval.
+
+The commands below describe regenerating a teacher run. First run
+`bash data_prep/run_all.sh` to recreate the intermediate prompt folder.
+See [the retained dataset](../data/sft/README.md) for completed-pilot files
+and scratch rebuild commands.
+
 This runs Gemma 4 26B on OpenRouter to answer the pilot prompts, then filters the answers into a training set.
 
 - **Time:** about 1–2 hours

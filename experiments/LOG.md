@@ -16,10 +16,18 @@ One entry per run, newest first. Each entry should let someone rerun the experim
 
 ---
 
+### 2026-11-24 — Separate completed answers from distillation implementation
+
+- **Result:** answer-generation work is committed independently from `main`; existing distillation commits are preserved on `students/distillation`.
+- **Dataset:** 4,952 training conversations and 299 references retained unchanged. All 300 eval prompts and audit inputs now live in `data/sft/`.
+- **Cleanup:** removed intermediate prompt, teacher-response and review folders. Retained original preparation inputs/scripts; regenerated folders are ignored.
+- **Validation:** replay the existing filter/merge commands from `data/sft/README.md` into scratch and compare accepted files byte for byte; verify unique IDs and held-out separation.
+- **Approval state:** native-speaker spot checks remain pending; no training or paid generation was run.
+
 ### 2026-11-22 — Small Amharic model research and tokenizer comparison
 
 - **Goal:** justify the student shortlist with public adaptation/evaluation evidence and measured tokenization costs before settling on Amharic Llama 1B.
-- **Deliverables:** [selection report](../docs/RESEARCH_student_selection.md), and [results/provenance](student_tokenizer_research_2026-11-22.json). Public downloaded cards/configs/tokenizers remain under ignored `outputs/model_research/public/`.
+- **Deliverables:** [selection report](../docs/RESEARCH_student_selection.md) and [results/provenance](student_tokenizer_research_2026-11-22.json). Public downloaded cards/configs/tokenizers remain under ignored `outputs/model_research/public/`.
 - **Discovery commands:**
   ```bash
   curl -fsS --max-time 4 'https://huggingface.co/api/models?search=amharic&limit=80&sort=downloads&direction=-1&full=true' -o /tmp/amharic-model-search.json
@@ -27,7 +35,7 @@ One entry per run, newest first. Each entry should let someone rerun the experim
   curl -fsS --max-time 4 'https://huggingface.co/api/models?search=walia&limit=30' -o /tmp/amharic-walia-search.json
   curl -fsS --max-time 4 'https://huggingface.co/api/models?search=gemma&filter=am&limit=40&sort=downloads&direction=-1' -o /tmp/amharic-gemma-search.json
   ```
-- **Measurement provenance:** public tokenizer revisions and SHA-256 hashes are retained in the results. Measurements used tokenizers 0.22.2 / Python 3.12.13. The one-off research script and its invocation instructions were removed at the users request on 2026-11-24.
+- **Measurement provenance:** public tokenizer revisions and SHA-256 hashes are retained in the results. Measurements used tokenizers 0.22.2 / Python 3.12.13. The one-off research script and its invocation instructions were removed at the user's request on 2026-11-24.
 - **Input:** unchanged `data/sft/sft_train.jsonl`, 4,952 conversations / 9,904 messages, SHA-256 `94f38a1348df4c5be554f0ccec58cea0093ee77223f2f84f4c31ba4edc72763e`. No held-out eval text used. Native-speaker approval remains pending; this is a diagnostic, not a dataset freeze or training gate.
 - **Settings:** deterministic content-only encoding with tokenizers 0.22.2 / Python 3.12.13; `add_special_tokens=False`, no truncation/padding/chat template or extra normalization. The tokenizer's native normalization remains active. Amharic-dominant subset: >=70% Ethiopic letters, 8,805 messages / 485,366 whitespace words. No sampling seed or provider inference.
 - **Results:** 26 public checkpoint records checked; 16 tokenizers successfully measured. Amharic Llama 1B: **1.81** tokens/word and **929,695** total content tokens; Gemma 4 E2B: **3.21 / 1,612,464**; Qwen 2.5 1.5B and Qwen 3 1.7B: **6.45 / 3,197,799**; Qwen 3.5 2B, 4B and tested Amharic 4B: **7.09 / 3,508,841**. Llama uses 42.3% fewer complete-corpus content tokens than Gemma and 70.9% fewer than Qwen 2.5/3. Vocabulary comparison found 15,122 new Llama entries with zero changes to original token IDs. All measured shortlist tokenizers round-trip every input exactly; the separate 51.8M GEC/research tokenizer changes 40 messages through its normalization.
@@ -40,12 +48,12 @@ One entry per run, newest first. Each entry should let someone rerun the experim
 ### 2026-11-21 — Teacher answer review, recovery and artifact cleanup
 
 - **Result:** reviewed all 307 queue rows (102 corrected, 197 retained, 8 excluded), then all 109 hard rejections (107 recovered, 2 excluded), at the user's request. Accepted totals: **4,952 train + 299 eval**. All 416 review decisions and 117 rejection/no-row dispositions are complete; 209 answers changed and 10 excluded overall.
-- **Retained evidence:** the completed [review queue](../data/sft/review_queue.csv) stores originals, replacements, decisions and reasons. [Changed](../data/review/changed.csv) and [removed](../data/review/removed.csv) ledgers retain IDs/reasons/answer hashes; [rejection dispositions](../data/review/rejected_dispositions.csv) and the [native-review sheet](../data/review/spot_check.csv) support student audit/freeze. [Review overview](../data/review/README.md) lists the remaining files, exceptions and checked references. Raw teacher/rejection records and frozen prompts stay intact.
+- **Retained evidence:** completed review decisions, original rejection records, dispositions, native-speaker sheet and teacher provenance are now retained in `data/sft/`. Redundant change/exclusion ledgers and the review folder were removed on 2026-11-24.
 - **Cleanup:** removed redundant manifests, audit/validation snapshots, queue/disposition backups, duplicate action ledgers, the large per-row tokenizer report, superseded reports and two one-off review scripts. Current corrected answers are reproducible with the existing filter and merger; the original teacher output file remains append-only.
 - **Rebuild commands, run during cleanup:**
   ```bash
-  python3 teacher/filter_teacher.py --teacher data/teacher/teacher_outputs.jsonl --math data/prompts/math_answers.csv --review_ids data/prompts/teacher_answer_review_ids.txt --outdir /tmp/amharic-reviewed-rebuild
-  python3 teacher/merge_review.py --review data/sft/review_queue.csv --teacher data/teacher/teacher_outputs.jsonl --outdir /tmp/amharic-reviewed-rebuild
+  python3 teacher/filter_teacher.py --teacher data/sft/teacher_outputs.jsonl --math data/sft/math_answers.csv --review_ids data/sft/teacher_answer_review_ids.txt --outdir /tmp/amharic-reviewed-rebuild
+  python3 teacher/merge_review.py --review data/sft/review_queue.csv --teacher data/sft/teacher_outputs.jsonl --outdir /tmp/amharic-reviewed-rebuild
   cmp data/sft/sft_train.jsonl /tmp/amharic-reviewed-rebuild/sft_train.jsonl
   cmp data/sft/eval_teacher.jsonl /tmp/amharic-reviewed-rebuild/eval_teacher.jsonl
   python3 -m students.data audit > /tmp/amharic-cleanup-student-audit.json
@@ -82,9 +90,9 @@ One entry per run, newest first. Each entry should let someone rerun the experim
 - **Goal:** check the completed teacher outputs and separate accepted answers, human-review rows and rejected answers.
 - **Command(s):**
   ```bash
-  python3 teacher/filter_teacher.py --teacher data/teacher/teacher_outputs.jsonl --math data/prompts/math_answers.csv --review_ids data/prompts/teacher_answer_review_ids.txt --outdir data/sft
+  python3 teacher/filter_teacher.py --teacher data/sft/teacher_outputs.jsonl --math data/sft/math_answers.csv --review_ids data/sft/teacher_answer_review_ids.txt --outdir data/sft
   ```
-- **Inputs:** [Full teacher outputs](../data/teacher/teacher_outputs.jsonl), pilot math answers and safety/sensitive review IDs.
+- **Inputs:** [Full teacher outputs](../data/sft/teacher_outputs.jsonl), pilot math answers and safety/sensitive review IDs.
 - **Settings:** existing default filters; minimum Ge'ez-letter share 0.70, or 0.45 for the categories with relaxed language checks.
 - **Cost and time:** local filtering only; no API calls.
 - **Results:** 5,261 unique outputs: 4,845 accepted, 307 queued for human review, 109 rejected. Accepted outputs are 4,577 training rows and 268 eval references. Review contains 279 train and 28 eval rows; rejected contains 105 train and 4 eval rows. All IDs are accounted for, the three groups are disjoint, and accepted train/eval IDs remain separate.
@@ -100,7 +108,7 @@ One entry per run, newest first. Each entry should let someone rerun the experim
   python3 teacher/gen_teacher.py \
     --train data/prompts/pilot_train.jsonl \
     --eval data/prompts/pilot_eval.jsonl \
-    --out data/teacher/teacher_outputs.jsonl \
+    --out data/sft/teacher_outputs.jsonl \
     --openrouter --workers 8 \
     --timeout 180 --retries 2 \
     --provider DeepInfra --quantizations bf16,fp8 \
@@ -110,7 +118,7 @@ One entry per run, newest first. Each entry should let someone rerun the experim
 - **Inputs:** pilot prompt set: `data/prompts/pilot_train.jsonl` and `data/prompts/pilot_eval.jsonl`; teacher `google/gemma-4-26b-a4b-it`, provider DeepInfra.
 - **Settings:** temperature 0.6, top_p 0.95, default teacher system prompt, reasoning disabled, existing per-category token caps. Every output records seed 42; OpenRouter requests do not send a sampling seed. The generator uses its fixed ordering seed of 13.
 - **Cost and time:** $0.629123 recorded in output usage ($0.629 reported by the CLI), 1.17 h reported by the user. Saved timestamps range from 16:25:21 to 17:35:28 on 2026-11-19.
-- **Results:** [Teacher outputs](../data/teacher/teacher_outputs.jsonl): 5,261 valid unique rows, all expected IDs present, no missing IDs or invalid JSON lines. All outputs record DeepInfra and the selected teacher model. Usage: 1,220,124 output tokens and 3,061,161 prompt tokens. Finish reasons: 5,242 `stop`, 19 `length`.
+- **Results:** [Teacher outputs](../data/sft/teacher_outputs.jsonl): 5,261 valid unique rows, all expected IDs present, no missing IDs or invalid JSON lines. All outputs record DeepInfra and the selected teacher model. Usage: 1,220,124 output tokens and 3,061,161 prompt tokens. Finish reasons: 5,242 `stop`, 19 `length`.
 - **Decision and next step:** generation coverage is complete; filter and review outputs before training.
 
 ### 2026-11-19 — System-prompt fix + train smoke v2 (2 × 40 prompts, DeepInfra)

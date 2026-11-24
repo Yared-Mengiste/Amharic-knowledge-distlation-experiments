@@ -1,5 +1,16 @@
 # Teacher generation for the Amharic distillation pilot (local run)
 
+The completed pilot is retained in `data/sft/`: 4,952 training conversations
+and 299 teacher evaluation references, plus all 300 evaluation prompts and the
+evidence required by the student audit. Intermediate `data/prompts/`,
+`data/teacher/` and `data/review/` folders have been removed. Native-speaker
+spot checks remain pending; preparing this dataset does not record their approval.
+
+The commands below describe regenerating a teacher run. First run
+`bash data_prep/run_all.sh` to recreate the intermediate prompt folder.
+See [the retained dataset](../data/sft/README.md) for completed-pilot files
+and scratch rebuild commands.
+
 This is the older local-run guide (Ollama / llama.cpp). The main run uses OpenRouter; see `docs/RUN_teacher.md`.
 
 The three scripts need only Python 3.9+ (standard library) and a running Ollama or llama.cpp server.

@@ -4,11 +4,14 @@ The goal is a small Amharic chatbot model (1B–4B), built by distilling answers
 
 - **Project guide** (goals, status, decisions, rules): [`CLAUDE.md`](CLAUDE.md)
 - **How to run the teacher generation:** [`docs/RUN_teacher.md`](docs/RUN_teacher.md)
-- **Prompt sets:** built and validated by `data_prep/` (`bash data_prep/run_all.sh` rebuilds `data/prompts/` from `data/raw/`); see `data/prompts/REPORT.md`.
+- **Completed pilot data:** [data/sft/README.md](data/sft/README.md); 4,952 training conversations and 299 held-out teacher references. Required audit inputs are retained alongside them.
 - **Experiment log:** [`experiments/LOG.md`](experiments/LOG.md)
 - **Student bakeoff:** [protocol](docs/PLAN_student_bakeoff.md), [run guide](docs/RUN_student_bakeoff.md), and [private Kaggle notebook](students/kaggle_bakeoff.ipynb). Full training requires completed teacher review and successful GPU smoke/resume tests.
 
 ## Quick start
+
+For a new teacher run, first rebuild the removed intermediate prompt folder with
+`bash data_prep/run_all.sh`. The completed pilot is already available in `data/sft/`.
 
 ```bash
 cp .env.example .env            # add your OpenRouter key

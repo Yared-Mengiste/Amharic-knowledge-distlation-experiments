@@ -15,7 +15,7 @@ The method is response-level knowledge distillation:
 
 The project lead is Bereket Legesse, an ML engineer at iCog Labs. A team member prepares the prompts, and native Amharic speakers do the human review.
 
-## 2. Status (as of 2026-11-22)
+## 2. Status (as of 2026-11-24)
 
 | Stage | State |
 |---|---|
@@ -23,7 +23,7 @@ The project lead is Bereket Legesse, an ML engineer at iCog Labs. A team member 
 | 1. Pilot prompt set: 5,000 train + 300 eval | Done. Built by the team member, then fixed by Claude Code following `docs/SPEC_pilot_fix.md`. All validation checks pass. Reproducible with `bash data_prep/run_all.sh`. |
 | 2. Native-speaker review of 150 prompts (`data/prompts/review_sample.csv`) | Pending. |
 | 3. Teacher generation for 5,261 prompts | Done on 2026-11-19. All prompt IDs have outputs from `google/gemma-4-26b-a4b-it` on DeepInfra; 1,220,124 output tokens, $0.629123, 1.17 h. See `experiments/LOG.md`. |
-| 4. Filter, review and merge the teacher answers | Assistant review and user-authorized merges done on 2026-11-21: original queue had 102 corrected, 197 retained, 8 excluded; hard-rejection review recovered 107 and excluded 2. Accepted: 4,952 train + 299 eval; 10 total exclusions. All 416 review decisions and 117 rejection/no-row dispositions documented. Minimal retained review artifacts and rebuild commands are listed in `data/review/README.md`. Native-speaker approval/spot check remains pending. |
+| 4. Filter, review and merge the teacher answers | Assistant review and user-authorized merges done on 2026-11-21: original queue had 102 corrected, 197 retained, 8 excluded; hard-rejection review recovered 107 and excluded 2. Accepted: 4,952 train + 299 eval; 10 total exclusions. All 416 review decisions and 117 rejection/no-row dispositions documented. Minimal retained review artifacts and rebuild commands are listed in `data/sft/README.md`. Native-speaker approval/spot check remains pending. |
 | 5. Student bake-off on reviewed pilot answers | Workflow implemented: frozen-data gates, QLoRA smoke/resume and training, four-way evaluation, blind review and Q4_K_M deployment. Human review and GPU execution pending; see docs/RUN_student_bakeoff.md. |
 | Student selection research | Public cards/metadata checked for 26 checkpoints; 16 tokenizers measured on the current 4,952 training conversations. Amharic Llama 1B averages 1.81 tokens per word versus Gemma 4 E2B 3.21 and tested Qwen 2.5/3 6.45, Qwen 3.5 7.09. Keep Llama as the cost-sensitive candidate and Gemma as the quality comparator; answer-quality and deployment results remain pending. See docs/RESEARCH_student_selection.md. |
 | 6. Scale-up to 30k–100k prompts | Not started (section 9). |
@@ -70,21 +70,23 @@ The project lead is Bereket Legesse, an ML engineer at iCog Labs. A team member 
 │   ├── gen_teacher.py        # teacher generation (Ollama, llama.cpp/vLLM, OpenRouter); resumable
 │   ├── filter_teacher.py     # automatic checks → sft / review / rejected
 │   └── merge_review.py       # merges human-approved rows back in
-├── students/                 # student fine-tuning code and configs (to be added)
-├── eval/                     # evaluation scripts and the judge prompt (to be added)
+├── students/                 # student fine-tuning code, configs and private Kaggle workflow
+├── eval/                     # evaluation scripts and blind human-review tooling
 ├── experiments/
 │   └── LOG.md                # one entry per run: what, config, result, decision
 └── data/                     # see data/README.md for what is committed
     ├── raw/                  # pilot inputs from the team member (read-only)
     ├── work/                 # intermediate files written by data_prep/
-    ├── prompts/              # pilot_train.jsonl, pilot_eval.jsonl, math_answers.csv, teacher_answer_review_ids.txt,
-    │                         # removed.csv, changed.csv, review_sample.csv, REPORT.md
-    ├── teacher/              # teacher_outputs.jsonl, smoke runs, error logs
-    ├── sft/                  # filtered training data, review queue, filter report
-    └── review/               # filled native-speaker review sheets
+    └── sft/                  # completed training/eval data and required audit inputs
 ```
 
-Run every command from the repo root.
+The completed pilot is retained in `data/sft/`: 4,952 training conversations
+and 299 teacher evaluation references, plus all 300 evaluation prompts and the
+evidence required by the student audit. Intermediate `data/prompts/`,
+`data/teacher/` and `data/review/` folders have been removed. Native-speaker
+spot checks remain pending; preparing this dataset does not record their approval.
+
+Run every command from the repo root. Rebuild `data/prompts/` before a new teacher run.
 
 ## 5. Data formats
 
@@ -106,7 +108,7 @@ Pilot composition:
 - Train is 4,961 rows: 82.6% am, 9.1% en, 5.3% mixed, 3.0% latin_am. About 51% of the prompts are newly written.
 - Eval is 300 rows.
 
-Teacher output row (`data/teacher/teacher_outputs.jsonl`): the prompt row's fields plus `response`, `finish_reason`, `output_tokens`, `prompt_tokens`, `max_tokens`, `seconds`, `teacher_model`, `gen_params`, and on OpenRouter also `cost_usd` and `provider`. The file is append-only. If an ID appears twice, the last line wins.
+Teacher output row (`data/sft/teacher_outputs.jsonl`): the prompt row's fields plus `response`, `finish_reason`, `output_tokens`, `prompt_tokens`, `max_tokens`, `seconds`, `teacher_model`, `gen_params`, and on OpenRouter also `cost_usd` and `provider`. The file is append-only. If an ID appears twice, the last line wins.
 
 SFT row (`data/sft/sft_train.jsonl`):
 
@@ -193,7 +195,7 @@ checks on the current corrected data pass with no overlength or masking failures
 (maximum 1,065 Llama tokens, 1,965 Gemma tokens; length limit 2,048). Queue decisions,
 hard-rejection dispositions and merges are complete. Full training remains gated
 by native-speaker approval/spot checks. Rerun tokenizer preflight after approval
-and freeze. The 100-answer spot-check sheet is prepared in `data/review/spot_check.csv`;
+and freeze. The 100-answer spot-check sheet is prepared in `data/sft/spot_check.csv`;
 the completed review queue exposes all newly corrected answers for review.
 No adapters or GPU/evaluation/deployment results have been produced yet.
 
@@ -274,3 +276,4 @@ Add a line whenever a decision is made or changed.
 | 2026-11-21 | Reviewed all 109 hard rejections at the user's request; corrected/recovered 107 and excluded 2 with reasons. Merged 103 train and 4 eval rows using the existing merger. Retain raw rejection records as provenance, document two matcher/language exceptions, and preserve earlier accepted answers. Both tokenizer diagnostics pass; native-speaker review remains pending. |
 | 2026-11-21 | At the user's request, removed redundant review snapshots, manifests, reports and one-off scripts. Keep the completed queue, change/exclusion/disposition ledgers, native-review sheet, one overview and compact tokenizer evidence. Existing filter/merge commands rebuild corrected accepted files in scratch. |
 | 2026-11-22 | Researched small Amharic students and measured actual tokenizer costs. Keep the existing Llama/Gemma bakeoff: Amharic Llama 1B has a substantial content-token advantage, while final quality is unproven. Identified Amharic Gemma adapters, vocabulary-trimmed Gemma candidates and Tiny Aya as optional leads, with their evaluation, artifact and licensing limits documented. No training-protocol change or model winner declared. |
+| 2026-11-24 | Separate answer-generation and distillation branches. Keep the completed dataset and required audit inputs in data/sft; remove intermediate prompt, response and review folders. |
