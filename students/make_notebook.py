@@ -1,15 +1,20 @@
 """Regenerate the private Kaggle orchestration notebook from reviewable source."""
+import argparse
 import json
 from pathlib import Path
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--include-gemma", action="store_true", help="Generate with the optional second student enabled")
+    args = parser.parse_args()
     cells = []
 
     def markdown(source):
         cells.append({"cell_type": "markdown", "metadata": {}, "source": source.strip().splitlines(keepends=True)})
 
     def code(source):
+        source = source.replace("INCLUDE_GEMMA = False", f"INCLUDE_GEMMA = {args.include_gemma}")
         cells.append({"cell_type": "code", "execution_count": None, "metadata": {}, "outputs": [], "source": source.strip().splitlines(keepends=True)})
 
     markdown("""
@@ -18,8 +23,9 @@ def main():
 Attach the **private** allowlisted input bundle. Use Python 3.12 and exactly one
 NVIDIA GPU with nominal >=16 GB VRAM. Dataset review, corrected-answer merge,
 rejected-answer dispositions and 100 native-speaker spot checks must be complete.
-This notebook verifies frozen hashes, runs BOTH tokenizer preflights and smoke/
-checkpoint-resume tests, promotes exact pins, then trains Llama followed by Gemma.
+This notebook defaults to Llama only. Review its results before enabling
+`INCLUDE_GEMMA` for a separate second-stage run directory. Each selected model
+needs tokenizer preflight and GPU smoke/checkpoint-resume tests before training.
 Memory failures stop without changing any training settings or removing rows.
 
 Keep this notebook and its outputs private. Before ending the session, save a
@@ -52,7 +58,10 @@ USE_HF_SECRET = False  # Enable only if an HF_TOKEN Kaggle Secret is configured.
 if USE_HF_SECRET:
     from kaggle_secrets import UserSecretsClient
     os.environ['HF_TOKEN'] = UserSecretsClient().get_secret('HF_TOKEN')
-FULL_RESUME = {'llama': None, 'gemma': None}  # Restore private output dirs first.
+INCLUDE_GEMMA = False  # Enable only after reviewing the Llama results.
+MODELS = ['llama'] + (['gemma'] if INCLUDE_GEMMA else [])
+CANDIDATE = REPO / 'students' / ('model_lock.candidate.json' if INCLUDE_GEMMA else 'model_lock.llama.candidate.json')
+FULL_RESUME = {key: None for key in MODELS}  # Restore private output dirs first.
 sys.path.insert(0, str(REPO))
 
 def run(module, *arguments):
@@ -68,14 +77,17 @@ def record(kind, artifact, command):
 LOCK = WORK / 'model_lock.json'
 requirements = WORK / 'requirements.lock.txt' if LOCK.exists() else REPO / 'students/requirements.candidate.txt'
 subprocess.run([sys.executable, '-m', 'pip', 'install', '-r', str(requirements)], check=True)
-from students.config import DEFAULT_LOCK, SETTINGS, read_lock, training_steps
+from students.config import SETTINGS, read_lock, training_steps
 from students.data import load_frozen, sha256, write_json
 from students.modeling import gpu_precision, package_versions
 manifest, split = load_frozen(DATASET)
 precision, gpu = gpu_precision()
 print(gpu)
+if LOCK.exists():
+    for key in MODELS:
+        read_lock(LOCK, verified=True, model=key)
 PREFLIGHT = WORK / 'preflight.json'
-command = run('students.preflight', '--dataset', DATASET, '--out', PREFLIGHT)
+command = run('students.preflight', '--dataset', DATASET, '--lock', CANDIDATE, '--out', PREFLIGHT)
 record('preflight', PREFLIGHT, command)
 """)
     markdown("""
@@ -84,11 +96,11 @@ record('preflight', PREFLIGHT, command)
 Each smoke keeps rank, sequence cap, optimizer and accumulation fixed. The longest
 training conversation exercises forward/backward memory. Step 2 is persisted;
 the next process restores optimizer/scheduler/RNG and completes step 4. Full
-training remains disabled until BOTH model smoke/resume/loading checks pass.
+training requires each selected model to pass smoke/resume/loading checks.
 """)
     code("""
-candidate = read_lock(DEFAULT_LOCK)
-for key in ('llama', 'gemma'):
+candidate = read_lock(CANDIDATE)
+for key in MODELS:
     directory = WORK / ('smoke-' + key)
     metrics_path = directory / 'metrics.json'
     if metrics_path.exists():
@@ -101,7 +113,7 @@ for key in ('llama', 'gemma'):
             assert identity['precision'] == precision
             assert existing['adapter_load_verified'] and existing['resumed_from_step'] > 0
             continue
-    common = ('--dataset', DATASET, '--model', key, '--preflight', PREFLIGHT,
+    common = ('--dataset', DATASET, '--model', key, '--lock', CANDIDATE, '--preflight', PREFLIGHT,
               '--out', directory, '--smoke', '--precision', precision)
     checkpoint = directory / 'checkpoint-2'
     if not checkpoint.exists():
@@ -113,23 +125,27 @@ for key in ('llama', 'gemma'):
     print(key, report['peak_vram_reserved_bytes'], report['mean_optimizer_step_seconds'],
           report['estimated_full_training_seconds'])
 if not LOCK.exists():
-    run('students.lock', '--llama-smoke', WORK / 'smoke-llama/metrics.json',
-        '--gemma-smoke', WORK / 'smoke-gemma/metrics.json', '--out', LOCK)
+    arguments = ['--candidate', CANDIDATE, '--llama-smoke', WORK / 'smoke-llama/metrics.json', '--out', LOCK]
+    if 'gemma' in MODELS:
+        arguments += ['--gemma-smoke', WORK / 'smoke-gemma/metrics.json']
+    run('students.lock', *arguments)
 verified = read_lock(LOCK, verified=True)
+for key in MODELS:
+    read_lock(LOCK, verified=True, model=key)
 assert verified['packages'] == package_versions()
 assert verified['manifest_sha256'] == sha256(DATASET / 'manifest.json')
 """)
     markdown("""
-## Full runs: Llama, then Gemma
+## Full runs for selected models
 
-Run only after reviewing both memory/runtime smoke reports. A full run uses the
+Run only after reviewing the selected memory/runtime smoke reports. A full run uses the
 unchanged frozen split and two epochs. Specify `FULL_RESUME` explicitly after
 restoring a complete checkpoint to its working run path. An incomplete output
 directory without an explicit resume raises an error instead of starting over.
 """)
     code("""
 expected_steps = training_steps(len(split['train_ids']))
-for key in ('llama', 'gemma'):
+for key in MODELS:
     directory = WORK / ('train-' + key)
     metrics_path = directory / 'metrics.json'
     if metrics_path.exists():
@@ -151,7 +167,7 @@ for key in ('llama', 'gemma'):
 """)
     code("""
 EVALUATION = WORK / 'eval'
-for key in ('llama', 'gemma'):
+for key in MODELS:
     for adapted in (False, True):
         configuration = key + ('_adapted' if adapted else '_original')
         output = EVALUATION / (configuration + '.jsonl')
