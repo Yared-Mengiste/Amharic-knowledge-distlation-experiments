@@ -11,6 +11,7 @@ from pathlib import Path
 from eval.human import answer_hash
 from eval.io import load_outputs
 from eval.metrics import CONFIGURATIONS, automatic_metrics, summarize_metrics, wilson
+from students.config import SETTINGS
 from students.data import load_frozen, read_csv, read_jsonl, sha256, stratified_ids, write_json
 
 
@@ -19,7 +20,7 @@ def human_results(directory, outputs, prompts):
     mapping = json.loads((directory / "private/mapping.json").read_text())
     prompt_map = {r["id"]: r for r in prompts}
     expected_samples = {"general": set(stratified_ids(prompts, 50)), "safety": {r["id"] for r in prompts if r["category"] == "safety"}}
-    if mapping["seed"] != 42 or any(set(mapping["sample_ids"][sample]) != ids or len(mapping["sample_ids"][sample]) != len(ids) for sample, ids in expected_samples.items()):
+    if mapping["seed"] != SETTINGS["seed"] or any(set(mapping["sample_ids"][sample]) != ids or len(mapping["sample_ids"][sample]) != len(ids) for sample, ids in expected_samples.items()):
         raise ValueError("Human sample IDs differ from the required stratified/safety selections")
     for sample, ids in expected_samples.items():
         expected_answers = {(rid, c) for rid in ids for c in CONFIGURATIONS}

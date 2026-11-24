@@ -28,7 +28,6 @@ artifact hash index. Restoring only an adapter cannot resume completed training.
 """)
     code("""
 import json
-import math
 import os
 from pathlib import Path
 import shlex
@@ -69,7 +68,7 @@ def record(kind, artifact, command):
 LOCK = WORK / 'model_lock.json'
 requirements = WORK / 'requirements.lock.txt' if LOCK.exists() else REPO / 'students/requirements.candidate.txt'
 subprocess.run([sys.executable, '-m', 'pip', 'install', '-r', str(requirements)], check=True)
-from students.config import DEFAULT_LOCK, SETTINGS, read_lock
+from students.config import DEFAULT_LOCK, SETTINGS, read_lock, training_steps
 from students.data import load_frozen, sha256, write_json
 from students.modeling import gpu_precision, package_versions
 manifest, split = load_frozen(DATASET)
@@ -129,7 +128,7 @@ restoring a complete checkpoint to its working run path. An incomplete output
 directory without an explicit resume raises an error instead of starting over.
 """)
     code("""
-expected_steps = math.ceil(len(split['train_ids']) / 16) * 2
+expected_steps = training_steps(len(split['train_ids']))
 for key in ('llama', 'gemma'):
     directory = WORK / ('train-' + key)
     metrics_path = directory / 'metrics.json'

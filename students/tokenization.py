@@ -8,7 +8,7 @@ ENDINGS = {"llama": "<|eot_id|>", "gemma": "<turn|>"}
 
 def template_kwargs():
     # Llama's template otherwise injects today's date, changing preflight/resume/eval.
-    return {"enable_thinking": False, "date_string": SETTINGS["date_string"]}
+    return {"enable_thinking": SETTINGS["enable_thinking"], "date_string": SETTINGS["date_string"]}
 
 
 def template_hash(tokenizer):

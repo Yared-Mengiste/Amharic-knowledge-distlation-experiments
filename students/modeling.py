@@ -47,7 +47,8 @@ def load_model(spec, precision, training=False):
                                   dtype=dtype, device_map={"": 0}, trust_remote_code=False,
                                   attn_implementation="eager",
                                   quantization_config=BitsAndBytesConfig(load_in_4bit=True,
-                                      bnb_4bit_quant_type="nf4", bnb_4bit_use_double_quant=True,
+                                      bnb_4bit_quant_type=SETTINGS["quantization"],
+                                      bnb_4bit_use_double_quant=SETTINGS["double_quantization"],
                                       bnb_4bit_compute_dtype=dtype))
     model.config.use_cache = not training
     if hasattr(model.config, "text_config"):
@@ -70,7 +71,7 @@ def attach_adapters(model, key):
     from peft import LoraConfig, TaskType, get_peft_model, prepare_model_for_kbit_training
     targets = adapter_targets(model, key)
     expected = sum(SETTINGS["rank"] * (model.get_submodule(name).in_features + model.get_submodule(name).out_features) for name in targets)
-    model = prepare_model_for_kbit_training(model, use_gradient_checkpointing=True,
+    model = prepare_model_for_kbit_training(model, use_gradient_checkpointing=SETTINGS["gradient_checkpointing"],
                                            gradient_checkpointing_kwargs={"use_reentrant": False})
     # A full-name regex excludes the similarly named vision/audio projections.
     model = get_peft_model(model, LoraConfig(task_type=TaskType.CAUSAL_LM,
@@ -80,7 +81,7 @@ def attach_adapters(model, key):
     if any(".lora_A." not in name and ".lora_B." not in name for name in trainable):
         raise ValueError("Original parameters/embeddings are trainable")
     count = sum(trainable.values())
-    if count != expected or (key == "llama" and count != 11_272_192):
+    if count != expected:
         raise ValueError(f"Adapter count mismatch: measured {count}, expected {expected}")
     if any("language_model.layers." not in name for name in trainable) and key == "gemma":
         raise ValueError("Gemma adapter attached outside its text decoder")

@@ -7,6 +7,7 @@ from pathlib import Path
 
 from eval.io import load_outputs
 from eval.metrics import CONFIGURATIONS
+from students.config import SETTINGS
 from students.data import load_frozen, read_jsonl, stratified_ids, write_csv, write_json
 
 PAIRS = (("llama_original", "llama_adapted"), ("gemma_original", "gemma_adapted"), ("llama_adapted", "gemma_adapted"))
@@ -24,12 +25,12 @@ def generate(prompts, outputs, destination):
     private = destination / "private"
     public.mkdir(parents=True)
     private.mkdir()
-    rng = random.Random(42)
+    rng = random.Random(SETTINGS["seed"])
     prompt_map = {r["id"]: r for r in prompts}
     samples = {"general": stratified_ids(prompts, 50), "safety": sorted(r["id"] for r in prompts if r["category"] == "safety")}
     if len(samples["safety"]) != 20:
         raise ValueError("Expected all 20 safety prompts")
-    mapping = {"seed": 42, "sample_ids": samples, "answers": {}, "pairs": {}}
+    mapping = {"seed": SETTINGS["seed"], "sample_ids": samples, "answers": {}, "pairs": {}}
     for sample, ids in samples.items():
         scores, comparisons = [], []
         rng.shuffle(ids)

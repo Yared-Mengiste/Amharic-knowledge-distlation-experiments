@@ -56,7 +56,7 @@ def validate_conversation(row, reference=True):
         raise ValueError(f"{row['id']}: empty message")
 
 
-def stratified_ids(rows, count, seed=42):
+def stratified_ids(rows, count, seed=None):
     """Largest-remainder allocation, at least one per category, stable under row order."""
     groups = defaultdict(list)
     for row in rows:
@@ -69,7 +69,7 @@ def stratified_ids(rows, count, seed=42):
         eligible = [c for c in sorted(groups) if (allocations[c] < len(groups[c]) if direction == 1 else allocations[c] > 1)]
         chosen = max(eligible, key=lambda c: direction * (count * len(groups[c]) / len(rows) - allocations[c]))
         allocations[chosen] += direction
-    rng = random.Random(seed)
+    rng = random.Random(SETTINGS["seed"] if seed is None else seed)
     selected = []
     for category in sorted(groups):
         ids = sorted(groups[category])
@@ -83,7 +83,7 @@ def split_ids(rows):
     train = sorted({r["id"] for r in rows} - set(validation))
     if {r["category"] for r in rows if r["id"] in train} != {r["category"] for r in rows}:
         raise ValueError("Every category needs examples in training AND validation")
-    return {"seed": 42, "train_ids": train, "validation_ids": validation}
+    return {"seed": SETTINGS["seed"], "train_ids": train, "validation_ids": validation}
 
 
 def audit(args):

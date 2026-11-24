@@ -1,6 +1,7 @@
 """CPU checks for the loss and real architecture/PEFT contracts; no student training."""
 import importlib.util
 import unittest
+from unittest.mock import patch
 
 HAS_TORCH = importlib.util.find_spec("torch") is not None
 HAS_PEFT = importlib.util.find_spec("peft") is not None
@@ -29,13 +30,68 @@ class TorchContractTests(unittest.TestCase):
         import torch.nn.functional as F
         from students.train import assistant_ce
         torch.manual_seed(42)
-        logits = torch.randn(2, 150, 19, requires_grad=True)
-        labels = torch.randint(0, 19, (2, 150))
-        labels[:, :40] = -100
-        total, count = assistant_ce(logits, labels)
-        expected = F.cross_entropy(logits[:, :-1].reshape(-1, 19), labels[:, 1:].reshape(-1), ignore_index=-100, reduction="sum")
-        self.assertTrue(torch.allclose(total, expected))
-        self.assertEqual(count.item(), 220)
+        for dtype in (torch.float32, torch.float16, torch.bfloat16):
+            with self.subTest(dtype=dtype):
+                logits = torch.randn(2, 150, 19, dtype=dtype, requires_grad=True)
+                reference = logits.detach().clone().requires_grad_(True)
+                labels = torch.randint(0, 19, (2, 150))
+                labels[:, :40] = -100
+                labels[1, 125:] = -100  # Unequal answer lengths and a partial final chunk.
+                total, count = assistant_ce(logits, labels)
+                expected = F.cross_entropy(reference[:, :-1].reshape(-1, 19).float(), labels[:, 1:].reshape(-1), ignore_index=-100, reduction="sum")
+                self.assertTrue(torch.allclose(total, expected))
+                self.assertEqual(count.item(), 195)
+                total.backward()
+                expected.backward()
+                self.assertTrue(torch.equal(logits.grad, reference.grad))
+                with torch.no_grad():
+                    evaluated, eval_count = assistant_ce(logits, labels)
+                self.assertTrue(torch.allclose(evaluated, expected))
+                self.assertEqual(eval_count.item(), count.item())
+
+    def test_checkpointed_loss_does_not_retain_fp32_vocabulary_buffers(self):
+        import torch
+        from students.train import assistant_ce
+        logits = torch.randn(1, 257, 1024, dtype=torch.float16, requires_grad=True)
+        labels = torch.full((1, 257), -100, dtype=torch.long)
+        labels[:, 70:] = 7
+        saved = []
+
+        def pack(tensor):
+            saved.append(tensor)
+            return tensor
+
+        with torch.autograd.graph.saved_tensors_hooks(pack, lambda tensor: tensor):
+            loss, _ = assistant_ce(logits, labels)
+        self.assertFalse(any(t.dtype == torch.float32 and t.ndim >= 2 and t.shape[-1] == 1024 for t in saved))
+        loss.backward()
+        self.assertTrue(torch.isfinite(logits.grad).all())
+
+    def test_masked_logits_are_excluded_even_when_nonfinite(self):
+        import torch
+        from students.train import assistant_ce
+        logits = torch.randn(1, 150, 19)
+        logits[:, :99] = float("nan")
+        logits.requires_grad_(True)
+        labels = torch.full((1, 150), -100, dtype=torch.long)
+        labels[:, 100:] = 7
+        loss, count = assistant_ce(logits, labels)
+        self.assertEqual(count.item(), 50)
+        self.assertTrue(torch.isfinite(loss))
+        loss.backward()
+        self.assertTrue(torch.isfinite(logits.grad).all())
+        self.assertEqual(logits.grad[:, :99].abs().sum().item(), 0)
+
+    def test_loss_requires_supervision_and_positive_chunk_size(self):
+        import torch
+        from students.config import SETTINGS
+        from students.train import assistant_ce
+        logits = torch.randn(1, 3, 19, requires_grad=True)
+        with self.assertRaisesRegex(ValueError, "No assistant tokens"):
+            assistant_ce(logits, torch.full((1, 3), -100, dtype=torch.long))
+        with patch.dict(SETTINGS, loss_chunk_size=0):
+            with self.assertRaisesRegex(ValueError, "positive integer"):
+                assistant_ce(logits, torch.tensor([[-100, 7, 7]]))
 
     @unittest.skipUnless(HAS_PEFT, "PEFT needed for architecture contracts")
     def test_real_llama_count_and_frozen_original_parameters(self):

@@ -6,10 +6,10 @@ import time
 from collections import defaultdict
 from pathlib import Path
 
-from students.config import SETTINGS, read_lock
+from students.config import SETTINGS, quantization_label, read_lock
 from students.data import load_frozen, read_jsonl, sha256, write_json
 from students.modeling import configure_generation, gpu_precision, load_model, load_tokenizer, package_versions
-from students.tokenization import encode_conversation, render_prompt, template_hash
+from students.tokenization import encode_conversation, render_prompt, template_hash, template_kwargs
 from students.train import assistant_ce
 
 
@@ -21,7 +21,7 @@ def reference_metrics(model, tokenizer, key, rows, precision):
     with torch.no_grad(), torch.autocast("cuda", dtype=dtype):
         for row in rows:
             feature = encode_conversation(tokenizer, row, key)
-            if len(feature["input_ids"]) > 2048:
+            if len(feature["input_ids"]) > SETTINGS["max_length"]:
                 raise ValueError(f"Overlength eval reference: {row['id']}; no truncation allowed")
             batch = {k: torch.tensor([v], device="cuda") for k, v in feature.items()}
             outputs = model(input_ids=batch["input_ids"], attention_mask=batch["attention_mask"], use_cache=False)
@@ -74,8 +74,9 @@ def main():
     meta_path = output.with_suffix(".meta.json")
     identity = {"configuration": configuration, "model_id": spec["model_id"], "model_revision": spec["revision"],
                 "tokenizer_revision": spec["tokenizer_revision"], "adapter_identifier": adapter_id,
-                "template_sha256": template_hash(tokenizer), "template_settings": {"enable_thinking": False, "date_string": SETTINGS["date_string"]},
-                "precision": precision, "quantization": "NF4-double", "max_new_tokens": 1000, "do_sample": False,
+                "template_sha256": template_hash(tokenizer), "template_settings": template_kwargs(),
+                "precision": precision, "quantization": quantization_label(),
+                "max_new_tokens": SETTINGS["max_new_tokens"], "do_sample": False,
                 "manifest_sha256": sha256(Path(args.dataset) / "manifest.json"), "packages": versions}
     previous = []
     if output.exists() or meta_path.exists():
@@ -91,7 +92,7 @@ def main():
     import torch
     from peft import PeftModel
     from transformers import set_seed
-    set_seed(42)
+    set_seed(SETTINGS["seed"])
     model = load_model(spec, precision)
     if args.adapter:
         model = PeftModel.from_pretrained(model, args.adapter, is_trainable=False)
@@ -105,18 +106,18 @@ def main():
                 continue
             prompt = render_prompt(tokenizer, row["messages"])
             inputs = tokenizer(prompt, add_special_tokens=False, return_tensors="pt")
-            if inputs["input_ids"].shape[1] > 2048:
+            if inputs["input_ids"].shape[1] > SETTINGS["max_length"]:
                 raise ValueError(f"Overlength eval prompt: {row['id']}")
             inputs = {k: v.to("cuda") for k, v in inputs.items()}
             torch.cuda.synchronize()
             started = time.perf_counter()
-            generated = model.generate(**inputs, do_sample=False, max_new_tokens=1000,
+            generated = model.generate(**inputs, do_sample=False, max_new_tokens=SETTINGS["max_new_tokens"],
                                        eos_token_id=stops, pad_token_id=tokenizer.pad_token_id,
                                        use_cache=True)
             torch.cuda.synchronize()
             elapsed = time.perf_counter() - started
             tokens = generated[0, inputs["input_ids"].shape[1]:].tolist()
-            reason = "eos" if tokens and tokens[-1] in stops else "length" if len(tokens) == 1000 else "unexpected_stop"
+            reason = "eos" if tokens and tokens[-1] in stops else "length" if len(tokens) == SETTINGS["max_new_tokens"] else "unexpected_stop"
             result = {"id": row["id"], "category": row["category"], "language_mode": row["language_mode"],
                       "configuration": configuration, "model_revision": spec["revision"],
                       "tokenizer_revision": spec["tokenizer_revision"], "adapter_identifier": adapter_id,

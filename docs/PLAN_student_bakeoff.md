@@ -17,9 +17,9 @@ split. Generate benchmark answers for all 300 `data/sft/pilot_eval.jsonl` IDs.
 Both students use identical frozen training and validation IDs.
 
 **Never rerun the filter into the reviewed directory: it overwrites SFT and review files.**
-Create `students/bakeoff` after the teacher-generation work has been committed and
-merged. Implementation scaffolding may be prepared while reviews are pending;
-it must not imply dataset approval or completed training.
+Answer-generation work is committed on `teacher/answer-generation` and included
+in `students/distillation`. Implementation scaffolding may be prepared while
+reviews are pending; it must not imply dataset approval or completed training.
 
 ## Implementation and training
 
@@ -40,6 +40,13 @@ and model/tokenizer revisions after GPU smoke tests; candidate pins are not vali
 | Schedule / warmup | Cosine / 3% |
 | Weight decay / gradient clipping | 0.01 / 1.0 |
 | Seed / validation | 42 / category-stratified 10% |
+
+These values are defined once in `students/config.py`. Trainer arguments,
+generation limits, split seeds and optimizer-update checks use that recorded
+configuration. Changing the protocol requires a new frozen dataset and smoke
+evidence. Assistant CE selects supervised positions and checkpoints 64-position
+chunks so FP32 loss buffers are recomputed during backward rather than retained
+across the whole sequence. Full model logits still consume memory.
 
 Use each native chat template. Supervise assistant tokens including the ending token;
 mask user tokens and padding. Do not insert the teacher system prompt. Disable Gemma

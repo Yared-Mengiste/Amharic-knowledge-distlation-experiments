@@ -4,6 +4,7 @@ import math
 from pathlib import Path
 
 from eval.metrics import CONFIGURATIONS
+from students.config import SETTINGS
 from students.data import read_jsonl
 
 
@@ -13,7 +14,7 @@ def load_outputs(directory, prompts, require_complete=True):
     for configuration in CONFIGURATIONS:
         path = Path(directory) / (configuration + ".jsonl")
         meta = json.loads(path.with_suffix(".meta.json").read_text())
-        if meta["configuration"] != configuration or meta["do_sample"] or meta["max_new_tokens"] != 1000:
+        if meta["configuration"] != configuration or meta["do_sample"] or meta["max_new_tokens"] != SETTINGS["max_new_tokens"]:
             raise ValueError(f"Unexpected evaluation settings: {configuration}")
         rows = read_jsonl(path)
         by_id = {r["id"]: r for r in rows}
@@ -24,7 +25,7 @@ def load_outputs(directory, prompts, require_complete=True):
                 raise ValueError(f"Output identity differs: {configuration}/{rid}")
             if any(row[k] != prompt_map[rid][k] for k in ("category", "language_mode")):
                 raise ValueError(f"Output prompt metadata differs: {rid}")
-            if not isinstance(row["answer"], str) or not 0 <= row["output_tokens"] <= 1000 or not math.isfinite(row["latency_seconds"]) or row["latency_seconds"] < 0:
+            if not isinstance(row["answer"], str) or not 0 <= row["output_tokens"] <= SETTINGS["max_new_tokens"] or not math.isfinite(row["latency_seconds"]) or row["latency_seconds"] < 0:
                 raise ValueError(f"Invalid benchmark output: {rid}")
             if row["termination_reason"] not in {"eos", "length", "unexpected_stop"}:
                 raise ValueError(f"Unknown termination reason: {rid}")

@@ -5,7 +5,7 @@ import math
 from pathlib import Path
 
 from eval.human import answer_hash
-from students.config import SETTINGS
+from students.config import SETTINGS, training_steps
 from students.data import read_csv, read_jsonl, sha256, write_json
 from students.train import verify_resume
 
@@ -42,9 +42,10 @@ def main():
             raise ValueError("Training split changed or overlaps validation")
         if identity["model"] != key or identity["settings"] != SETTINGS or identity["smoke_steps"] is not None:
             raise ValueError("Training identity/settings are not the full fixed protocol")
-        if identity["manifest_sha256"] != report["manifest_sha256"] or metrics["completed_steps"] != math.ceil(len(split["train_ids"]) / 16) * 2 or not metrics["adapter_load_verified"]:
+        if identity["manifest_sha256"] != report["manifest_sha256"] or metrics["completed_steps"] != training_steps(len(split["train_ids"])) or not metrics["adapter_load_verified"]:
             raise ValueError("Training did not complete with the evaluated snapshot and loadable adapter")
-        if not math.isfinite(metrics["best_validation_loss"]) or (key == "llama" and metrics["adapter_parameters"] != 11_272_192):
+        adapter_info = json.loads((run / "adapter_parameters.json").read_text())
+        if not math.isfinite(metrics["best_validation_loss"]) or metrics["adapter_parameters"] != adapter_info["trainable_parameters"]:
             raise ValueError("Validation/adapters fail acceptance")
         if not metrics["finite_gradient_steps"] or not metrics["adapter_parameters"]:
             raise ValueError("Training gradient/adapter checks are missing")

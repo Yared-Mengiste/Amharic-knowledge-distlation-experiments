@@ -88,7 +88,7 @@ def main():
                     time.sleep(0.25)
             for row in prompts:
                 prompt = render_prompt(tokenizer, row["messages"])
-                response = call_json(url + "/completion", {"prompt": prompt, "n_predict": 1000, "temperature": 0, "seed": 42, "cache_prompt": False, "stop": [ENDINGS[args.model]]}, timeout=900)
+                response = call_json(url + "/completion", {"prompt": prompt, "n_predict": SETTINGS["max_new_tokens"], "temperature": 0, "seed": SETTINGS["seed"], "cache_prompt": False, "stop": [ENDINGS[args.model]]}, timeout=900)
                 peak = max(peak, process_ram(process.pid))
                 timings = response["timings"]
                 answers.append({"id": row["id"], "category": row["category"], "prompt": row["messages"][0]["content"], "answer": response["content"], "output_tokens": timings["predicted_n"], "tokens_per_second": timings["predicted_per_second"], "latency_seconds": timings["predicted_ms"] / 1000, "termination_reason": "length" if response.get("stopped_limit") else "eos"})

@@ -1,6 +1,7 @@
 import json
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 from eval.human import generate
@@ -11,6 +12,38 @@ from students.data import read_csv, write_json
 
 
 class EvaluationTests(unittest.TestCase):
+    def test_blind_sample_records_and_validates_the_configured_seed(self):
+        from students.config import SETTINGS
+        prompts, outputs = self.fixture()
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "human"
+            with patch.dict(SETTINGS, seed=7):
+                mapping = generate(prompts, outputs, root)
+                self.assertEqual(mapping["seed"], 7)
+                human_results(root, outputs, prompts)
+            with self.assertRaisesRegex(ValueError, "Human sample IDs differ"):
+                human_results(root, outputs, prompts)
+
+    def test_generation_limit_tracks_protocol_and_rejects_overlength_outputs(self):
+        from students.config import SETTINGS
+        prompts, outputs = self.fixture()
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.save_outputs(root, prompts, outputs)
+            with patch.dict(SETTINGS, max_new_tokens=12):
+                for config in CONFIGURATIONS:
+                    path = root / (config + ".meta.json")
+                    meta = json.loads(path.read_text())
+                    meta["max_new_tokens"] = 12
+                    write_json(path, meta)
+                load_outputs(root, prompts)
+                path = root / (CONFIGURATIONS[0] + ".jsonl")
+                rows = [json.loads(line) for line in path.read_text().splitlines()]
+                rows[0]["output_tokens"] = 13
+                path.write_text("".join(json.dumps(row) + "\n" for row in rows))
+                with self.assertRaisesRegex(ValueError, "Invalid benchmark output"):
+                    load_outputs(root, prompts)
+
     def fixture(self):
         prompts = [{"id": f"p{i}", "category": "safety" if i < 20 else "chat" if i % 2 else "math", "language_mode": "am", "messages": [{"role": "user", "content": f"Prompt {i}"}]} for i in range(300)]
         outputs = {c: {p["id"]: {"id": p["id"], "category": p["category"], "language_mode": "am", "configuration": c, "model_revision": "llama-sha" if c.startswith("llama") else "gemma-sha", "tokenizer_revision": c.split("_")[0], "adapter_identifier": c if c.endswith("adapted") else None, "answer": c + " answer " + p["id"], "output_tokens": 10, "latency_seconds": 1.0, "termination_reason": "eos"} for p in prompts} for c in CONFIGURATIONS}

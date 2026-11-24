@@ -6,26 +6,45 @@ import shutil
 import time
 from pathlib import Path
 
-from students.config import DEFAULT_LOCK, SETTINGS, read_lock
+from students.config import DEFAULT_LOCK, SETTINGS, read_lock, training_argument_values, training_steps
 from students.data import load_frozen, read_jsonl, sha256, write_json
 from students.modeling import attach_adapters, gpu_precision, load_model, load_tokenizer, package_versions
 from students.tokenization import AssistantCollator, encode_conversation, template_hash
 
 
 def assistant_ce(logits, labels):
-    """Sum shifted CE in chunks; avoid a full-vocabulary FP32 logits copy."""
+    """Shifted assistant CE; checkpoint chunks to avoid retained FP32 loss buffers.
+
+    The model still produces full logits. Only supervised positions enter CE,
+    and training recomputes one chunk's FP32 softmax during backward.
+    """
     import torch
     import torch.nn.functional as F
+    from torch.utils.checkpoint import checkpoint
     labels = labels[:, 1:]
     logits = logits[:, :-1, :]
     count = (labels != -100).sum()
     if count.item() == 0:
         raise ValueError("No assistant tokens in batch")
+    chunk_size = SETTINGS["loss_chunk_size"]
+    if not isinstance(chunk_size, int) or chunk_size <= 0:
+        raise ValueError("loss_chunk_size must be a positive integer")
+
+    def chunk_loss(chunk, target):
+        supervised = target != -100
+        return F.cross_entropy(chunk[supervised].float(), target[supervised], reduction="sum")
+
     total = torch.zeros((), device=logits.device, dtype=torch.float32)
-    for start in range(0, labels.shape[1], 64):
-        chunk = logits[:, start:start + 64, :]
-        target = labels[:, start:start + 64]
-        total = total + F.cross_entropy(chunk.reshape(-1, chunk.shape[-1]).float(), target.reshape(-1), ignore_index=-100, reduction="sum")
+    for start in range(0, labels.shape[1], chunk_size):
+        chunk = logits[:, start:start + chunk_size, :]
+        target = labels[:, start:start + chunk_size]
+        if not (target != -100).any().item():
+            continue
+        if torch.is_grad_enabled() and chunk.requires_grad:
+            loss = checkpoint(chunk_loss, chunk, target, use_reentrant=False, preserve_rng_state=False)
+        else:
+            loss = chunk_loss(chunk, target)
+        total = total + loss
     return total, count
 
 
@@ -73,13 +92,13 @@ def main():
     versions = package_versions()
     if not args.smoke and versions != lock["packages"]:
         raise ValueError("Installed package versions differ from the GPU-verified lock")
-    set_seed(42)
+    set_seed(SETTINGS["seed"])
     tokenizer = load_tokenizer(spec)
     if template_hash(tokenizer) != preflight["models"][args.model]["template_sha256"]:
         raise ValueError("Chat template changed after preflight")
     rows = read_jsonl(Path(args.dataset) / "sft_train.jsonl")
     features = {r["id"]: encode_conversation(tokenizer, r, args.model) for r in rows}
-    if any(len(f["input_ids"]) > 2048 for f in features.values()):
+    if any(len(f["input_ids"]) > SETTINGS["max_length"] for f in features.values()):
         raise ValueError("Overlength conversation despite preflight")
     train_data = [features[rid] for rid in split["train_ids"]]
     val_data = [features[rid] for rid in split["validation_ids"]]
@@ -165,8 +184,9 @@ def main():
             if args.smoke:
                 data = [max(data, key=lambda f: len(f["input_ids"]))]
             with torch.no_grad():
-                for feature in data:
-                    batch = self._prepare_inputs(self.data_collator([feature]))
+                for start in range(0, len(data), self.args.per_device_eval_batch_size):
+                    features = data[start:start + self.args.per_device_eval_batch_size]
+                    batch = self._prepare_inputs(self.data_collator(features))
                     with self.compute_loss_context_manager():
                         outputs = self.model(**{k: v for k, v in batch.items() if k != "labels"}, use_cache=False)
                         loss, count = assistant_ce(outputs.logits, batch["labels"])
@@ -209,27 +229,16 @@ def main():
             raise ValueError("Nonfinite longest-example gradients")
         model.zero_grad(set_to_none=True)
         del prediction, batch, total, count, loss
-        set_seed(42)
+        set_seed(SETTINGS["seed"])
         checks = Checks()
-        trainer = AssistantTrainer(model=model, args=TrainingArguments(
-            output_dir=str(output), num_train_epochs=2, learning_rate=1e-4,
-            per_device_train_batch_size=1, per_device_eval_batch_size=1,
-            gradient_accumulation_steps=16, gradient_checkpointing=True,
-            gradient_checkpointing_kwargs={"use_reentrant": False},
-            optim="paged_adamw_8bit", lr_scheduler_type="cosine", warmup_ratio=0.03,
-            weight_decay=0.01, max_grad_norm=1.0, seed=42, data_seed=42,
-            fp16=precision == "fp16", bf16=precision == "bf16",
-            eval_strategy="steps", eval_steps=100, save_strategy="steps", save_steps=100,
-            load_best_model_at_end=True, metric_for_best_model="eval_loss", greater_is_better=False,
-            save_total_limit=None, logging_steps=1, report_to=[], remove_unused_columns=False,
-            max_steps=args.smoke_steps if args.smoke else -1,
-            dataloader_num_workers=0, save_safetensors=True, logging_nan_inf_filter=False),
+        trainer = AssistantTrainer(model=model, args=TrainingArguments(**training_argument_values(
+            output, precision, args.smoke_steps if args.smoke else None)),
             train_dataset=train_data, eval_dataset=val_data, data_collator=collator,
             callbacks=[checks])
         # compute_loss consumes Trainer's accumulation-window supervised token count.
         trainer.model_accepts_loss_kwargs = True
         result = trainer.train(resume_from_checkpoint=args.resume)
-        expected_steps = args.smoke_steps if args.smoke else math.ceil(len(train_data) / 16) * 2
+        expected_steps = args.smoke_steps if args.smoke else training_steps(len(train_data))
         stopped = args.stop_after is not None and trainer.state.global_step < expected_steps
         if not stopped and trainer.state.global_step < expected_steps:
             raise ValueError("Training ended before the fixed protocol completed")
@@ -261,7 +270,7 @@ def main():
                   "best_checkpoint": trainer.state.best_model_checkpoint,
                   "wall_seconds": time.perf_counter() - started,
                   "mean_optimizer_step_seconds": sum(steps) / len(steps) if steps else None,
-                  "estimated_full_training_seconds": (sum(steps) / len(steps)) * math.ceil(len(train_data) / 16) * 2 if steps else None,
+                  "estimated_full_training_seconds": (sum(steps) / len(steps)) * training_steps(len(train_data)) if steps else None,
                   "runtime_estimate_note": "Optimizer-step estimate excludes validation, checkpoint IO and startup.",
                   "peak_vram_allocated_bytes": torch.cuda.max_memory_allocated(),
                   "peak_vram_reserved_bytes": torch.cuda.max_memory_reserved(),

@@ -16,6 +16,16 @@ One entry per run, newest first. Each entry should let someone rerun the experim
 
 ---
 
+### 2026-11-24 — Reduce student loss memory and unify protocol settings
+
+- **Goal:** remove retained FP32 loss buffers and prevent recorded settings from disagreeing with training, evaluation or completion checks.
+- **Changes:** assistant CE selects only supervised positions and checkpoints 64-position chunks with non-reentrant recomputation. Trainer arguments, quantization, chat-template options, split/blind-review seeds, generation limits and optimizer-step accounting now use `students/config.py`. Validation batches use the configured evaluation batch size. The regenerated Kaggle notebook shares the completion calculation.
+- **Protocol:** the existing rank, learning rate, two epochs, sequence cap and other first-experiment values are unchanged. Loss chunk size is now recorded in the protocol; older frozen manifests/checkpoints require a new freeze and fresh smoke evidence. Original dataset bytes and original distillation commits are preserved.
+- **Commands:** `python3 -m students.make_notebook`; `python3 -m unittest discover -s tests -v`; `git diff --check`; `git diff HEAD -- data/sft`.
+- **Validation:** 23 tests pass; two optional PEFT architecture checks are skipped because PEFT is unavailable. Loss values and gradients match full cross-entropy in FP32/FP16/BF16, including unequal answer lengths and partial chunks. Autograd saved-tensor checks confirm no retained FP32 vocabulary-sized loss buffers after forward. Masked nonfinite logits do not affect loss or gradients. Changed-protocol tests verify split seeds, Trainer arguments, partial-batch/fractional-epoch completion, generation caps and blind-review mappings. Source/notebook cells parse, and all 13 committed SFT files are byte-for-byte unchanged.
+- **Environment and limits:** local PyTorch 2.15.0+cpu; no CUDA, Transformers or PEFT installed in this test environment. Candidate GPU package pins remain unchanged. The model still produces full logits; both pinned-model GPU smoke/resume runs remain required to measure real VRAM and training behavior.
+- **Cost:** $0; no model generation, training, GPU rental or upload.
+
 ### 2026-11-24 — Separate completed answers from distillation implementation
 
 - **Result:** answer-generation work is committed independently from `main`; existing distillation commits are preserved on `students/distillation`.
