@@ -24,8 +24,8 @@ The project lead is Bereket Legesse, an ML engineer at iCog Labs. A team member 
 | 2. Native-speaker review of 150 prompts (`data/prompts/review_sample.csv`) | Pending. |
 | 3. Teacher generation for 5,261 prompts | Done on 2026-11-19. All prompt IDs have outputs from `google/gemma-4-26b-a4b-it` on DeepInfra; 1,220,124 output tokens, $0.629123, 1.17 h. See `experiments/LOG.md`. |
 | 4. Filter, review and merge the teacher answers | Assistant review and user-authorized merges done on 2026-11-21: original queue had 102 corrected, 197 retained, 8 excluded; hard-rejection review recovered 107 and excluded 2. Accepted: 4,952 train + 299 eval; 10 total exclusions. All 416 review decisions and 117 rejection/no-row dispositions documented. Minimal retained review artifacts and rebuild commands are listed in `data/sft/README.md`. Native-speaker approval/spot check remains pending. |
-| 5. Student bake-off on reviewed pilot answers | Workflow implemented: frozen-data gates, QLoRA smoke/resume and training, four-way evaluation, blind review and Q4_K_M deployment. Human review and GPU execution pending; see docs/RUN_student_bakeoff.md. |
-| Student selection research | Public cards/metadata checked for 26 checkpoints; 16 tokenizers measured on the current 4,952 training conversations. Amharic Llama 1B averages 1.81 tokens per word versus Gemma 4 E2B 3.21 and tested Qwen 2.5/3 6.45, Qwen 3.5 7.09. Keep Llama as the cost-sensitive candidate and Gemma as the quality comparator; answer-quality and deployment results remain pending. See docs/RESEARCH_student_selection.md. |
+| 5. Student bake-off on reviewed pilot answers | Llama-only first experiment implemented: frozen-data gates, QLoRA smoke/resume and training, original/adapted evaluation, blind review and Q4_K_M deployment. Gemma optional after Llama result review. Native-speaker review and GPU execution pending; see docs/RUN_student_bakeoff.md. |
+| Student selection research | Public cards/metadata checked for 26 checkpoints; 16 tokenizers measured on the current 4,952 training conversations. Amharic Llama 1B averages 1.81 tokens per word versus Gemma 4 E2B 3.21 and tested Qwen 2.5/3 6.45, Qwen 3.5 7.09. Run Llama first to assess distillation; defer the larger comparator, probably Gemma E2B, until those results are reviewed; answer-quality and deployment results remain pending. See docs/RESEARCH_student_selection.md. |
 | 6. Scale-up to 30k–100k prompts | Not started (section 9). |
 
 ### Open items
@@ -158,7 +158,7 @@ The system prompt was tightened to address these. Check again after the real run
 | OpenRouter | Model `google/gemma-4-26b-a4b-it`. Key in `.env` as `OPENROUTER_API_KEY`. Don't use the `:free` variant. |
 | Local laptop | ASUS ZenBook 14: Ryzen AI 7 (Radeon 860M iGPU, XDNA 2 NPU), 32 GB RAM, Arch Linux. Details below. |
 | NPU | Not usable for the 26B teacher. It's relevant later for running a small distilled student (E2B-class) on-device. |
-| Training compute | Private Kaggle notebook, one NVIDIA GPU with nominal >=16 GB VRAM. Llama then Gemma; both must pass unchanged-protocol smoke/resume tests. |
+| Training compute | Private Kaggle notebook, one NVIDIA GPU with nominal >=16 GB VRAM. Llama first; Gemma deferred until result review. Each selected model must pass unchanged-protocol smoke/resume tests. |
 
 Local laptop details:
 
@@ -169,26 +169,40 @@ Local laptop details:
 
 ## 8. Student bakeoff (stage 5)
 
-The first comparison is `rasyosef/Llama-3.2-1B-Amharic-Instruct` versus
-`google/gemma-4-E2B-it`, each before and after response-level QLoRA distillation.
+The first comparison is `rasyosef/Llama-3.2-1B-Amharic-Instruct` before and
+after response-level QLoRA distillation. Review its results before selecting a
+larger second student, probably `google/gemma-4-E2B-it`; Gemma support and
+candidate pins remain available. The active branch is `students/llama-first`,
+created from `students/distillation`.
 See [the protocol](docs/PLAN_student_bakeoff.md) and [run guide](docs/RUN_student_bakeoff.md).
 
 - Review/merge every queued answer, document rejection dispositions, and have a
   native speaker spot-check approximately 100 accepted training answers before freezing.
-- Both models share frozen training IDs and a seed-42, category-stratified 10%
+- Every included model shares frozen training IDs and a seed-42, category-stratified 10%
   validation split. Rank 16, alpha 32, dropout 0.05, two epochs, lr 1e-4, NF4,
   sequence length 2,048, microbatch 1 and accumulation 16 are fixed.
 - Use native templates with assistant-only supervision including the ending token;
   disable Gemma thinking and freeze original/embedding/vision/audio parameters.
-- Use private Kaggle compute after both tokenizer preflights and GPU smoke/resume
-  checks; candidate package/checkpoint pins are not a working-environment claim.
-- Generate all 300 eval IDs for original/adapted Llama and Gemma with greedy
+- Use private Kaggle compute after preflight and GPU smoke/resume/loading
+  checks for each included model; candidate package/checkpoint pins are not a working-environment claim.
+- Generate all 300 eval IDs for original/adapted Llama first, then any added
+  model, with greedy
   decoding and 1,000 output tokens. Approved references only; report coverage.
 - No paid judge calls. Blind native-speaker scores/preferences cover 50 stratified
   prompts plus separate review of all 20 safety prompts. Report categories and
-  uncertainty; compare perplexity only within each tokenizer pair.
-- Export both full-run adapters to Q4_K_M and compare local RAM, speed and answer
+  uncertainty, the single seed and small human sample; compare perplexity only
+  within each tokenizer pair. Current approved-reference coverage is 299/300.
+- Export each included full-run adapter to Q4_K_M and compare local RAM, speed and answer
   quality on identical deployment prompts. Keep weights, checkpoints and sheets private.
+
+Adding Gemma later requires tokenizer preflight, matching GPU smoke/resume/loading
+evidence, a newly promoted lock, full training, original/adapted generation and
+reference losses, new combined blind sheets/report, and Q4_K_M deployment review.
+Repeat Llama smoke if needed to match packages, precision and frozen hashes.
+`verified_models` limits lock authorization to the models actually checked;
+Llama evidence cannot authorize Gemma. Preserve stage-one artifacts and never
+overwrite locks or blind mappings. Adding a model leaves `SETTINGS` and the frozen
+data/split unchanged.
 
 Scripts and the Kaggle notebook are implemented. Current unreviewed-tokenizer
 checks on the current corrected data pass with no overlength or masking failures
@@ -277,3 +291,4 @@ Add a line whenever a decision is made or changed.
 | 2026-11-21 | At the user's request, removed redundant review snapshots, manifests, reports and one-off scripts. Keep the completed queue, change/exclusion/disposition ledgers, native-review sheet, one overview and compact tokenizer evidence. Existing filter/merge commands rebuild corrected accepted files in scratch. |
 | 2026-11-22 | Researched small Amharic students and measured actual tokenizer costs. Keep the existing Llama/Gemma bakeoff: Amharic Llama 1B has a substantial content-token advantage, while final quality is unproven. Identified Amharic Gemma adapters, vocabulary-trimmed Gemma candidates and Tiny Aya as optional leads, with their evaluation, artifact and licensing limits documented. No training-protocol change or model winner declared. |
 | 2026-11-24 | Separate answer-generation and distillation branches. Keep the completed dataset and required audit inputs in data/sft; remove intermediate prompt, response and review folders. |
+| 2026-11-24 | Run Llama 1B alone first to measure response-distillation benefit at the mentor’s request. Review results before selecting a larger second student, probably Gemma E2B. Keep both candidate pins; scope lock verification, evaluation and acceptance to included models without changing SETTINGS or frozen data. Gemma requires its own preflight, matching GPU smoke/resume/loading, full training, original/adapted outputs, combined blind review and deployment evidence in new artifact directories. No GPU/model results produced by this code change. |

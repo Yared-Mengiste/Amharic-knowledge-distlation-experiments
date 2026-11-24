@@ -7,10 +7,14 @@ adapted student and measures assistant-token loss on approved references.
 preferences on 50 stratified prompts, plus separate sheets for all 20 safety
 prompts. Give reviewers only `public/`; retain `private/mapping.json` with the lead.
 
-`python3 -m eval.report` checks all four output sets, original/adapted settings,
-reference coverage and returned human-score mappings. It reports categories,
+`python3 -m eval.report` checks the original/adapted output pair for each model
+present, its paired settings, reference coverage and returned human-score mappings. It reports categories,
 Wilson intervals for rates and paired bootstrap intervals for human-score changes.
-No command makes judge API calls.
+Llama-only has two configurations and one within-model pair. Adding Gemma gives
+four configurations and an adapted cross-model pair. Acceptance requires Gemma
+run/deploy arguments only when its pair appears in the report. Reports explicitly
+state current 299/300 reference coverage and the single-seed/small-human-sample
+limits. No command makes judge API calls.
 
 Math numeric-presence checks and script consistency are explicitly labeled proxies.
 Semantic correctness, fluency and instruction following come from native speakers.

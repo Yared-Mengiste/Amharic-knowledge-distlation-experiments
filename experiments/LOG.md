@@ -16,6 +16,16 @@ One entry per run, newest first. Each entry should let someone rerun the experim
 
 ---
 
+### 2026-11-24 — Llama-only first student experiment (code change only)
+
+- **Why:** the mentor requested a small-model run first to assess response-distillation benefit. Review Llama results before choosing a larger second student, probably Gemma E2B.
+- **Branch:** `students/llama-first`, created from `students/distillation`.
+- **Changes:** add a Llama-only candidate copied from the retained two-model pins; allow promotion with only Llama smoke evidence; record `verified_models` and enforce model-specific authorization in training, evaluation, export and deployment. Keep all supplied-report protocol/package/hash/precision and resume/loading checks. Preflight compares only locked models. The generated notebook defaults to Llama and has an optional Gemma switch. Evaluation, blind review, reports and acceptance derive complete original/adapted pairs from the models present. Reports show categories, approved-reference coverage and single-seed/small-human-sample limits. Acceptance requires Gemma run/deploy arguments together only for reports including Gemma, preserving cross-model consistency checks when applicable.
+- **Commands:** before and after: `python3 -m unittest discover -s tests -v`; `python3 -m students.data audit`. Regeneration: `python3 -m students.make_notebook`; `python3 -m students.make_notebook --include-gemma`; `python3 -m students.make_notebook` (restore the default). Also `git diff --check` and read-only byte/AST comparisons against `students/distillation`.
+- **Code validation:** baseline: 25 tests ran, 23 passed and 2 PEFT architecture checks skipped. After: 33 tests ran, 31 passed and the same 2 checks skipped because PEFT is unavailable. New CPU-only fixtures cover lock promotion/refusal, all supplied smoke checks, Llama-scoped preflight, blind sampling and order, a two-configuration report with 299/300 references, and acceptance without Gemma while rejecting changed splits/review hashes or omitted Gemma deliverables. Both notebook variants parse; default regeneration is byte-for-byte reproducible, with no executed cells.
+- **Integrity/approval state:** audit exits 2 before and after, with only the same 100 pending native-speaker spot checks; counts remain 4,952 train, 299 references and 300 eval. All 13 tracked protected data files match the base branch byte for byte. `SETTINGS`, the existing two-model candidate and candidate package pins are unchanged. No filter, freeze or data rewrite was run.
+- **Limits and next step:** this entry records implementation and unit checks only. No GPU smoke, model training, generated answers, model evaluation, deployment benchmark or associated results were produced. Candidate pins remain unverified. Complete the native-speaker spot check before freezing/running Llama. Any later Gemma stage needs its own preflight, matching GPU smoke/resume/loading evidence, a new lock/output directory, training, both output/reference sets, new combined blind review and deployment quality evidence; preserve stage one.
+
 ### 2026-11-24 — Reduce student loss memory and unify protocol settings
 
 - **Goal:** remove retained FP32 loss buffers and prevent recorded settings from disagreeing with training, evaluation or completion checks.

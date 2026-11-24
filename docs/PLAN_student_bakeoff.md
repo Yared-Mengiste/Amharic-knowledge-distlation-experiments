@@ -2,9 +2,12 @@
 
 ## Objective and prerequisites
 
-Compare `rasyosef/Llama-3.2-1B-Amharic-Instruct` and `google/gemma-4-E2B-it`
-using response-level distillation through QLoRA on the same reviewed teacher answers.
-Compare each adapter with its unchanged starting checkpoint, then compare adapters.
+Run `rasyosef/Llama-3.2-1B-Amharic-Instruct` first using response-level
+distillation through QLoRA on the reviewed teacher answers. Compare its adapter
+with the unchanged starting checkpoint to assess whether distillation helps the
+small model. Review those results before selecting a larger second student,
+probably `google/gemma-4-E2B-it`. Gemma support and candidate pins remain available;
+it is optional and deferred, with no winner declared in advance.
 
 Before full training, every review-queue decision must be `yes` or `no`; corrected
 answers need the complete replacement in `fixed_response` and `yes`. Merge approved
@@ -14,7 +17,8 @@ A native speaker must spot-check approximately 100 accepted training answers.
 Freeze `data/sft/sft_train.jsonl` and `data/sft/eval_teacher.jsonl`, with file hashes,
 row/category counts, review evidence, and a shared category-stratified 10% validation
 split. Generate benchmark answers for all 300 `data/sft/pilot_eval.jsonl` IDs.
-Both students use identical frozen training and validation IDs.
+Every student included in an experiment uses identical frozen training and
+validation IDs.
 
 **Never rerun the filter into the reviewed directory: it overwrites SFT and review files.**
 Answer-generation work is committed on `teacher/answer-generation` and included
@@ -28,7 +32,7 @@ the existing `id`, `category`, `language_mode`, `messages: [user, assistant]` sc
 Use PyTorch, Transformers, PEFT and bitsandbytes. Pin exact working package versions
 and model/tokenizer revisions after GPU smoke tests; candidate pins are not validation.
 
-| Setting | Both students |
+| Setting | Each selected student |
 |---|---|
 | Quantization | 4-bit NF4, double quantization |
 | LoRA rank / alpha / dropout | 16 / 32 / 0.05 |
@@ -60,7 +64,9 @@ stop without truncating or dropping any conversation.
 ## Kaggle execution
 
 Use a private notebook and private dataset, one NVIDIA GPU with at least 16 GB VRAM.
-Train Llama then Gemma using the same frozen split. Use FP16 on T4/P100 and BF16 only
+Train Llama only for the first experiment. Add Gemma after reviewing the Llama
+results, using the same frozen split and unchanged protocol. Use FP16 on T4/P100
+and BF16 only
 where supported. Run a short training and checkpoint-resume smoke test per model.
 Measure peak VRAM and optimizer-step time to estimate runtime. If Gemma cannot fit,
 stop with a memory report; never silently change the data or settings. E2B has about
@@ -73,8 +79,10 @@ preparation, review and quantized inference, not training.
 
 ## Evaluation
 
-Evaluate original Llama, adapted Llama, original Gemma and adapted Gemma on identical
-prompt content, greedy decoding and a 1,000-token output cap. Keep precision and
+First evaluate original and adapted Llama on all 300 prompts, with greedy
+decoding and a 1,000-token output cap. When Gemma is included later, add its
+original/adapted pair on identical prompt content and compare the adapters. Keep
+precision and
 template settings identical within each original/adapted pair. Record prompt ID,
 model/tokenizer revision, adapter identifier/hash, answer, output tokens, latency
 and termination reason.
@@ -84,12 +92,16 @@ requested-language consistency; truncation/repetition; assistant-token loss on
 approved eval references; native-speaker correctness, fluency and instruction
 following (1–5); and original/adapted win/tie/loss. Clearly distinguish automated
 heuristics and manual rubric scores. Report category-level results, overall
-coverage, missing references and uncertainty. Compare perplexity within a model
+coverage (currently 299/300 approved references), missing references and
+uncertainty. Explicitly state that this is a single-seed experiment with a small
+human sample; intervals do not establish stability across seeds. Compare
+perplexity within a model
 pair only; different tokenizers make cross-model perplexity incomparable.
 
 Select 50 category-stratified eval IDs with seed 42 for blind human comparison.
 Separately review all 20 safety IDs. Hide identities, randomize order, and keep the
-mapping private. After evaluation, test both adapters locally as Q4_K_M GGUFs on
+mapping private. After evaluation, test each included adapter locally as a
+Q4_K_M GGUF on
 the same deployment prompts; record peak RAM, tokens/second and answer quality.
 Use no paid judge calls. Keep rank 16 fixed for this first experiment.
 
@@ -98,10 +110,20 @@ Use no paid judge calls. Keep rank 16 fixed for this first experiment.
 Before full training verify IDs/split separation, assistant-only masking and ending
 tokens, frozen original parameters, adapter counts, finite loss and gradients,
 and checkpoint resume without restarting completed training. Before accepting the
-comparison verify 300 outputs for each of four configurations, explicit reference
-coverage, correct human-score mapping, and experiment provenance in
+comparison verify 300 outputs for each included configuration (two for Llama
+only, four with Gemma), explicit reference coverage, correct human-score mapping,
+and experiment provenance in
 `experiments/LOG.md`: settings, hashes, revisions, cost, runtime and results.
 
-Deliver two adapters, resumable checkpoints, four output sets, blind human-review
-sheets and a comparison report. Determine adaptation benefit from held-out results,
+Deliver one adapter, resumable checkpoints, two output sets, blind human-review
+sheets and a Llama original/adapted report for stage one. Stage two adds the
+selected larger student, its adapter/checkpoints/output pair and a combined report.
+Only models explicitly listed in a promoted lock’s `verified_models` are authorized
+for full training/evaluation/export/deployment; Llama evidence never verifies Gemma.
+Before adding Gemma, repeat its tokenizer preflight, GPU smoke/resume/loading,
+full training, generation/reference losses, blind review and Q4_K_M deployment
+quality review. Promote a new lock using matching Llama and Gemma smoke reports;
+repeat Llama smoke if needed to match packages, precision and frozen hashes. Use
+new artifact directories and a new combined blind mapping; never overwrite stage
+one. Determine adaptation benefit from held-out results,
 not training loss alone. See [RUN_student_bakeoff.md](RUN_student_bakeoff.md) for commands.
