@@ -6,18 +6,18 @@ import random
 from pathlib import Path
 
 from eval.io import load_outputs
-from eval.metrics import CONFIGURATIONS
+from eval.metrics import configurations, comparison_pairs, models_from_configurations
 from students.config import SETTINGS
 from students.data import load_frozen, read_jsonl, stratified_ids, write_csv, write_json
-
-PAIRS = (("llama_original", "llama_adapted"), ("gemma_original", "gemma_adapted"), ("llama_adapted", "gemma_adapted"))
-
 
 def answer_hash(answer):
     return hashlib.sha256(answer.encode()).hexdigest()
 
 
 def generate(prompts, outputs, destination):
+    models = models_from_configurations(outputs)
+    selected_configurations = configurations(models)
+    selected_pairs = comparison_pairs(models)
     destination = Path(destination)
     if destination.exists():
         raise ValueError("Blind sheets already exist; choose a new directory")
@@ -36,16 +36,16 @@ def generate(prompts, outputs, destination):
         rng.shuffle(ids)
         for rid in ids:
             prompt = prompt_map[rid]
-            configurations = list(CONFIGURATIONS)
-            rng.shuffle(configurations)
-            for config in configurations:
+            order = list(selected_configurations)
+            rng.shuffle(order)
+            for config in order:
                 answer = outputs[config][rid]["answer"]
                 blind_id = f"answer_{rng.getrandbits(96):024x}"
                 scores.append({"id": blind_id, "prompt_id": rid, "category": prompt["category"],
                                "prompt": prompt["messages"][0]["content"], "answer": answer,
                                "correctness": "", "fluency": "", "instruction_following": "", "safety": "", "reviewer": "", "notes": ""})
                 mapping["answers"][blind_id] = {"prompt_id": rid, "configuration": config, "sample": sample, "answer_sha256": answer_hash(answer)}
-            pairs = list(PAIRS)
+            pairs = list(selected_pairs)
             rng.shuffle(pairs)
             for pair in pairs:
                 order = list(pair)

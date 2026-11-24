@@ -6,10 +6,34 @@ import io
 import math
 import re
 from collections import Counter
+from itertools import combinations
 
+from students.config import MODELS
 from teacher.filter_teacher import check_math, geez_share, max_line_repeat, repetition_score
 
-CONFIGURATIONS = ("llama_original", "llama_adapted", "gemma_original", "gemma_adapted")
+
+def configurations(models):
+    """Canonical original/adapted configurations for the selected students."""
+    models = set(models)
+    if "llama" not in models or models - set(MODELS):
+        raise ValueError("Evaluation needs llama and only supported student models")
+    return tuple(model + suffix for model in MODELS if model in models
+                 for suffix in ("_original", "_adapted"))
+
+
+def models_from_configurations(present):
+    present = set(present)
+    models = tuple(model for model in MODELS if any(c.startswith(model + "_") for c in present))
+    if present != set(configurations(models)):
+        raise ValueError("Each present model needs exactly its original and adapted configurations")
+    return models
+
+
+def comparison_pairs(models):
+    """Within-model pairs plus adapted cross-model pairs when available."""
+    selected = models_from_configurations(configurations(models))
+    return tuple((model + "_original", model + "_adapted") for model in selected) + tuple(
+        (a + "_adapted", b + "_adapted") for a, b in combinations(selected, 2))
 
 
 def wilson(successes, total):

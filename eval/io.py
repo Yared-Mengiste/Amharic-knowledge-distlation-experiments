@@ -3,7 +3,7 @@ import json
 import math
 from pathlib import Path
 
-from eval.metrics import CONFIGURATIONS
+from eval.metrics import configurations, models_from_configurations
 from students.config import SETTINGS
 from students.data import read_jsonl
 
@@ -11,7 +11,12 @@ from students.data import read_jsonl
 def load_outputs(directory, prompts, require_complete=True):
     prompt_map = {r["id"]: r for r in prompts}
     outputs, metadata, coverage = {}, {}, {}
-    for configuration in CONFIGURATIONS:
+    directory = Path(directory)
+    # Include sidecars so an interrupted/missing output cannot silently drop a model.
+    present = {path.name.split(".", 1)[0] for path in directory.iterdir()
+               if path.is_file() and path.name.endswith((".jsonl", ".meta.json", ".references.json"))}
+    models = models_from_configurations(present)
+    for configuration in configurations(models):
         path = Path(directory) / (configuration + ".jsonl")
         meta = json.loads(path.with_suffix(".meta.json").read_text())
         if meta["configuration"] != configuration or meta["do_sample"] or meta["max_new_tokens"] != SETTINGS["max_new_tokens"]:
@@ -34,7 +39,7 @@ def load_outputs(directory, prompts, require_complete=True):
         if require_complete and missing:
             raise ValueError(f"{configuration}: missing {len(missing)} outputs")
         outputs[configuration], metadata[configuration] = by_id, meta
-    for model in ("llama", "gemma"):
+    for model in models:
         original, adapted = (metadata[model + suffix] for suffix in ("_original", "_adapted"))
         for field in original:
             if field not in {"configuration", "adapter_identifier"} and original[field] != adapted[field]:
@@ -42,5 +47,5 @@ def load_outputs(directory, prompts, require_complete=True):
         if original["adapter_identifier"] is not None or not adapted["adapter_identifier"]:
             raise ValueError("Original/adapted adapter identities are invalid")
     if len({m["manifest_sha256"] for m in metadata.values()}) != 1:
-        raise ValueError("The four configurations used different datasets")
+        raise ValueError("The configurations used different datasets")
     return outputs, metadata, coverage

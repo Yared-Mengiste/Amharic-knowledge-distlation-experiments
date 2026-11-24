@@ -10,12 +10,15 @@ from pathlib import Path
 
 from eval.human import answer_hash
 from eval.io import load_outputs
-from eval.metrics import CONFIGURATIONS, automatic_metrics, summarize_metrics, wilson
+from eval.metrics import configurations, comparison_pairs, models_from_configurations, automatic_metrics, summarize_metrics, wilson
 from students.config import SETTINGS
 from students.data import load_frozen, read_csv, read_jsonl, sha256, stratified_ids, write_json
 
 
 def human_results(directory, outputs, prompts):
+    models = models_from_configurations(outputs)
+    selected_configurations = configurations(models)
+    selected_pairs = comparison_pairs(models)
     directory = Path(directory)
     mapping = json.loads((directory / "private/mapping.json").read_text())
     prompt_map = {r["id"]: r for r in prompts}
@@ -23,11 +26,11 @@ def human_results(directory, outputs, prompts):
     if mapping["seed"] != SETTINGS["seed"] or any(set(mapping["sample_ids"][sample]) != ids or len(mapping["sample_ids"][sample]) != len(ids) for sample, ids in expected_samples.items()):
         raise ValueError("Human sample IDs differ from the required stratified/safety selections")
     for sample, ids in expected_samples.items():
-        expected_answers = {(rid, c) for rid in ids for c in CONFIGURATIONS}
+        expected_answers = {(rid, c) for rid in ids for c in selected_configurations}
         mapped_answers = [(r["prompt_id"], r["configuration"]) for r in mapping["answers"].values() if r["sample"] == sample]
         if set(mapped_answers) != expected_answers or len(mapped_answers) != len(expected_answers):
             raise ValueError("Human mapping lacks exactly one answer per configuration and prompt")
-        expected_pairs = {(rid, frozenset(pair)) for rid in ids for pair in (("llama_original", "llama_adapted"), ("gemma_original", "gemma_adapted"), ("llama_adapted", "gemma_adapted"))}
+        expected_pairs = {(rid, frozenset(pair)) for rid in ids for pair in selected_pairs}
         mapped_pairs = [(r["prompt_id"], frozenset((r["A"], r["B"]))) for r in mapping["pairs"].values() if r["sample"] == sample]
         if set(mapped_pairs) != expected_pairs or len(mapped_pairs) != len(expected_pairs):
             raise ValueError("Human mapping has missing/duplicate pairs")
@@ -79,7 +82,7 @@ def human_results(directory, outputs, prompts):
                "sample_ids": mapping["sample_ids"], "score_means": {}, "win_tie_loss": {}, "paired_score_differences": {}}
     for sample in ("general", "safety"):
         summary["score_means"][sample] = {}
-        for config in CONFIGURATIONS:
+        for config in selected_configurations:
             rows = [s for s in scores if s["sample"] == sample and s["configuration"] == config]
             by_category = {}
             for category in ["overall"] + sorted({r["category"] for r in prompts}):
@@ -87,7 +90,7 @@ def human_results(directory, outputs, prompts):
                 by_category[category] = {"count": len(subset), "means": {d: statistics.mean(r["scores"][d] for r in subset) if subset else None for d in (["correctness", "fluency", "instruction_following"] + (["safety"] if sample == "safety" else []))}}
             summary["score_means"][sample][config] = by_category
         summary["win_tie_loss"][sample] = {}
-        for original, adapted in (("llama_original", "llama_adapted"), ("gemma_original", "gemma_adapted"), ("llama_adapted", "gemma_adapted")):
+        for original, adapted in selected_pairs:
             name = adapted + "_vs_" + original
             selected = [p for p in pairs if p["sample"] == sample and {p["A"], p["B"]} == {original, adapted}]
             counts = Counter("tie" if p["winner"] == "tie" else "win" if p["winner"] == adapted else "loss" for p in selected)
@@ -107,6 +110,7 @@ def build_report(dataset, outputs_directory, math_path, constraints_path=None, h
     prompts = read_jsonl(Path(dataset) / "pilot_eval.jsonl")
     refs = read_jsonl(Path(dataset) / "eval_teacher.jsonl")
     outputs, metadata, coverage = load_outputs(outputs_directory, prompts, require_complete=not allow_partial)
+    models = models_from_configurations(outputs)
     if any(m["manifest_sha256"] != sha256(Path(dataset) / "manifest.json") for m in metadata.values()):
         raise ValueError("Benchmark outputs refer to a different frozen dataset")
     frozen_math = Path(dataset) / "math_answers.csv"
@@ -124,13 +128,16 @@ def build_report(dataset, outputs_directory, math_path, constraints_path=None, h
     for row in constraint_rows:
         if row.get("prompt_sha256") and hashlib.sha256(prompt_map[row["id"]]["messages"][0]["content"].encode()).hexdigest() != row["prompt_sha256"]:
             raise ValueError("Instruction constraint was authored for a different prompt")
-    result = {"manifest_sha256": sha256(Path(dataset) / "manifest.json"), "dataset_counts": manifest["counts"],
+    result = {"models": list(models), "configurations": list(configurations(models)),
+              "comparison_pairs": comparison_pairs(models),
+              "manifest_sha256": sha256(Path(dataset) / "manifest.json"), "dataset_counts": manifest["counts"],
               "coverage": coverage, "evaluation_metadata": metadata,
               "reference_coverage": {"approved": len(refs), "expected": len(prompts), "missing_ids": sorted({r["id"] for r in prompts} - approved)},
               "automated": {}, "reference_loss": {}, "human": None,
               "artifacts": {},
               "notes": ["Script consistency is a heuristic, not language identification.", "Numeric presence checks reuse the supplied teacher checker; they can accept a number in incorrect reasoning and do not prove semantic math accuracy.", "Instruction constraints score only supplied explicit rules; missing rules remain unscored.", "Wilson 95% intervals describe measured proportions; human-score intervals are paired bootstrap intervals with seed 42.", "General and safety human samples are reported separately, including overlapping IDs.", "Compare perplexity within each tokenizer pair only."]}
-    for config in CONFIGURATIONS:
+    result["notes"].append("Results come from a single training seed (42) and a small human sample: 50 category-stratified IDs, with all 20 safety IDs reviewed separately. They do not establish stability across seeds or broad human agreement.")
+    for config in configurations(models):
         rows = list(outputs[config].values())
         scored = [(row, automatic_metrics(row, math_checks, constraints)) for row in rows]
         result["automated"][config] = {}
@@ -156,10 +163,17 @@ def markdown_report(result):
              f"Approved reference coverage: {result['reference_coverage']['approved']}/{result['reference_coverage']['expected']}.", "",
              "| Configuration | Outputs | Language proxy | Math check proxy | Truncated | Repeated |", "|---|---:|---:|---:|---:|---:|"]
     rate = lambda v: "unscored" if v["rate"] is None else f"{v['rate']:.1%} ({v['total']} scored)"
-    for config in CONFIGURATIONS:
+    for config in result["automated"]:
         metrics = result["automated"][config]["overall"]
         lines.append(f"| {config} | {metrics['outputs']} | {rate(metrics['language_script_consistency'])} | {rate(metrics['math_reference_check_proxy'])} | {rate(metrics['truncated'])} | {rate(metrics['repetition'])} |")
-    lines += ["", "The companion JSON contains category results, 95% intervals, missing reference IDs, exact generation settings, and human score mappings/coverage.", ""]
+    lines += ["", "Category-level automated results:", "",
+              "| Configuration | Category | Outputs | Language proxy | Math check proxy | Truncated | Repeated |",
+              "|---|---|---:|---:|---:|---:|---:|"]
+    for config, categories in result["automated"].items():
+        for category, metrics in categories.items():
+            if category != "overall":
+                lines.append(f"| {config} | {category} | {metrics['outputs']} | {rate(metrics['language_script_consistency'])} | {rate(metrics['math_reference_check_proxy'])} | {rate(metrics['truncated'])} | {rate(metrics['repetition'])} |")
+    lines += ["", "The companion JSON contains category human scores, 95% intervals, missing reference IDs, exact generation settings, and human score mappings/coverage.", "", result["notes"][-1], ""]
     if result["human"]:
         lines += ["| Human comparison (general sample) | Wins | Ties | Losses |", "|---|---:|---:|---:|"]
         for name, counts in result["human"]["win_tie_loss"]["general"].items():

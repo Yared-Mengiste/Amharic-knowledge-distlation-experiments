@@ -1,10 +1,11 @@
-"""Final deliverable gate: comparison, two full runs, local quality, and log entries."""
+"""Final deliverable gate for the compared models: runs, local quality, and logs."""
 import argparse
 import json
 import math
 from pathlib import Path
 
 from eval.human import answer_hash
+from eval.metrics import configurations, models_from_configurations
 from students.config import SETTINGS, training_steps
 from students.data import read_csv, read_jsonl, sha256, write_json
 from students.train import verify_resume
@@ -14,22 +15,29 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--report", required=True)
     parser.add_argument("--llama-run", required=True)
-    parser.add_argument("--gemma-run", required=True)
+    parser.add_argument("--gemma-run")
     parser.add_argument("--llama-deploy", required=True)
-    parser.add_argument("--gemma-deploy", required=True)
+    parser.add_argument("--gemma-deploy")
     parser.add_argument("--log", default="experiments/LOG.md")
     parser.add_argument("--out", required=True)
     args = parser.parse_args()
+    if bool(args.gemma_run) != bool(args.gemma_deploy):
+        parser.error("--gemma-run and --gemma-deploy must be supplied together")
     report = json.loads(Path(args.report).read_text())
+    models = models_from_configurations(report["evaluation_metadata"])
+    requested_models = ("llama", "gemma") if args.gemma_run else ("llama",)
+    if models != requested_models or set(report["artifacts"]) != set(configurations(models)):
+        raise ValueError("Acceptance arguments/artifacts must cover exactly the report's models")
     if not report["comparison_ready"]:
         raise ValueError("Benchmark generation or blind native-speaker review is incomplete")
     log = Path(args.log).read_text()
     if sha256(args.report) not in log:
         raise ValueError("Final comparison hash is not recorded in the experiment log")
     if any(artifact["references_sha256"] not in log for artifact in report["artifacts"].values()):
-        raise ValueError("All four evaluation reference-metric artifacts must be recorded in the log")
+        raise ValueError("All evaluation reference-metric artifacts must be recorded in the log")
     runs, deployments, splits = {}, {}, []
-    for key, run_path, deploy_path in (("llama", args.llama_run, args.llama_deploy), ("gemma", args.gemma_run, args.gemma_deploy)):
+    for key in models:
+        run_path, deploy_path = getattr(args, key + "_run"), getattr(args, key + "_deploy")
         run, deployment = Path(run_path), Path(deploy_path)
         metrics = json.loads((run / "metrics.json").read_text())
         identity = metrics["identity"]
@@ -75,11 +83,11 @@ def main():
             if sha256(artifact) not in log:
                 raise ValueError(f"Artifact not recorded in experiment log: {artifact}")
         runs[key], deployments[key] = metrics, local
-    if splits[0] != splits[1]:
+    if any(split != splits[0] for split in splits[1:]):
         raise ValueError("Students trained on different training/validation IDs")
-    if deployments["llama"]["identity"]["deployment_prompts_sha256"] != deployments["gemma"]["identity"]["deployment_prompts_sha256"]:
+    if len({local["identity"]["deployment_prompts_sha256"] for local in deployments.values()}) != 1:
         raise ValueError("Local deployment prompts differ")
-    if deployments["llama"]["server_command"][-1] != deployments["gemma"]["server_command"][-1]:
+    if len({local["server_command"][-1] for local in deployments.values()}) != 1:
         raise ValueError("Local deployment GPU-layer settings differ")
     write_json(args.out, {"accepted": True, "comparison_sha256": sha256(args.report),
         "runs": runs, "deployments": deployments, "log_sha256": sha256(args.log),
