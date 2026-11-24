@@ -1,4 +1,4 @@
-"""Preflight BOTH native tokenizers; report every overlength or masking failure."""
+"""Preflight each locked tokenizer; report every overlength or masking failure."""
 import argparse
 import importlib.metadata
 from pathlib import Path

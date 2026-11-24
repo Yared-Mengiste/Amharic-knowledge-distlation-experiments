@@ -18,7 +18,7 @@ def main():
     parser.add_argument("--quantize", required=True, help="llama-quantize executable")
     parser.add_argument("--out", required=True)
     args = parser.parse_args()
-    lock = read_lock(args.lock, verified=True)
+    lock = read_lock(args.lock, verified=True, model=args.model)
     spec = lock["models"][args.model]
     identity = json.loads((Path(args.adapter) / "run_identity.json").read_text())
     if identity["spec"] != spec or identity["settings"] != SETTINGS or identity["smoke_steps"] is not None:

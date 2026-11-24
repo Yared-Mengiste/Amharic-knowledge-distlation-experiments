@@ -61,6 +61,13 @@ def verify_resume(checkpoint, identity):
     return state["global_step"]
 
 
+def verify_preflight(preflight, lock, manifest_hash):
+    if not preflight["passed"] or preflight["manifest_sha256"] != manifest_hash:
+        raise ValueError("A successful preflight for this snapshot's locked models is required")
+    if any(preflight["models"].get(k, {}).get("spec") != v for k, v in lock["models"].items()):
+        raise ValueError("Preflight model/tokenizer revisions differ")
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dataset", required=True)
@@ -76,16 +83,13 @@ def main():
     args = parser.parse_args()
     if args.stop_after is not None and (not args.smoke or not 0 < args.stop_after < args.smoke_steps):
         parser.error("--stop-after must be a positive smoke step below --smoke-steps")
+    lock = read_lock(args.lock, verified=not args.smoke, model=args.model)
     manifest, split = load_frozen(args.dataset)
-    lock = read_lock(args.lock, verified=not args.smoke)
     if not args.smoke and lock["manifest_sha256"] != sha256(Path(args.dataset) / "manifest.json"):
-        raise ValueError("Full training must use the dataset used by both verified smoke tests")
+        raise ValueError("Full training must use the dataset used by the verified smoke tests")
     spec = lock["models"][args.model]
     preflight = json.loads(Path(args.preflight).read_text())
-    if not preflight["passed"] or preflight["manifest_sha256"] != sha256(Path(args.dataset) / "manifest.json"):
-        raise ValueError("A successful two-tokenizer preflight for this snapshot is required")
-    if any(preflight["models"][k]["spec"] != v for k, v in lock["models"].items()):
-        raise ValueError("Preflight model/tokenizer revisions differ")
+    verify_preflight(preflight, lock, sha256(Path(args.dataset) / "manifest.json"))
     import torch
     from transformers import Trainer, TrainerCallback, TrainingArguments, set_seed
     precision, gpu = gpu_precision(args.precision)

@@ -63,16 +63,22 @@ def quantization_label():
     return SETTINGS["quantization"].upper() + ("-double" if SETTINGS["double_quantization"] else "")
 
 
-def read_lock(path=DEFAULT_LOCK, verified=False):
+def read_lock(path=DEFAULT_LOCK, verified=False, model=None):
     lock = json.loads(Path(path).read_text())
-    for key, model in MODELS.items():
-        spec = lock["models"][key]
-        if spec["model_id"] != model:
+    if "llama" not in lock["models"]:
+        raise ValueError("A student lock must contain llama")
+    for key, spec in lock["models"].items():
+        if key not in MODELS or spec["model_id"] != MODELS[key]:
             raise ValueError(f"Unexpected model for {key}")
         for field in ("revision", "tokenizer_revision"):
             revision = spec[field]
-            if len(revision) != 40 or any(c not in "0123456789abcdef" for c in revision):
+            if not isinstance(revision, str) or len(revision) != 40 or any(c not in "0123456789abcdef" for c in revision):
                 raise ValueError(f"{key}: {field} must be an exact commit SHA")
-    if verified and not lock.get("gpu_smoke_verified"):
-        raise ValueError("Use a lock promoted after BOTH GPU smoke/resume tests")
+    verified_models = lock.get("verified_models", [])
+    if not isinstance(verified_models, list) or len(set(verified_models)) != len(verified_models) or set(verified_models) - set(lock["models"]):
+        raise ValueError("Invalid verified_models in student lock")
+    if model is not None and model not in lock["models"]:
+        raise ValueError(f"{model}: model is absent from this lock; supply its candidate pins and pass GPU smoke/resume before use")
+    if verified and (not lock.get("gpu_smoke_verified") or (model or "llama") not in verified_models):
+        raise ValueError(f"{model or 'llama'}: model is not GPU smoke/resume verified in this lock")
     return lock

@@ -1,0 +1,11 @@
+{
+  "gpu_smoke_verified": false,
+  "note": "Llama-only first-stage candidate; promote only after its GPU smoke/resume/loading checks. Package pins remain candidates until then.",
+  "models": {
+    "llama": {
+      "model_id": "rasyosef/Llama-3.2-1B-Amharic-Instruct",
+      "revision": "354e5403992da727615164b975594cde4529ab94",
+      "tokenizer_revision": "354e5403992da727615164b975594cde4529ab94"
+    }
+  }
+}

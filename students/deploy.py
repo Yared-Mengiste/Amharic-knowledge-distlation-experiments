@@ -46,7 +46,7 @@ def main():
     parser.add_argument("--out", required=True)
     args = parser.parse_args()
     load_frozen(args.dataset)
-    lock = read_lock(args.lock, verified=True)
+    lock = read_lock(args.lock, verified=True, model=args.model)
     export = json.loads(Path(args.export_manifest).read_text())
     if export["quantization"] != "Q4_K_M" or export["gguf_sha256"] != sha256(args.gguf) or export["adapter_sha256"] != sha256(Path(args.adapter) / "adapter_model.safetensors"):
         raise ValueError("GGUF export provenance differs from the requested Q4_K_M adapter")

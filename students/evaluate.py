@@ -1,4 +1,4 @@
-"""Greedy four-configuration benchmark generation and approved-reference losses."""
+"""Greedy original/adapted benchmark generation and approved-reference losses."""
 import argparse
 import json
 import math
@@ -50,8 +50,8 @@ def main():
     parser.add_argument("--out", required=True)
     parser.add_argument("--resume", action="store_true")
     args = parser.parse_args()
+    lock = read_lock(args.lock, verified=True, model=args.model)
     load_frozen(args.dataset)
-    lock = read_lock(args.lock, verified=True)
     spec = lock["models"][args.model]
     prompts = read_jsonl(Path(args.dataset) / "pilot_eval.jsonl")
     refs = read_jsonl(Path(args.dataset) / "eval_teacher.jsonl")
