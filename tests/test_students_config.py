@@ -1,4 +1,6 @@
 import unittest
+import importlib.util
+import inspect
 from unittest.mock import patch
 
 from students.config import SETTINGS, training_argument_values, training_steps
@@ -7,6 +9,16 @@ from students.tokenization import template_kwargs
 
 
 class ProtocolTests(unittest.TestCase):
+    @unittest.skipUnless(importlib.util.find_spec("transformers"), "Transformers optional locally; pinned API check requires its package")
+    def test_training_arguments_match_installed_transformers_api(self):
+        from transformers import TrainingArguments
+        supported = set(inspect.signature(TrainingArguments).parameters)
+        for precision in ("fp16", "bf16"):
+            for smoke_steps in (None, 4):
+                with self.subTest(precision=precision, smoke_steps=smoke_steps):
+                    values = training_argument_values("run", precision, smoke_steps)
+                    self.assertFalse(set(values) - supported, sorted(set(values) - supported))
+
     def test_changed_protocol_controls_trainer_split_and_completion(self):
         rows = [{"id": str(i), "category": str(i % 7)} for i in range(503)]
         with patch.dict(SETTINGS, seed=7, validation_fraction=0.2, epochs=2.5,

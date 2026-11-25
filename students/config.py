@@ -54,7 +54,7 @@ def training_argument_values(output, precision, smoke_steps=None):
         "greater_is_better": False, "save_total_limit": None,
         "logging_steps": 1, "report_to": [], "remove_unused_columns": False,
         "max_steps": smoke_steps if smoke_steps is not None else -1,
-        "dataloader_num_workers": 0, "save_safetensors": True,
+        "dataloader_num_workers": 0,
         "logging_nan_inf_filter": False,
     }
 

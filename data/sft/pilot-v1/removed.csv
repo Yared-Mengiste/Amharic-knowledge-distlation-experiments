@@ -1,0 +1,6 @@
+﻿id,category,answer_sha256,reviewer,reason
+pilot_26d48be1090736a84bddf3e1,translated_instruction,dfb58aad10654bbcb16e3b94b55f89b8fe124cfcda4f95a78ef32dc35faaff56,yared,Excluded after native-speaker spot check: yared marked this answer no.
+pilot_3736fe84746461707426dcde,math,7a6b1d5c194b8bdad5a7e126eeecb86dc8c6cd333d006b021bc4459e773a6980,yared,Excluded after native-speaker spot check: yared marked this answer no.
+pilot_72033f26196994fa53c0683c,news_classification,98d5f6cab4bf1e1e83883ea10a4220505e74f62477673f7894e8d17f6f73518a,yared,Excluded after native-speaker spot check: yared marked this answer no.
+pilot_a23c57a48076aec44de4a6fa,native_chat,36da83ece6780a05d63f0f06aa93a18c394771895042c4a37416e5d4232821eb,yared,Excluded after native-speaker spot check: yared marked this answer no.
+pilot_a34e90a671aedba095401445,code_switch,aa31f0af514058163ed263d5cf84968828dae9835fd87dde96698f0683ca7f20,yared,Excluded after native-speaker spot check: yared marked this answer no.

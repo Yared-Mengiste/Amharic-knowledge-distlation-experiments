@@ -1,0 +1,123 @@
+﻿id,disposition,notes
+pilot_0596daa0ae26bdebda66dc91,corrected,Translated horse breed and pedigree correctly and labelled Gregorian dates.
+pilot_083f10dffb25211e801ba3c5,corrected,Corrected percentage increase to 25%.
+pilot_0a9053189890d6d83a0b4889,corrected,Removed invented regions/repetition; dated 12-region structure to the 2023 reorganization and separated city administrations.
+pilot_1575362f636b743768def183,corrected,"Translated English names/technical wording into clear Amharic, preserving the supplied passage’s meaning."
+pilot_159d3643f15184187481423b,corrected,Corrected final sum from 2025 to 2125 birr.
+pilot_1895cff4b7aeac8e9017a9d5,corrected,Removed Gurmukhi insertion and translated street names/district boundary direction.
+pilot_19dcaae4b3305915812b3601,corrected,"Classified Italian words with Amharic explanations, preserving requested words."
+pilot_1baed89dd2ceaa583cd15ba2,corrected,Preserved explicitly requested Latin-script character names and rendered relationship/voice/base description in Amharic.
+pilot_1c76be94a5446022d8ea4796,corrected,"Preserved exact names, restored requested brace/bullet format and explained in Amharic."
+pilot_1d85f9c46262ae43750332d6,corrected,Rewrote technical explanation in Amharic and distinguished bytecode verification from total program security.
+pilot_1e3b615540718e31f289b51d,corrected,Removed HTML and specified Windows Word for shortcuts.
+pilot_223ddc63a03720aa84ff69b2,excluded,Unsupported date for the first IAU symposium in Ethiopia; archive verification did not establish the event meant. Excluded pending a reliable event record.
+pilot_22485cefda30204501753000,corrected,"Translated English names/technical wording into clear Amharic, preserving the supplied passage’s meaning."
+pilot_240e7e34699390c1be7e08eb,corrected,Qualified OS/version-specific keyboard setup; removed incorrect universal Mac shortcut claim.
+pilot_2685ed55ed14e9779fc50db2,corrected,Removed fabricated repetitive lyrics; asked song title and offered summary or explanation of user-supplied text.
+pilot_269bdfeefbd14cfbfd32ab95,corrected,Preserved source-timeframe attribution and distinguished shareholding from full ownership.
+pilot_2b545407d7861fa6d754eb9a,excluded,Source appears to have lost decimal points in inflation statistics; exact values cannot be safely restored without the original statistical report.
+pilot_2b80c2c0699b828ed701332c,corrected,"Original 7 PM answer was correct; added equivalent 19:00, which the numerical matcher expected."
+pilot_2bdac55df801fc691e8fa21e,corrected,Replaced unnecessary English explanatory text with Amharic learning steps.
+pilot_2e423d794d5ad3605160f1e3,corrected,"Translated English names/technical wording into clear Amharic, preserving the supplied passage’s meaning."
+pilot_3355a5c464851323ef2b2846,corrected,"Translated English names/technical wording into clear Amharic, preserving the supplied passage’s meaning."
+pilot_33989e77679c2150ccf9592d,corrected,Preserved explicitly requested names and translated recommendation/financial language; labelled Gregorian date.
+pilot_33ab675ad2042887976c3a9c,corrected,Corrected change to 20.50 birr for unit-price reading and gave alternative total-price reading.
+pilot_33b05421371811cea093e87c,corrected,Clarified ambiguous bread unit/total price; gave both possible change amounts.
+pilot_3549c49b22fb68b50db292cd,corrected,"Corrected date to Tir 23, 2018 EC using 142 elapsed days from Meskerem 1."
+pilot_3c4e2bfc32e38f7223525d50,excluded,"Source contradicts over 2.5 million birr with 2,052,858 birr, and an unlabelled 100 was expanded into 100 percent of salaries. Original source needed to resolve figures."
+pilot_3c78dfe47026c171fdfca034,corrected,"Completed the cut-off summary, preserving source dates and attribution."
+pilot_3c84fe5a64cce293d2a2c0c3,excluded,Damaged place name in translation source; Raqqa was an unsupported substitution. Original place spelling/source is needed to translate reliably.
+pilot_42bab651c61e9d75fdb31d45,corrected,Clarified per-bottle versus total price and additional fee assumptions.
+pilot_4941bf8643418bcd6998c8ae,corrected,Rendered extracted film names in Amharic and excluded the film Sandler withdrew from.
+pilot_499abf2897b88a5db0ab65c3,corrected,"Translated English names/technical wording into clear Amharic, preserving the supplied passage’s meaning."
+pilot_4a035f32af8adec48a042d98,corrected,"Translated English names/technical wording into clear Amharic, preserving the supplied passage’s meaning."
+pilot_4b2a6c313b020fb701f0320f,corrected,Removed unsupported universal performance claims; both ORC and Parquet work with Spark.
+pilot_4ce303a2b17cb219d5af57cd,corrected,Completed concise Q&A using source-supported transfer details.
+pilot_5158480d5c61fb7971394164,corrected,"Translated English names/technical wording into clear Amharic, preserving the supplied passage’s meaning."
+pilot_5c3cea013c9f1ca5996a996b,corrected,Replaced excessive escaped underscore filler with a complete concise report template.
+pilot_5f46a0d3601783c209bc7bd8,corrected,"Rendered extracted founder names in Amharic, preserving comma-separated format."
+pilot_6159957c32d3f3e0d41e466f,corrected,"Translated English names/technical wording into clear Amharic, preserving the supplied passage’s meaning."
+pilot_62b0e9a6d27571d7e1e6d58c,corrected,Corrected multiplication to 10800 birr gross revenue.
+pilot_63759e3433219c86d33b8180,corrected,Rewrote storage advice and clarified safe deletion of backed-up local copies versus cloud-synced photos.
+pilot_64ce639803e42491baae438a,corrected,Rendered fantasy titles/authors in Amharic.
+pilot_65160b76f94c97a5f63acdc9,corrected,"Removed unverified greetings, provided Oromo/Tigrinya/Somali examples and corrected morning-only meaning."
+pilot_660065b4ebaef2255face66d,corrected,Clarified per-litre versus two-litre total price; gave both monthly costs.
+pilot_67156e4bf3e14479d6790239,corrected,"Completed Q&A; retained undated source-relative timing, avoiding invented calendar/time conversion."
+pilot_67906b67067cec5a5fd11269,corrected,Replaced unverifiable video-tool promises/English prompt with an Amharic storyboard and explicit text-output limitation.
+pilot_6bb2df979b65192786513f86,corrected,Removed English glosses and qualified data-saving settings rather than promising all data use is prevented.
+pilot_6cac951b971eaefc719dd970,corrected,"Translated English names/technical wording into clear Amharic, preserving the supplied passage’s meaning."
+pilot_6f2983542712b85e88fb6cfa,corrected,"Completed classification and chose closest supplied category, with social-affairs caveat."
+pilot_707c3f0e58d7ea1fcef629e1,corrected,Corrected simple-interest principal to 15000 birr.
+pilot_708f0bbd722e3f465bb2fabb,corrected,"Translated English names/technical wording into clear Amharic, preserving the supplied passage’s meaning."
+pilot_729f7e7915435b958b449a55,corrected,"Explained tromboon’s bassoon double reed and trombone body; it is a hybrid, not a conventional brass instrument."
+pilot_74934be0d1cc2c0affd84dc8,corrected,"Corrected false denial: Solomon Demse competed in men’s -58 kg at Tokyo 2020, held in 2021."
+pilot_77db85efdb20dfdb0cc0397d,corrected,"Included Tir: five complete Ethiopian months, 150 days inclusive."
+pilot_77f85a6a90c6a541e2aabfd3,corrected,Made interpretation of ambiguous “world” category conditional rather than equating planet with Earth.
+pilot_79032185741c0fa2e0ccc726,corrected,"Qualified OCR language support; preserved originals, privacy and verification of recognised text."
+pilot_7914f11e39dbf40be37da40f,corrected,"Rewrote wireless photo-transfer guidance, preserving original files until transfer is verified."
+pilot_7d78a9b4c298a06367a8a91b,corrected,Included return tickets and qualified equal outbound/return fare assumption.
+pilot_7d9add579025b2c99c8a4bc0,corrected,"Translated English names/technical wording into clear Amharic, preserving the supplied passage’s meaning."
+pilot_7de93134c4268299dc6273a3,corrected,"Used Amharic wording for titles, added major related books, and made list scope explicit."
+pilot_7ed90033e8e31e66c4f6aa5e,corrected,Removed loop and corrected Finland’s neighbors; Finland has no Arctic Ocean coast.
+pilot_822bc4aeb0fcdaa57e6f8f6c,corrected,Rendered supplied album names in Amharic with source attribution.
+pilot_852c410cb98589fedd65a13c,corrected,"Completed attributed summary, corrected upstream/downstream framing, and omitted conflicting country counts/obsolete capacity claims."
+pilot_86d3037e20fbf79b471186de,corrected,"Completed source-faithful schedule, correctly identified conditional semifinal opponent and Addis Ababa stadium."
+pilot_8910e751428dc43e619a26f2,corrected,"Corrected winner to Jokha Alharthi, Celestial Bodies, translated by Marilyn Booth."
+pilot_89a65976594794c1532b4334,corrected,Corrected overtime arithmetic and total: 3230 + 765 = 3995 birr.
+pilot_8a85ba3a1d5263bdd03593c3,excluded,The prompt requires at least eight pages of a research proposal; the truncated outline cannot meet that scope. Needs a separate long-form answer with sourced literature and a larger length budget.
+pilot_8dc95278fae01281822edd22,corrected,Removed contradictory annual claim; Pagume has six days once every four years.
+pilot_8f406af9d9f61e047f8d309a,corrected,Corrected subtraction and Ethiopian-time conversion: depart 13:25 international time.
+pilot_8f618022a5dc7ba9f4fad04c,corrected,"Translated English names/technical wording into clear Amharic, preserving the supplied passage’s meaning."
+pilot_8ff1b5fba1cb50249a28b5ed,corrected,Kept correct four tournaments with Amharic names.
+pilot_93bd9d9e6920a2f67fab9cc7,corrected,Original date was correct; numerical matcher expected month number 3. Added clear month-name/number explanation.
+pilot_9804c88acb59d4d7a8c9a334,corrected,Clarified whether 9800 birr is per sheep or total; gave both valid calculations.
+pilot_981be55220c7b1bc0342a515,corrected,"Corrected January/October 2026 to Ethiopian years 2018/2019; stored checker expects unasked specific dates, so its mismatch is a documented false positive."
+pilot_9b2af19e0c6019b72070545f,corrected,Corrected contact sync guidance and warned to verify transfer before wiping original phone.
+pilot_a2a822bfc6d7d8fc43a94310,corrected,"Translated English names/technical wording into clear Amharic, preserving the supplied passage’s meaning."
+pilot_a2b0b63c537b335c0879db33,corrected,"Completed summary, corrected qualifying-round/leg distinction and removed damaged player-name segmentation."
+pilot_a4c13e83a4c9882cc5c66026,corrected,Translated technical math sentence and retained the source’s Greek variable Δ.
+pilot_a79fddfff1fb4ba5560561c0,corrected,"Preserved the entire supplied research passage and expanded methods/interpretation without inventing sample sizes, quotations or findings."
+pilot_a87309910b2501d27f80fe79,corrected,Completed source-attributed summary of rule-of-law exchange without inventing officials’ details.
+pilot_ac857aa5b5e0c91a5856d2f6,corrected,Answered narrow school question from supplied passage without copying its damaged biographical details.
+pilot_ad7aea4b259f31608ea29076,corrected,"Answered savings per soap, not packet unit price: 40 - 150/4 = 2.5."
+pilot_adfd3268e92940cbacee36d7,corrected,Translated draft and roster protection terminology; Gregorian February retained explicitly.
+pilot_b32aca604de6edc670c43554,corrected,"Removed Amharic restatement and incorrect converted year; preserved Meskerem 22, 2013 EC in English."
+pilot_b3a4718829f908b975fa08b4,corrected,"Translated English names/technical wording into clear Amharic, preserving the supplied passage’s meaning."
+pilot_b48a442249b9482acf7e429a,corrected,"Translated English names/technical wording into clear Amharic, preserving the supplied passage’s meaning."
+pilot_b518f54f44699695e6444cb3,corrected,Translated financial/offence terminology and Gregorian date.
+pilot_b544476211ccbbc7bcca9b5b,corrected,"Translated English names/technical wording into clear Amharic, preserving the supplied passage’s meaning."
+pilot_b64471fcb1610cefcad3ab56,corrected,Replaced English glosses while preserving correct 1939 source answer.
+pilot_b95edd4460f82598c78f4241,corrected,"Corrected 275/68 to 4.0441 hours, approximately 4h 2m 39s."
+pilot_bdf79932d2ce051ddde5caa8,corrected,Rewrote simple data-saving steps in Amharic.
+pilot_bf6f41288a6f91b03ab722ef,corrected,"Gave literal English translation, equivalent proverb, and English explanation."
+pilot_c6432c27ae6fc1b70f841638,corrected,"Original arithmetic was substantively correct; stated saving as -10 birr explicitly, rather than adding false positive savings."
+pilot_c7d3025bc6031687e9ad9e99,excluded,Damaged byline/name and opening text; the teacher invented a narrator/location. Excluded rather than inventing a name or silently removing source text from a full translation.
+pilot_c82de155dc77ff0c3e56f718,excluded,Undated current security conditions cannot be verified; teacher also mislocated the apparent Pretoria agreement. Excluded pending a dated reliable source.
+pilot_cb8366595b2cdb043518dae6,corrected,"Translated English names/technical wording into clear Amharic, preserving the supplied passage’s meaning."
+pilot_d169ff78c2d231ae8ff9e920,corrected,Rendered Microsoft in Amharic and identified Bill Gates as co-founder with Paul Allen.
+pilot_d29eb91581bafc81c29bce00,corrected,"Translated English names/technical wording into clear Amharic, preserving the supplied passage’s meaning."
+pilot_d5d21f43cae189c48a133236,corrected,Corrected director wording and rendered names in Amharic.
+pilot_d82294c93d39ed067e8bc018,corrected,"Corrected Hamle 1, 2018 EC to 2026-07-08 Gregorian using 300-day offset."
+pilot_d8d825de7bea2067574b7797,corrected,"Replaced loop with qualified definitions of ring ceremony and tilosh, acknowledging local variation."
+pilot_da89c1b21e69887f7c27c5af,corrected,Replaced loop and English insertion with an original short humorous poem.
+pilot_e1183f956bc4c1b6a262d2e6,corrected,Included both daily trips; clarified per-trip versus total fare and whole-day rounding.
+pilot_e12cd5ae3b1a91cdcd8ce569,corrected,"Corrected score sum to 514, mean to 85.6667 and gap from a 90 mean to 26 points."
+pilot_e18a5e7bedb99c7f51da0f0a,corrected,"Translated English names/technical wording into clear Amharic, preserving the supplied passage’s meaning."
+pilot_e22c86d95f3427dd5fe6971f,corrected,Completed summary; preserved source’s planned 2012 EC launch date and distinguished plan from actual launch.
+pilot_e46233a9e6909ad9f7d33a82,corrected,Corrected discount-plus-VAT final sum to 28842 birr.
+pilot_e47600be25cbe01ed895514e,corrected,"Translated English names/technical wording into clear Amharic, preserving the supplied passage’s meaning."
+pilot_e71eee1b170fa0df867a61f0,corrected,Distinguished message-delivery settings from friend requests and removed guaranteed-blocking claims.
+pilot_e81ecb571ef16d611b5f2c2b,corrected,Allocated remaining half of utilities to the other two people; totals sum to 9600 birr.
+pilot_f102fe01b8b8e0aa3f70989d,corrected,Used 15-day contribution intervals; distinguished full 240-day cycle from 225-day span between first/last payouts.
+pilot_f47b8d6c94f0549f6ed2232b,excluded,Iran–US ceasefire event/date not identified or verified; categorical denial is unsupported. Excluded pending a dated reliable source.
+pilot_f62c5b57ec2c978586589107,corrected,Included return distance: 198 km requires 17.82 litres at stated consumption.
+pilot_f6f3c4c83b3204d1d5895563,corrected,"Completed Q&A, identified Cote d’Or as the opponent and removed unsupported claims."
+pilot_f9999a14c95829cdd130f31a,corrected,"Translated English names/technical wording into clear Amharic, preserving the supplied passage’s meaning."
+pilot_fd0d97f6e74f58027bc35d64,corrected,Distinguished Sydney Cove 1788 Australia settlement from earlier Guam 1668 Oceania colonization.
+pilot_fd647cf3af2f1fa824341730,excluded,"Core revenue figures appear to have lost decimal points (178, 1618, 1307, 21397 billion; 116 percent) and stated percentages do not reconcile. Original report needed; do not guess exact statistics."
+pilot_fdaf93d2bd2410bffdf8f815,excluded,Source does not identify the frog species or calendar reliably and confuses disappearance with extinction declaration; an accurate dated answer cannot be recovered from this passage.
+pilot_26d48be1090736a84bddf3e1,excluded,Excluded after native-speaker spot check: yared marked this answer no.
+pilot_3736fe84746461707426dcde,excluded,Excluded after native-speaker spot check: yared marked this answer no.
+pilot_72033f26196994fa53c0683c,excluded,Excluded after native-speaker spot check: yared marked this answer no.
+pilot_a23c57a48076aec44de4a6fa,excluded,Excluded after native-speaker spot check: yared marked this answer no.
+pilot_a34e90a671aedba095401445,excluded,Excluded after native-speaker spot check: yared marked this answer no.

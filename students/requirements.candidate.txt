@@ -1,5 +1,5 @@
-# Python 3.12. Exact candidates, NOT yet validated on a Kaggle GPU.
-# A successful two-model smoke/resume test creates requirements.lock.txt.
+# Python 3.11–3.13. Candidate pins; GPU verification is model-specific.
+# Successful smoke/resume checks for the selected models create requirements.lock.txt.
 torch==2.10.0
 transformers==5.5.0
 peft==0.18.1

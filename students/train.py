@@ -119,6 +119,9 @@ def main():
         completed = verify_resume(args.resume, identity)
     elif output.exists() and any(output.iterdir()):
         raise ValueError("Output exists; use --resume or a new run directory")
+    # Validate the pinned Trainer API before loading weights or writing run metadata.
+    training_args = TrainingArguments(**training_argument_values(
+        output, precision, args.smoke_steps if args.smoke else None))
     output.mkdir(parents=True, exist_ok=True)
     write_json(output / "run_identity.json", identity)
     write_json(output / "split.json", split)
@@ -235,8 +238,7 @@ def main():
         del prediction, batch, total, count, loss
         set_seed(SETTINGS["seed"])
         checks = Checks()
-        trainer = AssistantTrainer(model=model, args=TrainingArguments(**training_argument_values(
-            output, precision, args.smoke_steps if args.smoke else None)),
+        trainer = AssistantTrainer(model=model, args=training_args,
             train_dataset=train_data, eval_dataset=val_data, data_collator=collator,
             callbacks=[checks])
         # compute_loss consumes Trainer's accumulation-window supervised token count.

@@ -15,7 +15,7 @@ The method is response-level knowledge distillation:
 
 The project lead is Bereket Legesse, an ML engineer at iCog Labs. A team member prepares the prompts, and native Amharic speakers do the human review.
 
-## 2. Status (as of 2026-11-24)
+## 2. Status (as of 2026-11-25)
 
 | Stage | State |
 |---|---|
@@ -23,8 +23,8 @@ The project lead is Bereket Legesse, an ML engineer at iCog Labs. A team member 
 | 1. Pilot prompt set: 5,000 train + 300 eval | Done. Built by the team member, then fixed by Claude Code following `docs/SPEC_pilot_fix.md`. All validation checks pass. Reproducible with `bash data_prep/run_all.sh`. |
 | 2. Native-speaker review of 150 prompts (`data/prompts/review_sample.csv`) | Pending. |
 | 3. Teacher generation for 5,261 prompts | Done on 2026-11-19. All prompt IDs have outputs from `google/gemma-4-26b-a4b-it` on DeepInfra; 1,220,124 output tokens, $0.629123, 1.17 h. See `experiments/LOG.md`. |
-| 4. Filter, review and merge the teacher answers | Assistant review and user-authorized merges done on 2026-11-21: original queue had 102 corrected, 197 retained, 8 excluded; hard-rejection review recovered 107 and excluded 2. Accepted: 4,952 train + 299 eval; 10 total exclusions. All 416 review decisions and 117 rejection/no-row dispositions documented. Minimal retained review artifacts and rebuild commands are listed in `data/sft/README.md`. Native-speaker approval/spot check remains pending. |
-| 5. Student bake-off on reviewed pilot answers | Llama-only first experiment implemented: frozen-data gates, QLoRA smoke/resume and training, original/adapted evaluation, blind review and Q4_K_M deployment. Gemma optional after Llama result review. Native-speaker review and GPU execution pending; see docs/RUN_student_bakeoff.md. |
+| 4. Filter, review and merge the teacher answers | Native-speaker review completed by Yared on 2026-11-24: 95 spot checks accepted, 5 rejected. New `data/sft/pilot-v1` excludes those five, retains all other conversation bytes and documents 421 queue decisions and 122 dispositions. Accepted: 4,947 train + 299 eval; 15 total exclusions. Audit passes; local snapshot `outputs/bakeoff/frozen-v1` is frozen with hashes and seed-42 split. Original data/review evidence is preserved; see `data/sft/pilot-v1/README.md`. |
+| 5. Student bake-off on reviewed pilot answers | First Llama Kaggle run complete: reviewed preflight, GPU smoke/resume/loading, promoted lock, two-epoch training (558 steps) and 300 original + 300 adapted eval outputs. Local artifacts: `outputs/llama_first_run_all_2`. Reference perplexity 36.81 → 15.28; language proxy 78.7% → 93.3%; repetition flags 32.7% → 59.3%. Blind native-speaker review and Q4_K_M deployment remain pending; no quality winner selected. See experiments/LOG.md. |
 | Student selection research | Public cards/metadata checked for 26 checkpoints; 16 tokenizers measured on the current 4,952 training conversations. Amharic Llama 1B averages 1.81 tokens per word versus Gemma 4 E2B 3.21 and tested Qwen 2.5/3 6.45, Qwen 3.5 7.09. Run Llama first to assess distillation; defer the larger comparator, probably Gemma E2B, until those results are reviewed; answer-quality and deployment results remain pending. See docs/RESEARCH_student_selection.md. |
 | 6. Scale-up to 30k–100k prompts | Not started (section 9). |
 
@@ -80,11 +80,12 @@ The project lead is Bereket Legesse, an ML engineer at iCog Labs. A team member 
     └── sft/                  # completed training/eval data and required audit inputs
 ```
 
-The completed pilot is retained in `data/sft/`: 4,952 training conversations
-and 299 teacher evaluation references, plus all 300 evaluation prompts and the
-evidence required by the student audit. Intermediate `data/prompts/`,
-`data/teacher/` and `data/review/` folders have been removed. Native-speaker
-spot checks remain pending; preparing this dataset does not record their approval.
+The original completed pilot is retained in `data/sft/`: 4,952 training
+conversations, 299 teacher evaluation references and all 300 evaluation prompts.
+The native-reviewed version is `data/sft/pilot-v1`: 4,947 training conversations
+after five documented exclusions, with the original review sheet preserved.
+Its audited local snapshot is `outputs/bakeoff/frozen-v1`. Intermediate
+`data/prompts/`, `data/teacher/` and `data/review/` folders have been removed.
 
 Run every command from the repo root. Rebuild `data/prompts/` before a new teacher run.
 
@@ -204,14 +205,18 @@ Llama evidence cannot authorize Gemma. Preserve stage-one artifacts and never
 overwrite locks or blind mappings. Adding a model leaves `SETTINGS` and the frozen
 data/split unchanged.
 
-Scripts and the Kaggle notebook are implemented. Current unreviewed-tokenizer
-checks on the current corrected data pass with no overlength or masking failures
+Scripts and the Kaggle notebook are implemented. Earlier unreviewed-tokenizer
+checks on the 4,952 corrected training conversations passed with no overlength or masking failures
 (maximum 1,065 Llama tokens, 1,965 Gemma tokens; length limit 2,048). Queue decisions,
-hard-rejection dispositions and merges are complete. Full training remains gated
-by native-speaker approval/spot checks. Rerun tokenizer preflight after approval
-and freeze. The 100-answer spot-check sheet is prepared in `data/sft/spot_check.csv`;
-the completed review queue exposes all newly corrected answers for review.
-No adapters or GPU/evaluation/deployment results have been produced yet.
+hard-rejection dispositions and merges are complete. Yared completed the
+100-answer native-speaker sheet in `data/sft/spot_check.csv`: 95 accepted, 5 rejected.
+The five rejected answers are excluded in `data/sft/pilot-v1`; its audit and local
+freeze passed. The user completed FP16 Tesla T4 preflight, smoke/resume/loading,
+training and original/adapted evaluation on 2026-11-24–25. Evidence is at
+`outputs/llama_first_run_all_2`; [experiments/LOG.md](experiments/LOG.md) records
+results and integrity checks. The comparison reproduces against the local frozen
+dataset. All four blind-review CSVs are unfilled, and Q4_K_M deployment remains
+pending. Complete those reviews before adding Gemma or scaling.
 
 ## 9. Later stages
 
@@ -275,6 +280,8 @@ Add a line whenever a decision is made or changed.
 
 | Date | Decision |
 |---|---|
+| 2026-11-25 | Remove obsolete Kaggle repair instructions and bundle/test dependencies on the local spot-check preparation helper before committing the reviewed dataset, Kaggle fixes and run status. Leave data_prep/resolve_spot_checks.py uncommitted at the user's request; retain its historical command and preparation evidence. |
+| 2026-11-25 | Record the user's completed Kaggle Llama training/evaluation from outputs/llama_first_run_all_2. Preserve downloaded artifacts and the original manifest; all retained hashes and the recomputed comparison match, with only 16 bytecode caches missing. Lower reference loss and better language-script compliance are accompanied by more repetition flags; keep quality selection pending until the existing blind native-speaker sheets and deployment checks are complete. |
 | 2026-11-10 | Response-level distillation from Gemma 4 26B into a 1–4B student. Prompt target is 50k–150k eventually, starting with a 5k pilot. |
 | 2026-11-10 | Rejected removing other languages by weight editing. Vocabulary trimming kept as an optional size experiment. |
 | 2026-11-10 | v1 prompt review: keep about 20k, write about 30k new chat-style prompts. General chat comes before assistant roles. |
@@ -292,3 +299,6 @@ Add a line whenever a decision is made or changed.
 | 2026-11-22 | Researched small Amharic students and measured actual tokenizer costs. Keep the existing Llama/Gemma bakeoff: Amharic Llama 1B has a substantial content-token advantage, while final quality is unproven. Identified Amharic Gemma adapters, vocabulary-trimmed Gemma candidates and Tiny Aya as optional leads, with their evaluation, artifact and licensing limits documented. No training-protocol change or model winner declared. |
 | 2026-11-24 | Separate answer-generation and distillation branches. Keep the completed dataset and required audit inputs in data/sft; remove intermediate prompt, response and review folders. |
 | 2026-11-24 | Run Llama 1B alone first to measure response-distillation benefit at the mentor’s request. Review results before selecting a larger second student, probably Gemma E2B. Keep both candidate pins; scope lock verification, evaluation and acceptance to included models without changing SETTINGS or frozen data. Gemma requires its own preflight, matching GPU smoke/resume/loading, full training, original/adapted outputs, combined blind review and deployment evidence in new artifact directories. No GPU/model results produced by this code change. |
+| 2026-11-24 | Yared completed all 100 native-speaker spot checks (95 yes, 5 no) and requested audit/freeze. Preserve the review decisions and original dataset; exclude the five rejected answers in a scripted new version. Audit requires documented exclusions with matching reviewed hashes and at least 100 completed spot checks. Freeze 4,947 training conversations, 299 references and 300 eval prompts at outputs/bakeoff/frozen-v1; keep SETTINGS unchanged and rerun reviewed tokenizer preflight before GPU smoke/training. |
+| 2026-11-24 | Kaggle reports Python 3.13.16 and offers T4 x2. Accept Python 3.11–3.13 after verifying exact pin metadata and wheel availability; expose only the first T4 before CUDA imports. Keep package pins, SETTINGS, frozen data and all install/preflight/GPU smoke gates. The notebook prints and records the actual interpreter version; metadata compatibility is not a GPU verification result. |
+| 2026-11-24 | Kaggle's nominal 16 GB T4 reports 14.56 GiB. Allow T4 allocations reporting >=14 GiB while retaining the >=15 GiB threshold for other GPUs and requiring exactly one visible GPU. Remove unused preinstalled torchvision/torchaudio/cuda-python conflicts, preserve the pinned dependencies and use a writable code copy for consistent subprocess repairs. Actual VRAM and smoke evidence remain required; no training result inferred. |

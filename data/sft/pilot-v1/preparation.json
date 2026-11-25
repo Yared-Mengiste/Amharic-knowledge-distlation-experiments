@@ -1,0 +1,55 @@
+{
+  "command": "python3 -m data_prep.resolve_spot_checks",
+  "source": "data/sft",
+  "source_files": {
+    "sft_train.jsonl": {
+      "source": "data/sft/sft_train.jsonl",
+      "sha256": "94f38a1348df4c5be554f0ccec58cea0093ee77223f2f84f4c31ba4edc72763e"
+    },
+    "eval_teacher.jsonl": {
+      "source": "data/sft/eval_teacher.jsonl",
+      "sha256": "918a7bfc725b05f12b906d63c2bb60a3b7bae9bc873bfe289ebc1f9fe582aa97"
+    },
+    "pilot_eval.jsonl": {
+      "source": "data/sft/pilot_eval.jsonl",
+      "sha256": "6317d46aa622491853bb1b5d967035305292ded4ad348a05c3110f4d62d61b52"
+    },
+    "review_queue.csv": {
+      "source": "data/sft/review_queue.csv",
+      "sha256": "8e2f0b2d4a6484c8e01c346b24dcb461d69e330a071c76300fd01e71156dc8db"
+    },
+    "rejected.jsonl": {
+      "source": "data/sft/rejected.jsonl",
+      "sha256": "ba0731fa76214f4ee87c520a527ff09efa8ae22c0aad8d1e9147e5a13f860d45"
+    },
+    "rejected_dispositions.csv": {
+      "source": "data/sft/rejected_dispositions.csv",
+      "sha256": "8f02f17a90fddfe029ca7c91c043e000608031184a6c078b557c3025ba0f274c"
+    },
+    "spot_check.csv": {
+      "source": "data/sft/spot_check.csv",
+      "sha256": "4a9e957a6d93a63e2c960315f853e3bac4df14914ff072cfabf43f2c76103bea"
+    },
+    "teacher_outputs.jsonl": {
+      "source": "data/sft/teacher_outputs.jsonl",
+      "sha256": "895aec02ecbc3ecdd51d93d419c5d648104aae10f66a0fc60681e25167d130f7"
+    },
+    "math_answers.csv": {
+      "source": "data/sft/math_answers.csv",
+      "sha256": "03d503147fb4cc3395214103d24c864e549531003587dd458e02c475f7e974a1"
+    }
+  },
+  "source_counts": {
+    "train": 4952,
+    "references": 299,
+    "eval": 300
+  },
+  "excluded_ids": [
+    "pilot_26d48be1090736a84bddf3e1",
+    "pilot_3736fe84746461707426dcde",
+    "pilot_72033f26196994fa53c0683c",
+    "pilot_a23c57a48076aec44de4a6fa",
+    "pilot_a34e90a671aedba095401445"
+  ],
+  "reason": "Native-speaker no decisions; no replacement answers or approvals added."
+}

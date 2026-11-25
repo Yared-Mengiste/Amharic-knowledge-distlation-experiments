@@ -16,10 +16,14 @@ def gpu_precision(requested="auto", training=True):
     if not torch.cuda.is_available() or torch.cuda.device_count() != 1:
         raise ValueError("Select exactly one NVIDIA GPU; laptop/CPU training is unsupported")
     info = torch.cuda.get_device_properties(0)
-    if training and info.total_memory < 15 * 1024**3:
-        # A nominal 16 GB T4 is reported as ~15 GiB by CUDA.
-        raise ValueError(f"Need a nominal >=16 GB GPU; found {info.total_memory / 1024**3:.2f} GiB")
-    supported = torch.cuda.is_bf16_supported()
+    # Kaggle's nominal 16 GB T4 can report 14.56 GiB after reserved memory.
+    # Keep the existing minimum for other GPUs and reject smaller T4 allocations.
+    minimum_memory = (14 if re.search(r"\bT4\b", info.name) else 15) * 1024**3
+    if training and info.total_memory < minimum_memory:
+        raise ValueError(f"Need a nominal >=16 GB GPU; found {info.name} with {info.total_memory / 1024**3:.2f} GiB")
+    # PyTorch's default includes emulation, which can report BF16 on a T4.
+    # Select BF16 only with native hardware and runtime support.
+    supported = info.major >= 8 and torch.cuda.is_bf16_supported(including_emulation=False)
     precision = ("bf16" if supported else "fp16") if requested == "auto" else requested
     if precision == "bf16" and not supported:
         raise ValueError("BF16 is not supported on this GPU; T4/P100 require FP16")

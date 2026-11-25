@@ -139,15 +139,6 @@ def audit(args):
     unknown = set(triage) - needs_triage
     if unknown:
         errors.append(f"Disposition IDs do not match rejected/no rows: {sorted(unknown)}")
-    spot = read_csv(args.spot_check) if Path(args.spot_check).exists() else []
-    if len(spot) < 100:
-        errors.append(f"Need approximately 100 native-speaker spot checks; found {len(spot)}")
-    for row in spot:
-        source = accepted.get(row["id"])
-        if row["id"] not in train_ids or not row.get("reviewer", "").strip() or row.get("accepted_yes_no", "").strip().lower() != "yes":
-            errors.append(f"Incomplete/unresolved training spot check: {row['id']}")
-        if source and row.get("answer_sha256") != hashlib.sha256(source["messages"][-1]["content"].encode()).hexdigest():
-            errors.append(f"Spot check refers to an older answer: {row['id']}")
     # Last teacher write wins, exactly as the existing generator and merge tool specify.
     teacher = {}
     for line in Path(args.teacher).read_text().splitlines():
@@ -155,6 +146,31 @@ def audit(args):
             r = json.loads(line)
             teacher[r["id"]] = r
     reviewed = {r["id"]: r for r in review}
+    spot = read_csv(args.spot_check) if Path(args.spot_check).exists() else []
+    if len(spot) < 100:
+        errors.append(f"Need approximately 100 native-speaker spot checks; found {len(spot)}")
+    excluded_spot_ids = []
+    for row in spot:
+        source = accepted.get(row["id"])
+        decision = row.get("accepted_yes_no", "").strip().lower()
+        rejection = reviewed.get(row["id"], {})
+        disposition = triage.get(row["id"], {})
+        excluded = (
+            decision == "no" and row["id"] not in accepted
+            and teacher.get(row["id"], {}).get("split") == "train"
+            and rejection.get("decision_keep_yes_no", "").strip().lower() == "no"
+            and disposition.get("disposition", "").strip().lower() == "excluded"
+            and disposition.get("notes", "").strip()
+        )
+        if not row.get("reviewer", "").strip() or not ((decision == "yes" and row["id"] in train_ids) or excluded):
+            errors.append(f"Incomplete/unresolved training spot check: {row['id']}")
+        if excluded:
+            excluded_spot_ids.append(row["id"])
+        answer = source["messages"][-1]["content"] if source else rejection.get("response", "")
+        if (source or excluded) and row.get("answer_sha256") != hashlib.sha256(answer.encode()).hexdigest():
+            errors.append(f"Spot check refers to an older answer: {row['id']}")
+        if "answer" in row and row.get("answer_sha256") != hashlib.sha256(row["answer"].encode()).hexdigest():
+            errors.append(f"Spot check answer text differs from its hash: {row['id']}")
     rejected_ids = {r["id"] for r in rejected}
     for rid, row in accepted.items():
         source = teacher.get(rid)
@@ -181,10 +197,16 @@ def audit(args):
              "rejected.jsonl": args.rejected, "rejected_dispositions.csv": args.dispositions,
              "spot_check.csv": args.spot_check, "teacher_outputs.jsonl": args.teacher,
              "math_answers.csv": args.math}
+    for name in ("removed.csv", "preparation.json"):
+        path = Path(args.train).parent / name
+        if path.is_file():
+            paths[name] = path
     report = {"ready": not errors, "errors": errors, "undecided_review_ids": undecided,
               "counts": {"train": len(train), "references": len(refs), "eval": len(prompts)},
               "category_counts": {name: dict(Counter(r["category"] for r in rows)) for name, rows in (("train", train), ("references", refs), ("eval", prompts))},
               "review_decisions": dict(Counter(r.get("decision_keep_yes_no", "").strip().lower() for r in review)),
+              "spot_check_decisions": dict(Counter(r.get("accepted_yes_no", "").strip().lower() for r in spot)),
+              "excluded_spot_check_ids": sorted(excluded_spot_ids),
               "dispositions": dict(Counter(r.get("disposition", "") for r in dispositions)),
               "missing_reference_ids": sorted(eval_ids - ref_ids),
               "files": {name: {"source": str(path), "sha256": sha256(path)} for name, path in paths.items() if Path(path).exists()}}
@@ -212,11 +234,16 @@ def load_frozen(directory):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=["audit", "prepare-review", "freeze"])
-    defaults = {"train": "data/sft/sft_train.jsonl", "references": "data/sft/eval_teacher.jsonl", "prompts": "data/sft/pilot_eval.jsonl", "review": "data/sft/review_queue.csv", "rejected": "data/sft/rejected.jsonl", "teacher": "data/sft/teacher_outputs.jsonl", "math": "data/sft/math_answers.csv", "dispositions": "data/sft/rejected_dispositions.csv", "spot-check": "data/sft/spot_check.csv"}
-    for key, default in defaults.items():
-        parser.add_argument("--" + key, default=default)
+    parser.add_argument("--dataset", default="data/sft", help="Source directory; individual input flags override it")
+    filenames = {"train": "sft_train.jsonl", "references": "eval_teacher.jsonl", "prompts": "pilot_eval.jsonl", "review": "review_queue.csv", "rejected": "rejected.jsonl", "teacher": "teacher_outputs.jsonl", "math": "math_answers.csv", "dispositions": "rejected_dispositions.csv", "spot-check": "spot_check.csv"}
+    for key in filenames:
+        parser.add_argument("--" + key)
     parser.add_argument("--out", default="outputs/bakeoff/frozen")
     args = parser.parse_args()
+    for key, name in filenames.items():
+        attribute = key.replace("-", "_")
+        if getattr(args, attribute) is None:
+            setattr(args, attribute, str(Path(args.dataset) / name))
     if args.command == "prepare-review":
         if any(Path(path).exists() for path in (args.dispositions, args.spot_check)):
             raise ValueError("Review evidence already exists; choose new paths rather than overwrite")

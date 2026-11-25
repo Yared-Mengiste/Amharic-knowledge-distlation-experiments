@@ -15,18 +15,23 @@ commit from `teacher/answer-generation` is already included in this branch.
 All preparation inputs are retained in `data/sft/`; see its [dataset notes](../data/sft/README.md).
 
 ```bash
-python3 -m students.data audit
+python3 -m students.data audit --dataset data/sft/pilot-v1
 ```
 
-Exit 2 reports unresolved rows without changing source files. The completed pilot
-already has all answer decisions and rejection dispositions recorded and merged:
-4,952 training conversations and 299 references. Its 100-answer native-speaker
-sheet is prepared in `data/sft/spot_check.csv`; approval remains pending.
+Exit 2 reports unresolved rows without changing source files. Yared completed the
+100-answer native-speaker sheet in `data/sft/spot_check.csv`: 95 accepted and 5
+rejected. The reviewed version in `data/sft/pilot-v1` excludes those five answers
+with documented queue decisions, dispositions and a removal ledger. Its audit
+passes: 4,947 training conversations, 299 references and all 300 eval prompts.
+The original dataset and the review sheet remain unchanged by preparation.
 Do not rerun `prepare-review` on the completed pilot: it refuses to overwrite
 the existing evidence.
 
-Have a native speaker fill `reviewer` and `accepted_yes_no` in that spot sheet.
-Resolve any `no` before freezing. Never rerun `filter_teacher.py` into `data/sft`.
+For later review, have a native speaker fill `reviewer` and `accepted_yes_no`.
+Resolve any `no` in a new dataset version before freezing, preserving the human
+sheet and retained conversation bytes. The audit requires at least 100 completed
+spot checks and documented, hash-matching exclusions for rejected answers.
+Never rerun `filter_teacher.py` into `data/sft`.
 
 For later answer changes, create a new versioned SFT dataset and new review
 evidence. The merger appends only missing IDs; an already accepted answer must
@@ -34,12 +39,15 @@ be changed by a versioned preparation script. Use explicit `--spot-check` and
 `--dispositions` paths with `prepare-review` so previous evidence is preserved.
 
 ```bash
-python3 -m students.data freeze --out outputs/bakeoff/frozen-v1
+python3 -m students.data freeze --dataset data/sft/pilot-v1 --out outputs/bakeoff/frozen-v1
 python3 -m students.bundle --dataset outputs/bakeoff/frozen-v1 \
   --out outputs/bakeoff/kaggle-bundle-v1
 ```
 
-Freeze copies source data, math checks, review evidence and the shared split, and
+The local `outputs/bakeoff/frozen-v1` snapshot already exists as of 2026-11-24;
+do not rerun its freeze command. For another version choose a fresh output path.
+It has 4,452 training IDs and 495 validation IDs, stratified by category with seed 42.
+Freeze copies source data, math checks, review/exclusion evidence and the shared split, and
 records hashes/counts. Loading always verifies hashes; changes require a new
 dataset version. Upload the allowlisted bundle manually as a **private** Kaggle
 dataset. It contains code and the frozen snapshot, without `.env` or Git history.
@@ -47,10 +55,22 @@ dataset. It contains code and the frozen snapshot, without `.env` or Git history
 ## Kaggle preflight, smoke and full runs
 
 Use [students/kaggle_bakeoff.ipynb](../students/kaggle_bakeoff.ipynb) in a private
-notebook. Attach the private bundle and select one NVIDIA GPU with nominal >=16 GB
-VRAM. Two T4s are rejected. The notebook uses separate processes so memory is
+notebook with Python 3.11–3.13; the first Llama run used Kaggle Python 3.13.16.
+Attach the private bundle and use one visible NVIDIA GPU with nominal >=16 GB
+VRAM. If Kaggle offers T4 x2, the setup cell sets `CUDA_VISIBLE_DEVICES=0`
+before CUDA imports so training uses the first T4. Two visible GPUs are rejected.
+The notebook uses separate processes so memory is
 released between models. Give it Internet access for checkpoint downloads; use
 Kaggle Secrets for an HF token if checkpoint access requires one, never print it.
+
+A nominal 16 GB T4 can report 14.56 GiB after reserved memory. The GPU eligibility
+check permits a T4 with at least 14 GiB reported memory, while other GPU models
+retain the 15 GiB minimum. Smaller T4 allocations and two visible GPUs still fail;
+the unchanged-protocol GPU smoke test determines whether actual training fits.
+T4/P100 runs use FP16; BF16 requires native GPU/runtime support. The notebook
+passes the selected precision to smoke, training and evaluation and copies code
+into `WORK/repo` for consistent imports/subprocesses. Frozen data stays in the
+attached input. Use the current notebook and rebuild a bundle after code changes.
 
 The generated notebook defaults to `MODELS = ['llama']` through
 `INCLUDE_GEMMA = False`. Keep that default for stage one. Regenerate with
@@ -61,6 +81,7 @@ stage two. The notebook passes the matching candidate lock to preflight and smok
 The notebook calls these commands (adjust dataset/run paths):
 
 ```bash
+python3 -m pip uninstall -y torchvision torchaudio cuda-python
 python3 -m pip install -r students/requirements.candidate.txt
 python3 -m students.preflight --dataset outputs/bakeoff/frozen-v1 \
   --lock students/model_lock.llama.candidate.json --out outputs/bakeoff/preflight.json
@@ -73,6 +94,12 @@ python3 -m students.train --dataset outputs/bakeoff/frozen-v1 --model llama \
   --preflight outputs/bakeoff/preflight.json --out outputs/bakeoff/smoke-llama \
   --smoke --resume outputs/bakeoff/smoke-llama/checkpoint-2
 ```
+
+The uninstall removes unused preinstalled Kaggle extras tied to its newer
+Torch/CUDA versions. It keeps the Torch-required NVIDIA packages and
+`cuda-bindings`. If an older Torch is still loaded in the notebook process after
+installation, restart the kernel and rerun setup before continuing. The generated
+notebook detects that stale Torch import.
 
 Promote only Llama after its smoke/resume/loading checks pass:
 
@@ -107,6 +134,16 @@ incomplete checkpoints fail instead of restarting. Put restored private outputs
 under the same run paths before resuming. The notebook exposes `FULL_RESUME` for
 explicit checkpoint selection and skips a completed full run only after checking
 its recorded identity and completed-step count.
+
+If a failed smoke start left metadata in `smoke-llama` before `checkpoint-2` was
+saved, the next attempt reports `Output exists; use --resume or a new run
+directory`. Inspect the folder first. Preserve any checkpoint and resume it with
+matching identity. If there are no checkpoints and no same-precision
+`memory_failure.json`, explicitly rename the failed folder to
+`smoke-llama-failed-<timestamp>` and rerun the original smoke cell. Its canonical
+output path and lock-promotion arguments then remain consistent. An existing
+FP16 memory-failure report must be investigated before retrying the unchanged
+protocol. The trainer's overwrite/resume guard remains in place.
 
 To diagnose tokenizers while review is pending (this cannot authorize training):
 

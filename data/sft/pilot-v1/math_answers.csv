@@ -1,0 +1,286 @@
+id,type,style,status,prompt,computed_answer,note,split
+pilot_33b05421371811cea093e87c,shopping_change,casual,ok,ሱቅ ሄጄ 3 ዳቦ በ12 ብር፣ አንድ ሊትር ወተት በ85 ብር ገዛሁ። 200 ብር ብሰጠው ስንት መልስ ይሰጠኛል?,79,,train
+pilot_fc977c2622b4c76aa7dd8466,shopping_change,steps,ok,እናቴ 2 ኪሎ ቲማቲም በኪሎ 65 ብር፣ 1.5 ኪሎ ሽንኩርት በኪሎ 90 ብር ገዛች። 500 ብር ከፈለች። መልሱን ስንት ታገኛለች? ስሌቱን ደረጃ በደረጃ አሳየኝ።,235,,train
+pilot_8891b2a427064c34a49d6caf,shopping_change,answer,ok,5 ደብተር እያንዳንዱ 45 ብር እና 4 እስክሪብቶ እያንዳንዱ 18 ብር ቢሆን በአጠቃላይ ስንት ብር ነው? መልሱን ብቻ።,297,,eval
+pilot_0f792e8c3a70b30ac493f0ee,shopping_change,casual,ok,ሱቄ ውስጥ አንድ ደንበኛ 30 እንቁላል በአንዱ 16.50 ብር ወሰደ። 1000 ብር ሰጠኝ። መልሱ ስንት ነው?,505,,train
+pilot_d9f59c0b75b2037293fa00cf,shopping_change,steps,ok,"ለልጆቼ ትምህርት ቤት 3 ቦርሳ በ650 ብር፣ 2 ጥንድ ጫማ በ1,200 ብር ገዛሁ። 5,000 ብር ይዤ ነበር። ስንት ቀረኝ? ደረጃ በደረጃ አስረዳኝ።",650,,train
+pilot_950ffd0e91ee734a8491215e,shopping_change,casual,ok,ከገበያ 3 ኪሎ ጤፍ በኪሎ 145 ብር ገዝቼ ስንት እንደከፈልኩ ረሳሁ። አሁን ቦርሳዬ ውስጥ 265 ብር አለ። መጀመሪያ ስንት ብር ይዤ ነበር?,700,,train
+pilot_19af2d901d5cb320f9c310cc,shopping_change,answer,ok,አንድ ሊትር ዘይት 310 ብር ከሆነ 2.5 ሊትር ስንት ብር ነው?,775,,train
+pilot_4587166975a357171b1d46b2,shopping_change,casual,missing,ለቤት 4 ፓኬት ፓስታ፣ 2 ኪሎ ስኳር እና አንድ ሳሙና ገዛሁ፤ 700 ብር ሰጠሁ። መልሱ ስንት ነው?,,information missing: the model should ask / point it out,train
+pilot_faba5266fdedc8fb1a03ef1f,shopping_change,steps,ok,ሰፈር ሱቅ 1 ፓኬት ሻይ ቅጠል 38 ብር፣ 1 ኪሎ ስኳር 135 ብር ነው። 3 ፓኬት ሻይና 2 ኪሎ ስኳር ብገዛ፣ 500 ብር ሰጥቼ ስንት እመለሳለሁ? ስሌቱን አሳይ።,116,,train
+pilot_33ab675ad2042887976c3a9c,shopping_change,casual,ok,ልጄ 50 ብር ይዞ ሄዶ 3 ከረሜላ በ2.50 ብር እና አንድ ብስኩት በ22 ብር ገዛ። ስንት መልስ ሊያመጣ ይገባል?,20.5,,train
+pilot_a5bd82a67fb04cacd000e8a0,shopping_change,answer,ok,12 እንጀራ በአንዱ 18 ብር ስንት ብር ነው?,216,,train
+pilot_42bab651c61e9d75fdb31d45,shopping_change,casual,ok,ከሱፐርማርኬት 2 ጠርሙስ ውሃ በ25 ብር፣ አንድ ኪሎ ሙዝ በ55 ብር ገዛሁ። ደረሰኙ 140 ብር ይላል። ተሳስተዋል ወይስ ልክ ነው?,105,,train
+pilot_1b39aa53f4ae67b01041448f,unit_price,steps,ok,"አንድ ብራንድ ዘይት 3 ሊትሩ 960 ብር፣ ሌላው 5 ሊትሩ 1,575 ብር ነው። በሊትር የቱ ይረክሳል? ስሌቱን አሳየኝ።","(320, 315)",,eval
+pilot_7ecf3e906b5ccb4536df56f7,unit_price,casual,ok,"ዱቄት 25 ኪሎው 2,100 ብር፣ 10 ኪሎው ደግሞ 870 ብር ነው። የቱ ነው የሚያዋጣኝ?","(84, 87)",,train
+pilot_ad7aea4b259f31608ea29076,unit_price,answer,ok,ሳሙና 4 ያለው ፓኬት 150 ብር፣ ነጠላው 40 ብር ነው። በአንድ ሳሙና ስንት ብር ይቆጠባል? መልሱን ብቻ።,2.5,,train
+pilot_9588d959bd4b2860817244b4,unit_price,casual,ok,ሩዝ 2 ኪሎው 290 ብር ሲሆን 5 ኪሎው 700 ብር ነው። 10 ኪሎ ብፈልግ የትኛውን ጥቅል ልግዛ፣ ስንትስ እቆጥባለሁ?,"(1450, 1400, 50)",,train
+pilot_135dc6857c6c4370333226b2,unit_price,steps,ok,የሞባይል ጥቅል 1GB በ35 ብር፣ 5GB በ150 ብር፣ 12GB በ330 ብር ይሸጣል። በ1GB ዋጋ የትኛው ይረክሳል? ደረጃ በደረጃ አስረዳኝ።,"(35, 30, 27.5)",,train
+pilot_9a2be2d1066bce9520b971c3,unit_price,casual,missing,የሻምፑ ትልቁ ጠርሙስ ከትንሹ ይረክሳል ይባላል። ትልቁ 650 ብር፣ ትንሹ 280 ብር ነው። የቱ ይሻላል?,,information missing: the model should ask / point it out,train
+pilot_ad9b227fab8e624cedcbc41c,unit_price,answer,ok,ቡና 1 ኪሎ 920 ብር ከሆነ 250 ግራም ስንት ብር ነው?,230,,train
+pilot_8b1541dbc4627d2fa7b2e045,unit_price,casual,ok,ሱቄ ውስጥ ለስላሳ 24 ያለው ካርቶን በ720 ብር እገዛለሁ፣ በነጠላ በ40 ብር እሸጣለሁ። ከአንድ ካርቶን ስንት ትርፍ አገኛለሁ?,240,,train
+pilot_a5dad8d53a02fbe1acab0f45,discount_vat,steps,ok,"አንድ ጫማ 2,400 ብር ነው። 15% ቅናሽ ቢደረግለት አዲሱ ዋጋ ስንት ይሆናል? ደረጃ በደረጃ አሳየኝ።",2040,,train
+pilot_facbe397035a557b68c144e0,discount_vat,casual,ok,"ደረሰኙ ላይ የእቃው ዋጋ 1,860 ብር ይላል፣ 15% ቫት ይጨመራል። በአጠቃላይ ስንት ልከፍል ነው?",2139,,train
+pilot_5ce25ee4e802c270a8c4613c,discount_vat,answer,ok,"ቫትን ጨምሮ 2,300 ብር የከፈልኩበት እቃ ከቫት በፊት ዋጋው ስንት ነበር? ቫት 15% ነው። መልሱን ብቻ።",2000,,train
+pilot_e46233a9e6909ad9f7d33a82,discount_vat,steps,ok,"አንድ ቴሌቪዥን 28,500 ብር ሲሆን በበዓል 12% ቅናሽ ተደርጎበታል። ከዛ ላይ ደግሞ 15% ቫት ይታከላል። የመጨረሻው ዋጋ ስንት ነው? ስሌቱን አሳይ።",28842,,train
+pilot_159d3643f15184187481423b,discount_vat,casual,ok,"ልብስ ቤቱ ""ሁለት ስትገዛ ሶስተኛው በግማሽ ዋጋ"" ይላል። አንዱ ሸሚዝ 850 ብር ነው። ሶስት ብገዛ ስንት እከፍላለሁ?",2125,,train
+pilot_71d3b8ae27b084df0338393c,discount_vat,casual,ok,"ዋጋው መጀመሪያ 20% ተቀንሶ በኋላ 20% ቢጨመር ወደ ቀድሞው ዋጋ ይመለሳል? 1,000 ብር የነበረ እቃ ምሳሌ አድርገህ አሳየኝ።",960,,train
+pilot_72fb9dca1d8270e697260e97,discount_vat,answer,ok,"1,250 ብር የነበረ እቃ 960 ብር ተሸጠ። ቅናሹ ስንት በመቶ ነው?",23.2,,eval
+pilot_d3d09be0b4a929c0b29a9704,discount_vat,steps,ok,"ለሱቄ 40 ጥቅል ሳሙና በ3,600 ብር ገዝቼ 25% ትርፍ ጨምሬ መሸጥ እፈልጋለሁ። አንዱን ጥቅል በስንት ልሽጥ? ደረጃዎቹን አሳየኝ።",112.5,,train
+pilot_d34abdbd84a39c8aad49826f,discount_vat,casual,ok,"ነጋዴው 30% ቅናሽ አድርጌልሃለሁ ብሎ 1,050 ብር አስከፈለኝ። መጀመሪያ ዋጋው 1,400 ብር ነበር ብሏል። ቅናሹ እውነት 30% ነው?",25,,train
+pilot_c8865b6c4a04d354ff418fdb,discount_vat,casual,contradiction,"አንድ እቃ 15% ቫት ሳይጨምር 4,200 ብር፣ ቫት ጨምሮ ደግሞ 4,500 ብር ነው ብለውኛል። ይሄ ይጣጣማል?",4830,data is inconsistent: the model should point it out,train
+pilot_db45e8b6e1ad6d0ce1a9d2b6,simple_interest,steps,ok,"ከማይክሮ ፋይናንስ 20,000 ብር በዓመት 18% ቀላል ወለድ ለ2 ዓመት ተበደርኩ። በአጠቃላይ ስንት እመልሳለሁ? ደረጃ በደረጃ አሳየኝ።",27200,,train
+pilot_d9814d194b1e402551f17d98,simple_interest,casual,ok,"ባንክ 50,000 ብር በዓመት 7% ቀላል ወለድ ብቆጥብ በ3 ዓመት ስንት ወለድ አገኛለሁ?",10500,,train
+pilot_c1a4ca39f7fcf6d084473fb6,simple_interest,answer,ok,"15,000 ብር በዓመት 12% ቀላል ወለድ ለ9 ወር ብበደር ወለዱ ስንት ነው? መልሱን ብቻ።",1350,,train
+pilot_4e1675448d7447b1f7308928,simple_interest,casual,ok,"ጓደኛዬ 8,000 ብር አበድሮኝ በ6 ወር 8,600 መልስ አለኝ። ይሄ በዓመት ስንት በመቶ ወለድ ማለት ነው?",15,,train
+pilot_014a41377332318bf10a76b9,simple_interest,steps,ok,"ለባጃጅ ግዢ 120,000 ብር በዓመት 16% ቀላል ወለድ ለ3 ዓመት ተበድሬያለሁ። በየወሩ እኩል ብከፍል ወርሃዊ ክፍያዬ ስንት ይሆናል? ስሌቱን አሳይ።",4933.3333,,train
+pilot_06a18fb10b27de5de3cdd038,simple_interest,casual,missing,"ብድር ወስጄ ወለዱ 4,500 ብር ሆኗል። ወለዱ በዓመት 15% ነው። ዋናው ገንዘብ ስንት ነበር?",,information missing: the model should ask / point it out,train
+pilot_707c3f0e58d7ea1fcef629e1,simple_interest,answer,ok,"ስንት ብር በዓመት 10% ቀላል ወለድ ቢቀመጥ በ4 ዓመት 6,000 ብር ወለድ ያስገኛል?",15000,,train
+pilot_a7dbf64cfc736dd93b770630,simple_interest,casual,ok,"ቁጠባ ሂሳቤ ላይ 32,000 ብር አለኝ፣ በዓመት 7% ቀላል ወለድ ይታሰባል። ስንት ዓመት ብጠብቅ ወለዱ 8,960 ብር ይደርሳል?",4,,train
+pilot_712dbf897c5a4056c83448de,equb,casual,ok,"እቁባችን 12 አባላት አሉት፣ እያንዳንዱ በወር 2,500 ብር ይጥላል። እቁብ ሲወጣልኝ ስንት ብር አገኛለሁ?",30000,,train
+pilot_a78ecfe4e56fee8bedbc0afb,equb,steps,ok,የሳምንት እቁብ ውስጥ 20 ሰው አለ፣ እያንዳንዱ በሳምንት 500 ብር ይከፍላል። ሁሉም አንዴ እስኪወስድ ስንት ሳምንት ይፈጃል? አንድ ሰው በአጠቃላይ ስንት ብር ይከፍላል? ደረጃ በደረጃ አስረዳኝ።,"(20, 10000)",,train
+pilot_901ce058c1e8ad5315cc7b7c,equb,casual,ok,"እቁብ ልገባ ነው። በወር 1,500 ብር ብጥል እና 15 ሰው ብንሆን፣ እቁቡ ሲደርሰኝ የማገኘው ገንዘብ ከከፈልኩት በላይ ነው ወይስ እኩል?","(22500, 22500)",,train
+pilot_a1d2e8748884f87a09eaef1e,equb,answer,ok,የቀን እቁብ፦ 30 አባላት እያንዳንዱ በቀን 100 ብር። አንድ ዙር ሲወጣ ስንት ብር ነው? መልሱን ብቻ።,3000,,eval
+pilot_b8f94971642e74a47df736d8,equb,casual,ok,"በእቁባችን አባላት በወር 3,000 ብር ይጥላሉ፣ እቁቡ በወጣ ቁጥር 54,000 ብር ይሰጣል። ስንት አባላት አሉ?",18,,train
+pilot_485ee0abc9bfeb82ae72e72c,equb,steps,ok,"እቁባችን 10 አባላት ሲኖሩት በወር 4,000 ብር እንጥላለን፤ ዳኛው ከእያንዳንዱ ዙር 2% ለአስተዳደር ይይዛል። እቁብ የወጣለት ሰው ስንት ይደርሰዋል? ስሌቱን አሳይ።",39200,,train
+pilot_726a2d87b77cf1ae16e73e6b,equb,casual,missing,እቁብ ውስጥ 8 ሰው ነን ብለውኛል። በየወሩ ስንት እንደሚጣል አልነገሩኝም። እቁቡ ሲደርሰኝ ስንት እወስዳለሁ?,,information missing: the model should ask / point it out,train
+pilot_89b3cfca1dd0c51603112433,bill_split,casual,ok,"6 ጓደኛሞች ካፌ ገብተን ሂሳቡ 1,860 ብር መጣ። 10% ቲፕ ብንጨምር እያንዳንዳችን ስንት እንከፍላለን?",341,,train
+pilot_26a095e7a6c768d814b1a8de,bill_split,answer,ok,"የምሳ ሂሳብ 2,450 ብር ነው፣ 7 ሰዎች እኩል ይካፈላሉ። አንዱ ስንት ይከፍላል?",350,,train
+pilot_185e2e2501d25e27744a043b,bill_split,steps,ok,"ለሰርግ ስጦታ 9 ባልደረቦች 13,500 ብር አዋጣን። ሁለቱ እያንዳንዳቸው 2,000 ብር ከሰጡ፣ ቀሪዎቹ እኩል ቢከፍሉ እያንዳንዳቸው ስንት ይከፍላሉ? ስሌቱን አሳየኝ።",1357.1429,,train
+pilot_e81ecb571ef16d611b5f2c2b,bill_split,casual,ok,"ቤት ውስጥ 3 ሆነን እንኖራለን። ኪራይ 9,000፣ መብራት 420፣ ውሃ 180 ብር ነው። ኪራዩን እኩል፣ መብራትና ውሃውን ግን አንዱ ብቻ ቤት ስለሚውል ግማሹን እሱ ይክፈል ብለን ተስማማን። ማን ስንት ይከፍላል?","(3300, 3150)",,train
+pilot_c9c3469bf67af430f62e8b84,bill_split,casual,missing,"ጉዞ ላይ ለመኪና ኪራይ 6,000፣ ለነዳጅ 3,250 ብር ወጣ። 5 ሰዎች ነበርን ግን አንዱ ግማሽ መንገድ ላይ ወረደ። እንዴት እንካፈል?",,information missing: the model should ask / point it out,eval
+pilot_7f1a3619e8198df5944402a6,bill_split,answer,ok,"የልደት ኬክ 1,200 ብር ነው፣ 8 ሰው እኩል ቢካፈል አንዱ ስንት ያወጣል?",150,,train
+pilot_f4ab59a1cce70b587809a785,bill_split,steps,ok,"4 ተማሪዎች ለፕሮጀክት 2,780 ብር አወጣን። አበበ 900፣ ሰላም 750፣ ዳዊት 680፣ ሐና 450 ከፍለዋል። ወጪውን እኩል ለማድረግ ማን ለማን ስንት መስጠት አለበት? ደረጃ በደረጃ አሳየኝ።",695,,train
+pilot_fb291c0e6b31f75f37fd2e8c,recipe_scale,casual,ok,ለ4 ሰው የሚሆን ሽሮ ወጥ 1 ኩባያ ሽሮ፣ 2 ሽንኩርት፣ 3 ኩባያ ውሃ ይፈልጋል። ለ10 ሰው ብሰራ ስንት ስንት ልጠቀም?,"(2.5, 5, 7.5)",,train
+pilot_9d210b896dfcdea994414a01,recipe_scale,steps,ok,የቂጣ አሰራሩ ለ6 ሰው 750 ግራም ዱቄት ይላል። ለ9 ሰው ስንት ግራም ዱቄት ያስፈልገኛል? ደረጃ በደረጃ አስረዳኝ።,1125,,train
+pilot_6a7f5c0d9eadcdf1ec31257c,recipe_scale,answer,ok,ለ8 ሰው 2 ኪሎ ስጋ ከፈለገ ለ5 ሰው ስንት ኪሎ ያስፈልጋል?,1.25,,train
+pilot_ef72f197626bce63021268dc,recipe_scale,casual,ok,ለበዓል ለ30 እንግዳ ዶሮ ወጥ ልሰራ ነው። አንድ ዶሮ ለ6 ሰው ይበቃል ብለውኛል። ስንት ዶሮ ልግዛ?,5,,train
+pilot_dc4ce82401915b1e9f0678a1,recipe_scale,casual,ok,ጠላ ለመጥመቅ ለ20 ሊትር 3 ኪሎ ብቅል ያስፈልጋል። 35 ሊትር ብጠምቅ ስንት ኪሎ ብቅል ያስፈልገኛል?,5.25,,train
+pilot_9440c7d06323622debbacd6d,recipe_scale,steps,ok,የኬክ አሰራር ለ12 ቁራጭ 3 እንቁላል፣ 240 ግራም ስኳር ይጠቀማል። 20 ቁራጭ ብሰራ ስንት እንቁላልና ስንት ግራም ስኳር ያስፈልገኛል? ስሌቱን አሳይ።,"(5, 400)",,eval
+pilot_be7f85950ed6047755fb1588,recipe_scale,casual,missing,"የአያቴ የዳቦ አሰራር ""ለአንድ ቤተሰብ"" ይላል፤ ለትምህርት ቤት ዝግጅት ብሰራው ስንት እጥፍ ማድረግ አለብኝ?",,information missing: the model should ask / point it out,train
+pilot_f62c5b57ec2c978586589107,fuel_taxi,casual,ok,መኪናዬ በ100 ኪሎ ሜትር 9 ሊትር ቤንዚን ይጠቀማል። ከአዲስ አበባ አዳማ 99 ኪሎ ሜትር ነው። ደርሶ መልስ ስንት ሊትር ያስፈልገኛል?,17.82,,train
+pilot_6d84af8416df7c719672a73d,fuel_taxi,steps,ok,ቤንዚን በሊትር 127.50 ብር ነው። መኪናዬ በሊትር 11 ኪሎ ሜትር ይሄዳል። 330 ኪሎ ሜትር ለመጓዝ የነዳጅ ወጪዬ ስንት ነው? ደረጃ በደረጃ አሳየኝ።,3825,,train
+pilot_19bbf6b5d4e0a49da01422a9,fuel_taxi,casual,ok,በየቀኑ ወደ ስራ ስሄድ ሁለት ታክሲ እቀይራለሁ፤ አንዱ 15 ብር ሌላው 20 ብር። መመለሻውም እንዲሁ ነው። በወር 22 የስራ ቀን ቢሆን ለትራንስፖርት ስንት አወጣለሁ?,1540,,train
+pilot_a7fa0a4e6489baafe6b182c9,fuel_taxi,answer,ok,የራይድ ታክሲ መነሻ 70 ብር፣ በኪሎ ሜትር 28 ብር ይከፍላል። 12.5 ኪሎ ሜትር ጉዞ ስንት ያስከፍላል?,420,,train
+pilot_edc8cabb608652dc56b10aae,fuel_taxi,casual,ok,"ባጃጅ ቀን ቀን እሰራለሁ። በቀን 6 ሊትር ቤንዚን እጠቀማለሁ፣ በሊትር 127 ብር ነው። በቀን 1,650 ብር ከሰራሁ ከነዳጅ ውጪ ስንት ይቀረኛል?",888,,eval
+pilot_31a9939ef4009fa03d11ed57,fuel_taxi,steps,ok,"ሚኒባሱ 12 ተሳፋሪ ይይዛል፣ እያንዳንዱ 25 ብር ይከፍላል። በቀን 14 ዙር ይሰራል፣ ለነዳጅ 2,900 ብር ያወጣል። ሙሉ በሙሉ ቢሞላ በቀን ስንት የተጣራ ገቢ ያገኛል? ደረጃዎቹን አሳየኝ።",1300,,train
+pilot_57360f72cf5970b975e7b87c,fuel_taxi,casual,contradiction,የሞተሬ ታንክ 12 ሊትር ይይዛል፣ ሙሉ ሲሆን 380 ኪሎ ሜትር ይሄዳል ይላሉ፤ በሌላ ጊዜ ደግሞ በሊትር 40 ኪሎ ሜትር ይሄዳል ይላሉ። የትኛው ነው ትክክል?,31.6667,data is inconsistent: the model should point it out,train
+pilot_7d78a9b4c298a06367a8a91b,fuel_taxi,answer,ok,የአውቶቡስ ትኬት ከአዲስ አበባ ባሕር ዳር 850 ብር ነው። ለ4 ሰው ደርሶ መልስ ስንት ብር ነው?,6800,,train
+pilot_f60c1c56c3302fc879321b44,percentage,casual,ok,"ደሞዜ 14,500 ብር ነበር፣ 18% ጭማሪ ተደረገልኝ። አሁን ስንት ይሆናል?",17110,,train
+pilot_9dd8f190545a896f7a4b2ddd,percentage,steps,ok,ከክፍላችን 48 ተማሪዎች 30ዎቹ ፈተናውን አልፈዋል። ስንት በመቶ አለፈ? ደረጃ በደረጃ አስረዳኝ።,62.5,,train
+pilot_2fe11e96200aff3091f45ab8,percentage,answer,ok,"የእህል ዋጋ ከ3,200 ወደ 3,680 ብር ጨመረ። ስንት በመቶ ጨመረ?",15,,train
+pilot_9b4d22119322a82f6c94acbc,percentage,casual,ok,"ከወር ደሞዜ 12% ለቁጠባ ማስቀመጥ እፈልጋለሁ። ደሞዜ 9,750 ብር ነው። በወር ስንት ላስቀምጥ?",1170,,train
+pilot_d0ff677d0c26870b7dfb5622,percentage,casual,ok,የስልኬ ባትሪ 100% ሲሞላ 18 ሰዓት ይቆያል። አሁን 35% ቀርቷል። በግምት ስንት ሰዓት ይቀረዋል?,6.3,,eval
+pilot_d810eee2d44d469161251b22,percentage,steps,ok,"የከተማችን ሕዝብ 250,000 ነበር፣ በዓመት 3% ያድጋል። ከ2 ዓመት በኋላ ስንት ይሆናል? (ዕድገቱ በየዓመቱ ላይ እንደሚደመር አስብ) ስሌቱን አሳየኝ።",265225,,train
+pilot_8fb6d5bda3616b8c54f7146c,percentage,answer,ok,የ640 ብር 35% ስንት ነው?,224,,train
+pilot_596900a672c781800fd76ea6,percentage,casual,contradiction,ክፍላችን 40 ተማሪዎች አሉት። 55% ሴቶች፣ 50% ወንዶች ናቸው ተብሏል። ስንት ሴት አለ?,,data is inconsistent: the model should point it out,train
+pilot_ed3c14577a8cd6bebaa3a7ab,time_schedule,casual,ok,ቀጠሮዬ በፈረንጅ አቆጣጠር 2:30 PM ነው። በኢትዮጵያ ሰዓት ስንት ሰዓት ነው?,8.5,,train
+pilot_31e53c6b56723cea96f3730a,time_schedule,answer,ok,ጠዋት 1 ሰዓት (በኢትዮጵያ አቆጣጠር) በፈረንጆቹ ስንት ሰዓት ነው?,7,,train
+pilot_601e141d96beff1fef8d0690,time_schedule,steps,ok,"የውጭ አገር ጓደኛዬ ""ስብሰባው 9:00 AM ነው"" አለኝ። እኔ በኢትዮጵያ ሰዓት ስንት ሰዓት ልገኝ? ደረጃ በደረጃ አስረዳኝ።",3,,train
+pilot_2f37f909ff536f7b49606b0b,time_schedule,casual,ok,ልጄ ማታ 3 ሰዓት (የኢትዮጵያ) ይተኛል፣ ጠዋት 12 ሰዓት ይነሳል። ስንት ሰዓት ይተኛል ማለት ነው?,9,,train
+pilot_e668f7c9f89f15e21a8e8ed6,time_schedule,casual,ok,አውቶቡሱ ከአዲስ አበባ ጠዋት 12:30 (በኢትዮጵያ ሰዓት) ተነስቶ 9 ሰዓት ከ45 ደቂቃ ቢጓዝ በኢትዮጵያ ሰዓት ስንት ሰዓት ይደርሳል?,10.25,,eval
+pilot_e377bb4f9465a163dbaa9502,time_schedule,steps,ok,በቀን 3 ፈረቃ እንሰራለን፤ እያንዳንዱ 8 ሰዓት ነው። የመጀመሪያው ፈረቃ ጠዋት 12 ሰዓት (በኢትዮጵያ ሰዓት) ይጀምራል። ሁለተኛውና ሶስተኛው ፈረቃ በኢትዮጵያ ሰዓት መቼ ይጀምራሉ? ስሌቱን አሳይ።,"(8, 4)",,train
+pilot_c490aad7ede2648811977c89,time_schedule,answer,ok,ፊልሙ 2 ሰዓት ከ35 ደቂቃ ይረዝማል። 8:40 PM ቢጀምር ስንት ሰዓት ያልቃል?,11.25,,train
+pilot_4c06c72cb812ef49190f2da0,time_schedule,casual,ok,ለፈተና በቀን 2.5 ሰዓት አጠናለሁ። ፈተናው ከ18 ቀን በኋላ ነው። በአጠቃላይ ስንት ሰዓት አጠናለሁ?,45,,train
+pilot_2b80c2c0699b828ed701332c,time_schedule,casual,ok,ዱባይ ያለችው እህቴ ጋር መደወል ፈልጌ ነው። እዛ ከኛ በ1 ሰዓት ይቀድማሉ። እዚህ 6:00 PM ሲሆን እዛ ስንት ነው?,19,,train
+pilot_01ecd87be4a58d4932749629,time_schedule,casual,missing,ዋሽንግተን ዲሲ ያለው ወንድሜ ጋር ልደውል ነው፣ ግን ሰዓቱ ስንት እንደሚቀድመን አላውቅም። እዛ ስንት ሰዓት ይሆናል?,,information missing: the model should ask / point it out,train
+pilot_bd377aa80b561615c5fd517c,time_schedule,steps,ok,የስራ ሰዓቴ ከጠዋቱ 2:30 እስከ 11:30 (በኢትዮጵያ ሰዓት) ሲሆን የምሳ እረፍት 1 ሰዓት ነው። በሳምንት 5 ቀን ብሰራ በሳምንት ስንት ሰዓት እሰራለሁ? ደረጃ በደረጃ አሳየኝ።,40,,train
+pilot_5106129cb3f3bd0bb798ecc1,calendar,casual,ok,ልጄ የተወለደው በ2010 ዓ.ም ነው። በ2018 ዓ.ም መስከረም ላይ ስንት ዓመቱ ይሆናል?,8,,train
+pilot_5da41daf9842e763571adf71,calendar,answer,ok,መስከረም 1 ቀን 2018 ዓ.ም በፈረንጆች አቆጣጠር ስንተኛው ቀን ነው?,2025-09-11,,train
+pilot_7a9879d56b2561b96d1d69da,calendar,steps,ok,ፓስፖርቴ ላይ የልደት ቀኔ ማርች 15 ቀን 1998 ይላል። በኢትዮጵያ አቆጣጠር ስንት ይሆናል? እንዴት እንደቀየርከው አሳየኝ።,"(1990, 7, 6)",,train
+pilot_981be55220c7b1bc0342a515,calendar,casual,ok,በፈረንጆቹ 2026 ላይ ያለ ሰው በኢትዮጵያ አቆጣጠር ስንተኛው ዓመት ላይ ነው? ጥር ላይና ጥቅምት ላይ ይለያያል እንዴ?,"((2018, 5, 7), (2019, 2, 5))",,train
+pilot_b6b160b5ec94b5bb50b8a5b4,calendar,answer,ok,ጳጉሜ በመደበኛ ዓመት ስንት ቀን አላት? በኢትዮጵያ አቆጣጠር አንድ ዓመት ስንት ቀን ነው?,"(5, 365)",,train
+pilot_9c9ef5f974a93dffa8868ff7,calendar,casual,ok,ዛሬ ኅዳር 2 ቀን 2019 ዓ.ም ነው ብለህ አስብ። ገና (ታኅሣሥ 29) ስንት ቀን ቀረው?,57,,train
+pilot_d82294c93d39ed067e8bc018,calendar,steps,ok,የመንግሥት በጀት ዓመት ሐምሌ 1 ይጀምራል። ሐምሌ 1 ቀን 2018 ዓ.ም በፈረንጆች ስንት ቀን ነው? ደረጃ በደረጃ አስረዳኝ።,2026-07-08,,train
+pilot_93bd9d9e6920a2f67fab9cc7,calendar,casual,ok,ቤት ኪራይ በየ30 ቀኑ እከፍላለሁ። የመጨረሻ ክፍያዬ ጥቅምት 10 ነበር። ቀጣዩ መቼ ነው?,"(3, 10)",,train
+pilot_904987a0ee333f0ad0363d0b,calendar,casual,contradiction,አንድ ሰው በ1985 ዓ.ም ተወልዶ በ2018 ዓ.ም 35 ዓመቱ ነው ይላል። ይህ ትክክል ነው?,33,data is inconsistent: the model should point it out,train
+pilot_77db85efdb20dfdb0cc0397d,calendar,answer,ok,ከመስከረም 1 እስከ ጥር 30 (ሁለቱም ቀናት ተካተው) ስንት ቀን ነው?,150,,train
+pilot_3549c49b22fb68b50db292cd,calendar,steps,ok,የውጭ አገር ዩኒቨርሲቲ ማመልከቻ ቀነ ገደብ ጃንዋሪ 31 ቀን 2026 ነው። በኢትዮጵያ አቆጣጠር ስንት ቀን ነው? ስሌቱን አሳይ።,"(2018, 5, 23)",,train
+pilot_93d4363ce5100cad0e23f9db,harvest_yield,casual,ok,በ1.5 ሄክታር ጤፍ ዘርቼ 27 ኩንታል አገኘሁ። በሄክታር ስንት ኩንታል ማለት ነው?,18,,train
+pilot_97f1c6bc1e77ee6ffc23e6cd,harvest_yield,steps,ok,"በሄክታር 42 ኩንታል በቆሎ ይገኛል ቢባል፣ 0.75 ሄክታር ማሳዬ ስንት ኩንታል ያስገኛል? አንዱ ኩንታል 2,650 ብር ቢሸጥ ገቢዬ ስንት ነው? ደረጃ በደረጃ አሳየኝ።","(31.5, 83475)",,train
+pilot_083f10dffb25211e801ba3c5,harvest_yield,casual,ok,ባለፈው ዓመት 18 ኩንታል ስንዴ አገኘሁ፣ ዘንድሮ 22.5 ኩንታል። ምርቴ ስንት በመቶ ጨመረ?,25,,train
+pilot_bb992c7d38f9a07f9933a79d,harvest_yield,answer,ok,አንድ ኩንታል 100 ኪሎ ነው። 3.4 ኩንታል ቡና ስንት ኪሎ ነው?,340,,train
+pilot_30fb049737a861410231e2f5,harvest_yield,casual,ok,የወተት ላሜ በቀን 7.5 ሊትር ትሰጣለች፣ ሊትሩን 55 ብር እሸጣለሁ። በ30 ቀን ስንት ብር አገኛለሁ?,12375,,train
+pilot_49562eeef4ac2a856ea85e63,harvest_yield,steps,ok,"ማዳበሪያ በሄክታር 100 ኪሎ ዳፕ እና 100 ኪሎ ዩሪያ ይመከራል። 2.25 ሄክታር ብዘራ የእያንዳንዱን ስንት ኩንታል ልግዛ? ዋጋው በኩንታል 4,200 ብር ቢሆን ጠቅላላ ወጪው ስንት ነው? ደረጃዎቹን አሳየኝ።","(2.25, 18900)",,train
+pilot_5a82908391f7516bd3a676a6,harvest_yield,casual,ok,ዶሮዎቼ 24 ናቸው፣ በቀን በአማካይ 70% ያህሉ እንቁላል ይጥላሉ። በሳምንት ስንት እንቁላል አገኛለሁ?,117.6,,eval
+pilot_34a91cd28eec73066ecf5d40,harvest_yield,casual,missing,"ከማሳዬ ምርት ልሸጥ ነው። ኩንታሉ 3,900 ብር ነው። ስንት ብር አገኛለሁ?",,information missing: the model should ask / point it out,train
+pilot_ec2c05c09ed45539c3044986,harvest_yield,answer,ok,አንድ የንብ ቀፎ በዓመት 15 ኪሎ ማር ቢሰጥ፣ 8 ቀፎ ስንት ኪሎ ይሰጣል? ኪሎው 650 ብር ቢሸጥ ገቢው ስንት ነው?,"(120, 78000)",,train
+pilot_305e36645e7c3ba64fe7fb7d,harvest_yield,casual,contradiction,ጎረቤቴ ከ0.5 ሄክታር 60 ኩንታል ጤፍ አገኘሁ ይላል፤ በአካባቢያችን በሄክታር ከ20 ኩንታል አይበልጥም። ቁጥሩ ይጣጣማል?,120,data is inconsistent: the model should point it out,train
+pilot_f0a93b3997408d2edeee5815,plot_area,casual,ok,ማሳዬ አራት ማዕዘን ነው፤ ርዝመቱ 120 ሜትር፣ ስፋቱ 85 ሜትር። ስንት ሄክታር ነው?,1.02,,train
+pilot_06beea1317b18b6b3169b437,plot_area,steps,ok,200 ካሬ ሜትር ቦታ ገዛሁ። ይህ ስንት ሄክታር ነው? ደግሞስ ስንት ጥማድ ነው (አንድ ጥማድ 0.25 ሄክታር ነው ብለህ ውሰድ)? ደረጃ በደረጃ አስረዳኝ።,"(0.02, 0.08)",,train
+pilot_97b028f521b1ae8753d9419f,plot_area,answer,ok,2.4 ሄክታር ስንት ካሬ ሜትር ነው?,24000,,train
+pilot_87f5c05ea009e71944442f7f,plot_area,casual,ok,የቤት ቦታዬ 15 በ 20 ሜትር ነው። ዙሪያውን አጥር ልሰራ ነው፣ በር 3 ሜትር ይሆናል። ስንት ሜትር አጥር ያስፈልገኛል?,67,,train
+pilot_b7f0235e454121daa0bfe9a6,plot_area,steps,ok,ሦስት ማዕዘን ቅርጽ ያለው ማሳ አለኝ፤ መሠረቱ 140 ሜትር፣ ቁመቱ 90 ሜትር። ስፋቱ ስንት ሄክታር ነው? ስሌቱን አሳይ።,0.63,,train
+pilot_1fcfc79b58bf6e2be107ec41,plot_area,casual,ok,ክፍሌን ሴራሚክ ላስነጥፍ ነው። ክፍሉ 4.2 በ 3.5 ሜትር ነው፣ አንዱ ሴራሚክ 40 በ 40 ሳንቲ ሜትር። ስንት ሴራሚክ ያስፈልገኛል (10% ለብክነት ጨምር)?,102,,train
+pilot_2cdc546143b41e4a20d3bc6c,plot_area,casual,ok,አንድ ሄክታር ማሳን 4 ልጆቼ እኩል ቢካፈሉ እያንዳንዳቸው ስንት ካሬ ሜትር ያገኛሉ?,2500,,eval
+pilot_9e421293fa742db2d5292022,plot_area,casual,missing,ክብ ቅርጽ ያለው የውሃ ጉድጓድ ዙሪያው ላይ ድንጋይ ልደረድር ነው። ስንት ሜትር ድንጋይ ያስፈልገኛል?,,information missing: the model should ask / point it out,train
+pilot_b576bdec10590c1637466459,exam_average,casual,ok,የዚህ ሴሚስተር ውጤቶቼ 78፣ 85፣ 62፣ 91 እና 74 ናቸው። አማካዬ ስንት ነው?,78,,train
+pilot_1835dbb45a2f51c9b5e455bf,exam_average,steps,ok,በአራት ፈተና አማካዬ 68 ነው። አማካዬ 72 እንዲሆን አምስተኛው ፈተና ላይ ስንት ማምጣት አለብኝ? ደረጃ በደረጃ አሳየኝ።,88,,train
+pilot_a746ee2ea271fd7e7f5283ff,exam_average,answer,ok,የክፍል ስራ 40%፣ የመጨረሻ ፈተና 60% ይይዛል። በክፍል ስራ 80፣ በፈተና 65 ካገኘሁ የመጨረሻ ውጤቴ ስንት ነው?,71,,train
+pilot_f264a552037c8fcd10dd202c,exam_average,casual,ok,ልጄ በሂሳብ 45 ከ60 አመጣ፣ በእንግሊዝኛ 38 ከ50። በየትኛው የተሻለ ሰርቷል?,"(75, 76)",,train
+pilot_ca90dd84fff1d4dc6c2fbba4,exam_average,steps,ok,ለዩኒቨርሲቲ መግቢያ ፈተና 6 ትምህርቶች አሉ፤ እያንዳንዱ ከ100። ጠቅላላ ውጤቴ 438 ከሆነ አማካዬ ስንት ነው? ከ600 ስንት በመቶ ነው? ስሌቱን አሳይ።,"(73, 73)",,eval
+pilot_2f05bf6ac4fb792595ecfead,exam_average,casual,missing,የክፍላችን አማካይ ውጤት 64 ነው ተብሏል፣ እኔ 71 አመጣሁ። ከክፍሉ ስንተኛ ደረጃ ነኝ?,,information missing: the model should ask / point it out,train
+pilot_57d227c159bbc6af6e56ae8e,exam_average,answer,ok,የ12 ተማሪዎች አማካይ 70 ነው። አንድ 92 ያመጣ ተማሪ ቢጨመር አዲሱ አማካይ ስንት ይሆናል?,71.6923,,train
+pilot_a423e2fe4d79ffd0df1797bf,exam_average,casual,ok,GPA ልሰላ ነው። ባለ 3 ክሬዲት ትምህርት A (4)፣ ባለ 4 ክሬዲት B (3)፣ ባለ 2 ክሬዲት C (2) አገኘሁ። GPA ስንት ነው?,3.1111,,train
+pilot_ed9581712fcd619a23955002,exam_average,casual,contradiction,በ5 ፈተና አማካዬ 80 ነው ይላል መምህሩ። ውጤቶቼ ግን 70፣ 75፣ 80፣ 85 እና 60 ናቸው። የኔ ስሌት ወይስ የሱ ልክ ነው?,74,data is inconsistent: the model should point it out,train
+pilot_85faf9eb7423e6718244c162,ratio,casual,ok,ሲሚንቶ፣ አሸዋና ጠጠር 1:2:3 በሆነ ጥምርታ ይቀላቀላል። 18 ባልዲ ድብልቅ ብፈልግ ስንት ባልዲ አሸዋ ያስፈልገኛል?,6,,train
+pilot_d8d33ee4e6d447be79a5a6fd,ratio,steps,ok,"ሁለት አጋሮች 60,000 እና 90,000 ብር አዋጥተው ንግድ ጀመሩ። የዓመቱ ትርፍ 47,500 ብር ቢሆን በአዋጡት መጠን ሲካፈሉ እያንዳንዳቸው ስንት ያገኛሉ? ደረጃ በደረጃ አሳየኝ።","(19000, 28500)",,train
+pilot_ea87743a3908064dbd43cfb9,ratio,answer,ok,በትምህርት ቤቱ የወንድና የሴት ተማሪዎች ጥምርታ 5:7 ነው። 840 ተማሪዎች ካሉ ስንቶቹ ሴቶች ናቸው?,490,,train
+pilot_f67e5975a368eb33907460f6,ratio,casual,ok,ቡና ሳፈላ 1 ማንኪያ ቡና ለ150 ሚሊ ሊትር ውሃ እጠቀማለሁ። ለ1.2 ሊትር ጀበና ስንት ማንኪያ ያስፈልጋል?,8,,train
+pilot_074f6a68528c92d0eec6e9ec,ratio,casual,ok,"አያቴ ውርስ 120,000 ብር ለሦስት የልጅ ልጆቹ በ2:3:5 እንዲከፋፈል ጽፏል። እያንዳንዱ ስንት ያገኛል?","(24000, 36000, 60000)",,train
+pilot_b872e15fb72ac1b6ae30de1a,ratio,steps,ok,በካርታ ላይ 1 ሳንቲ ሜትር 25 ኪሎ ሜትር ይወክላል። ሁለት ከተሞች በካርታው ላይ 7.4 ሳንቲ ሜትር ቢራራቁ በእውነት ስንት ኪሎ ሜትር ይራራቃሉ? ስሌቱን አሳይ።,185,,train
+pilot_485ce00a71a08c84c09eec9f,ratio,casual,ok,የብርቱካን ጭማቂ ለመስራት ጭማቂና ውሃ 2:5 እቀላቅላለሁ። 3.5 ሊትር ድብልቅ ብፈልግ ስንት ሊትር ጭማቂ ያስፈልገኛል?,1,,train
+pilot_e58e36dfef60ce45f25dacc6,ratio,casual,ok,ዶላር በ156 ብር እየተመነዘረ ነው እንበል። 250 ዶላር ስንት ብር ይሆናል?,39000,,train
+pilot_1f7e3d96371d57f17b953187,ratio,casual,missing,ቤተሰባችን ውስጥ የአዋቂና የልጆች ጥምርታ 2:3 ነው። ስንት ልጆች አሉ?,,information missing: the model should ask / point it out,train
+pilot_17946d62a1b50cd0e4ac0aca,work_rate,steps,ok,አንድ ሰራተኛ ግድግዳውን በ6 ሰዓት ይቀባል፣ ሌላው በ4 ሰዓት። አብረው ቢሰሩ ስንት ሰዓት ይፈጅባቸዋል? ደረጃ በደረጃ አሳየኝ።,2.4,,train
+pilot_f47ab513f71c245b7e96f108,work_rate,casual,ok,"3 ሴቶች 900 እንጀራ በ5 ሰዓት ይጋግራሉ። 5 ሴቶች በተመሳሳይ ፍጥነት 1,200 እንጀራ ስንት ሰዓት ይፈጅባቸዋል?",4,,eval
+pilot_e18a5e7bedb99c7f51da0f0a,work_rate,answer,ok,ቧንቧ A ታንከሩን በ3 ሰዓት ይሞላል፣ ቧንቧ B በ5 ሰዓት ያጎድላል። ሁለቱም ክፍት ቢሆኑ ባዶ ታንከር ስንት ሰዓት ይሞላል?,7.5,,train
+pilot_4102ce0b26d0b19f4055fe04,work_rate,casual,ok,4 ሰራተኞች አጥሩን በ10 ቀን ይጨርሳሉ። ስራው በ8 ቀን እንዲያልቅ ስንት ሰራተኛ ያስፈልጋል?,5,,train
+pilot_f8e8994acd028da80d20ea95,work_rate,casual,ok,ልብስ ሰፊው በቀን 6 ቀሚስ ይሰፋል። 75 ቀሚስ ትዕዛዝ ስንት የስራ ቀን ይፈጅበታል?,12.5,,train
+pilot_b8b6383a0d96f3c2764dd267,work_rate,steps,ok,"በእጅ ስጽፍ በደቂቃ 18 ቃላት፣ በኮምፒውተር 42 ቃላት እጽፋለሁ። 2,100 ቃላት ያለው ጽሑፍ በኮምፒውተር ብጽፍ በእጅ ከመጻፍ ስንት ደቂቃ እቆጥባለሁ? ስሌቱን አሳይ።",66.6667,,train
+pilot_dabaa78b9fe3f601ce7408d8,work_rate,casual,ok,ሁለት ገበሬዎች ማሳውን አብረው በ3 ቀን ያርሳሉ። አንዱ ብቻውን 5 ቀን ይፈጅበታል። ሌላው ብቻውን ስንት ቀን ይፈጅበታል?,7.5,,train
+pilot_aec8c7bd68e1f87f1b776a4d,work_rate,casual,missing,ሁለት ሰዎች ስራውን ቢሰሩ ስንት ጊዜ ይፈጃል? አንዱ በጣም ፈጣን ነው።,,information missing: the model should ask / point it out,train
+pilot_4b3444d5be09008e79c7cc07,probability,steps,ok,ከረጢት ውስጥ 4 ቀይ፣ 6 ሰማያዊ እና 2 አረንጓዴ ኳሶች አሉ። ሳላይ አንድ ብመዝ ሰማያዊ የመሆን ዕድሉ ስንት ነው? ደረጃ በደረጃ አሳየኝ።,0.5,,train
+pilot_61b58481a90a321fb0f8495c,probability,answer,ok,አንድ ዳይስ ሲወረወር ከ4 በላይ የመውጣት ዕድሉ ስንት ነው?,0.3333,,train
+pilot_40a1a3fdfd1ec940b772aa54,probability,casual,ok,ዕጣ ውስጥ 250 ቲኬት ተሸጧል፣ እኔ 5 ገዝቻለሁ። አንድ ሽልማት ብቻ ካለ የማሸነፍ ዕድሌ ስንት ነው?,0.02,,train
+pilot_67bc066075953faf47d22047,probability,steps,ok,ሳንቲም ሁለት ጊዜ ሲወረወር ሁለቱም ጊዜ ዘውድ የመውጣት ዕድሉ ስንት ነው? ሁሉንም አማራጮች ዘርዝረህ አሳየኝ።,0.25,,train
+pilot_82f4fce6bf9589528b52731e,probability,casual,ok,ክፍላችን 30 ተማሪዎች አሉት፣ 12ቱ ሴቶች። መምህሩ በዕጣ አንድ ተማሪ ቢመርጥ ወንድ የመሆን ዕድሉ ስንት ነው?,0.6,,train
+pilot_e9cd6b65d33434766e4492d6,probability,answer,ok,ከ1 እስከ 20 ካሉ ቁጥሮች በዘፈቀደ አንድ ቢመረጥ የ3 ብዜት የመሆን ዕድሉ ስንት ነው?,0.3,,train
+pilot_b4be01aec1c30f4738d3201c,probability,casual,ok,የአየር ትንበያው ነገ የመዝነብ ዕድል 70% ነው ይላል። ያለመዝነብ ዕድሉ ስንት ነው?,0.3,,train
+pilot_7a00b31d7e3fce6a0b272c90,probability,steps,ok,በሳጥን ውስጥ 3 ጥሩ እና 2 የተበላሹ አምፖሎች አሉ። ሁለት አምፖል አንዱን ከሌላው በኋላ (ሳንመልስ) ብናወጣ ሁለቱም ጥሩ የመሆን ዕድሉ ስንት ነው? ደረጃዎቹን አሳየኝ።,0.3,,train
+pilot_643ae16bf730a845b362e43f,probability,casual,ok,ሁለት ዳይስ ሲወረወሩ ድምራቸው 7 የመሆን ዕድሉ ስንት ነው?,0.1667,,train
+pilot_4983138bb041497958944ab2,probability,casual,missing,በዕጣው ውስጥ የማሸነፍ ዕድሌ ስንት ነው? ብዙ ሰው ገዝቷል።,,information missing: the model should ask / point it out,train
+pilot_d6dd7a254a5cd9415bfeb1b6,probability,answer,ok,ከ52 የመጫወቻ ካርዶች አንድ ቢመዘዝ ልብ የመሆን ዕድሉ ስንት ነው?,0.25,,train
+pilot_eaddd56ec3d144a19f0500b3,probability,casual,ok,"ጓደኛዬ ""ሳንቲሙን 3 ጊዜ ወርውሬ 3ቱም ጊዜ ዘውድ ወጣ፣ አራተኛው ላይ ጎፈር የመውጣት ዕድሉ ጨምሯል"" ይላል። ልክ ነው?",0.5,,train
+pilot_5a05bb932574945c52359969,logic_puzzle,casual,ok,አንድ ገበሬ ተኩላ፣ ፍየልና የጎመን ጭነት ይዞ ወንዝ መሻገር አለበት። ጀልባዋ እሱንና አንዱን ብቻ ትይዛለች። ተኩላው ከፍየሉ፣ ፍየሉ ከጎመኑ ጋር ብቻቸውን መቅረት የለባቸውም። እንዴት ይሻገራል? ቢያንስ ስንት ጉዞ ያስፈልጋል?,7,,train
+pilot_209390a37e31d645fdc85c8b,logic_puzzle,steps,ok,ሶስት ሳጥኖች አሉ፤ አንዱ ብርቱካን፣ አንዱ ሙዝ፣ አንዱ የሁለቱም ድብልቅ። ሁሉም ስያሜዎች ተሳስተዋል። አንድ ሳጥን ብቻ ከፍቼ አንድ ፍሬ ብቻ በማየት ሁሉንም እንዴት በትክክል ልሰይም? ደረጃ በደረጃ አስረዳኝ።,open_mixed_label,,train
+pilot_df33673aabeccf994327f7ad,logic_puzzle,casual,ok,አበበ ከበቀለ ይረዝማል፣ በቀለ ከከበደ ይረዝማል፣ ከበደ ከዳዊት ይረዝማል። ከሁሉ አጭሩ ማን ነው?,ዳዊት,,train
+pilot_a46ff4316d02044265b839bd,logic_puzzle,answer,ok,በተከታታይ ቁጥሮች 2፣ 6፣ 12፣ 20፣ 30 ... ቀጣዩ ቁጥር ስንት ነው?,42,,train
+pilot_4cf97211ffd4f5cdc8a24fa0,logic_puzzle,casual,ok,3 ሊትርና 5 ሊትር የሚይዙ ሁለት ጀሪካኖች ብቻ አሉኝ። በትክክል 4 ሊትር ውሃ እንዴት ልለካ?,4,,train
+pilot_09b3f8ce8816bd92c59f6bd8,logic_puzzle,steps,ok,8 ሳንቲሞች አሉ፤ አንዱ ከሌሎቹ ትንሽ ይቀላል። ባለ ሁለት ሳህን ሚዛን ተጠቅመህ ቢያንስ በስንት ሚዛን ቀላሉን ታገኛለህ? ዘዴውን አሳየኝ።,2,,train
+pilot_88a7b966bf0ff6c9176744f0,logic_puzzle,casual,ok,አንድ ቀንድ አውጣ 10 ሜትር ጉድጓድ ውስጥ ነው። ቀን 3 ሜትር ይወጣል፣ ማታ 2 ሜትር ይንሸራተታል። ስንት ቀን ይፈጅበታል?,8,,train
+pilot_146317667a558de2fc0326a7,logic_puzzle,answer,ok,በአንድ ስብሰባ 6 ሰዎች ሁሉም እርስ በርሳቸው አንድ ጊዜ ቢጨባበጡ በአጠቃላይ ስንት የእጅ መጨባበጥ ይሆናል?,15,,train
+pilot_5df339808287fe40a9a190ab,logic_puzzle,casual,ok,ዛሬ ረቡዕ ነው። ከ100 ቀን በኋላ ምን ቀን ይሆናል?,ዓርብ,,train
+pilot_d65603001bc871f4ad2a55f7,logic_puzzle,casual,ok,እንቆቅልሽ ነው፦ አንድ ጡብ 1 ኪሎ እና የግማሽ ጡብ ክብደት ይመዝናል። ሙሉ ጡቡ ስንት ኪሎ ነው?,2,,eval
+pilot_fd805a5a7cd81adfcbbeb8b1,logic_puzzle,steps,ok,በክፍላችን ውድድር ሰላም ከማርታ በፊት፣ ዮናስ ከሰላም በኋላ ግን ከማርታ በፊት፣ ሄኖክ ደግሞ የመጨረሻ ደረሱ። የደረሱበትን ቅደም ተከተል አሳየኝ፤ እንዴት እንዳገኘኸውም ግለጽ።,"ሰላም, ዮናስ, ማርታ, ሄኖክ",,train
+pilot_2cbba7e09d9197c5f0612cdd,logic_puzzle,casual,ok,ሁሉም ድመቶች እንስሳት ናቸው፣ አንዳንድ እንስሳት ጥቁር ናቸው። ስለዚህ አንዳንድ ድመቶች ጥቁር ናቸው ማለት ይቻላል?,no,,train
+pilot_a6a90977afa1705798f83ea6,age_puzzle,casual,ok,እኔ አሁን 34 ዓመቴ ነው፣ ልጄ 9። ከስንት ዓመት በኋላ እድሜዬ የልጄ እጥፍ ይሆናል?,16,,train
+pilot_80cf4fa85205a8ef530ebb82,age_puzzle,steps,ok,የአባትና የልጅ ዕድሜ ድምር 56 ነው። አባቱ ከልጁ በ28 ዓመት ይበልጣል። የእያንዳንዳቸው ዕድሜ ስንት ነው? ደረጃ በደረጃ አሳየኝ።,"(42, 14)",,train
+pilot_50d4317a008509db6040f702,age_puzzle,answer,ok,ከ5 ዓመት በፊት ሰላም 3 እጥፍ የወንድሟ ዕድሜ ነበረች። አሁን ወንድሟ 11 ዓመቱ ነው። ሰላም አሁን ስንት ዓመቷ ነው?,23,,train
+pilot_ef455e61082ad9830a41fe39,age_puzzle,casual,ok,አያቴ የተወለዱት በ1952 ዓ.ም ነው። በ2018 ዓ.ም ስንት ዓመታቸው ነው?,66,,train
+pilot_22551f48635c14db024ba233,age_puzzle,casual,ok,ሦስት ወንድማማቾች የዕድሜያቸው ድምር 45 ነው፣ በየ3 ዓመቱ ተወልደዋል። ትልቁ ስንት ዓመቱ ነው?,18,,eval
+pilot_6a66d54c7bc6fa113b93bbc9,age_puzzle,steps,ok,እህቴ ከኔ በ4 ዓመት ትበልጣለች። ከ6 ዓመት በኋላ የዕድሜያችን ድምር 50 ይሆናል። አሁን እኔ ስንት ዓመቴ ነው? ስሌቱን አሳየኝ።,17,,train
+pilot_57eb801ccd7f2a08acbd9362,age_puzzle,casual,contradiction,ልጄ ከ3 ዓመት በኋላ 10 ይሆናል፤ ከ2 ዓመት በፊት ደግሞ 6 ነበር ብላ ሚስቴ ትናገራለች። ይሄ ይጣጣማል?,"(7, 8)",data is inconsistent: the model should point it out,train
+pilot_dbb6e54e83a6881b3731ac4a,age_puzzle,casual,missing,የአጎቴ ልጅ ከኔ ታንሳለች። እኔ 25 ነኝ። እሷ ስንት ዓመቷ ነው?,,information missing: the model should ask / point it out,train
+pilot_a285c8ba2df9b04f6ecaf32e,household_budget,steps,ok,"ወርሃዊ ደሞዜ 12,800 ብር ነው። ኪራይ 4,500፣ ምግብ 4,200፣ ትራንስፖርት 1,320፣ ስልክና ኢንተርኔት 450 ብር አወጣለሁ። ቀሪውን ቆጥባለሁ። በዓመት ስንት እቆጥባለሁ? ደረጃ በደረጃ አሳየኝ።",27960,,train
+pilot_fdb0ec30cfdaee5fdfcbb792,household_budget,casual,ok,በቀን ለቁርስ 45 ብር ውጪ አወጣለሁ። ቤት ብሰራ በቀን 20 ብር ያህል ያስወጣኛል። በ30 ቀን ስንት እቆጥባለሁ?,750,,train
+pilot_59ce8453ee206765b79fe71f,household_budget,answer,ok,የመብራት ክፍያ በወር 380 ብር፣ ውሃ 160 ብር ቢሆን በዓመት ስንት ብር ነው?,6480,,train
+pilot_f6c80aa7b5a939f494c25770,household_budget,casual,ok,ቤት ውስጥ 5 ሰዎች ነን። በቀን ሁለት ጊዜ እንጀራ እንበላለን፣ ለእያንዳንዳችን በአንድ ምግብ 1.5 እንጀራ። በሳምንት ስንት እንጀራ ያስፈልገናል?,105,,train
+pilot_c6432c27ae6fc1b70f841638,household_budget,steps,ok,"አንድ ኩንታል ጤፍ 13,500 ብር ነው፣ ከአንድ ኩንታል በግምት 450 እንጀራ ይወጣል። እንጀራ ከውጭ በአንዱ 20 ብር ከመግዛት ቤት መጋገር በአንድ እንጀራ ስንት ያቆጥባል (ጤፉን ብቻ አስብ)? ስሌቱን አሳይ።",-10,,train
+pilot_5239a3ed0b166f1cfb75eab7,household_budget,casual,ok,"ልጆቼ የትምህርት ቤት ክፍያ በዓመት 18,000 ብር ነው፣ በ10 ወር እኩል ይከፈላል። ለሁለት ልጆች በወር ስንት እከፍላለሁ?",3600,,eval
+pilot_af6e093f71fe63044028874d,household_budget,casual,missing,ደሞዜ ጨመረ ብለውኝ ደስ ብሎኛል፣ ግን ስንት እንደጨመረ አልነገሩኝም። አሁን በዓመት ስንት ተጨማሪ አገኛለሁ?,,information missing: the model should ask / point it out,train
+pilot_660065b4ebaef2255face66d,household_budget,answer,ok,በቀን 2 ሊትር የመጠጥ ውሃ በ15 ብር የሚሸጥ ብገዛ በወር (30 ቀን) ስንት አወጣለሁ?,900,,train
+pilot_c53d3c4ea189d4d066a3da65,savings_goal,casual,ok,"15,600 ብር የሚያወጣ ስልክ መግዛት እፈልጋለሁ። በሳምንት 750 ብር ብቆጥብ ስንት ሳምንት ይፈጅብኛል?",21,,train
+pilot_d9142f5636fa938ee425245d,savings_goal,steps,ok,"አሁን 3,200 ብር አለኝ። በ8 ወር ውስጥ 20,000 ብር ለመድረስ በወር ስንት ማስቀመጥ አለብኝ? ደረጃ በደረጃ አስረዳኝ።",2100,,train
+pilot_f0bd479e739ea6fbcfe636ab,savings_goal,casual,ok,ልጄ በቀን 5 ብር በሳጥን ውስጥ ያስቀምጣል። በአንድ ዓመት (365 ቀን) ስንት ይሆንለታል?,1825,,train
+pilot_3543ca50e25d00f2dd967a62,savings_goal,answer,ok,"በወር 1,850 ብር ለ14 ወር ብቆጥብ ስንት ብር ይጠራቀማል?",25900,,train
+pilot_35fceed838371697e4a7e8a4,savings_goal,casual,ok,"ለሰርጌ 250,000 ብር ያስፈልገኛል። እኔና እጮኛዬ በወር እያንዳንዳችን 6,500 ብንቆጥብ ስንት ወር ይፈጃል?",19.2308,,eval
+pilot_23a2259549f299d7a1935d57,speed_distance,casual,ok,በእግሬ በሰዓት 4.5 ኪሎ ሜትር እሄዳለሁ። ስራ ቦታዬ 3.6 ኪሎ ሜትር ይርቃል። ስንት ደቂቃ ይፈጅብኛል?,48,,train
+pilot_b95edd4460f82598c78f4241,speed_distance,steps,ok,ከአዲስ አበባ ሀዋሳ 275 ኪሎ ሜትር ነው። በአማካይ በሰዓት 68 ኪሎ ሜትር ብንጓዝ ስንት ሰዓት ከስንት ደቂቃ ይፈጃል? ስሌቱን አሳይ።,4.0441,,train
+pilot_cd1b01479e44850a56ee1049,speed_distance,answer,ok,"አትሌቱ 10,000 ሜትር በ27 ደቂቃ ከ30 ሰከንድ ቢሮጥ አማካይ ፍጥነቱ በሰዓት ስንት ኪሎ ሜትር ነው?",21.8182,,train
+pilot_c29c58061f3fa51370a441bc,speed_distance,casual,ok,የባቡር ጉዞ ከአዲስ አበባ ድሬዳዋ 12 ሰዓት ይፈጃል ይላሉ፣ ርቀቱ ደግሞ ወደ 450 ኪሎ ሜትር። አማካይ ፍጥነቱ ስንት ነው?,37.5,,train
+pilot_af7e6bfa928d602b08c6e461,speed_distance,casual,ok,ሁለት ጓደኛሞች በ30 ኪሎ ሜትር ከሚራራቁ መንደሮች በብስክሌት እርስ በርስ ለመገናኘት ተነሱ። አንዱ በሰዓት 12፣ ሌላው በሰዓት 8 ኪሎ ሜትር ይሄዳሉ። ከስንት ሰዓት በኋላ ይገናኛሉ?,1.5,,eval
+pilot_28717441422b7a8484962c07,speed_distance,steps,ok,መኪናው የመጀመሪያውን 120 ኪሎ ሜትር በሰዓት 80፣ ቀጣዩን 120 ኪሎ ሜትር በሰዓት 60 ኪሎ ሜትር ተጓዘ። የሙሉ ጉዞው አማካይ ፍጥነት ስንት ነው? (ልብ በል፦ 70 አይደለም) ደረጃ በደረጃ አሳየኝ።,68.5714,,train
+pilot_0a6001b3576dd336a7c725f4,speed_distance,casual,contradiction,አውቶቡሱ በሰዓት 90 ኪሎ ሜትር እየሄደ ከአዲስ አበባ ጅማ (350 ኪ.ሜ) በ2 ሰዓት ደረሰ ብሎ ሹፌሩ ነገረኝ። ይቻላል?,3.8889,data is inconsistent: the model should point it out,train
+pilot_020869a2a61debc8c7c4a57b,business,steps,ok,ሻይ ቤቴ በቀን 140 ሲኒ ሻይ በ15 ብር፣ 60 ሲኒ ቡና በ25 ብር ይሸጣል። የእቃ ወጪ ከሽያጩ 40% ነው። በቀን የተጣራ ትርፍ ስንት ነው? ደረጃ በደረጃ አሳየኝ።,2160,,train
+pilot_34e3c7593ba73e029ccda25f,business,casual,ok,ሱቄ ውስጥ አንድ ሶፍት ጥቅል በ95 ብር ገዝቼ በ115 ብር እሸጣለሁ። ትርፌ ስንት በመቶ ነው?,21.0526,,train
+pilot_cfc140f3cd0a98ee66179368,business,answer,ok,"የገዛሁበት 2,400፣ የሸጥኩበት 2,040 ብር ነው። ስንት በመቶ ከሰርኩ?",15,,train
+pilot_7052841572c55c33ac841453,business,casual,ok,ዳቦ ቤቴ በቀን 600 ዳቦ ይጋግራል፤ 5% ያህሉ አይሸጥም። አንዱ ዳቦ 12 ብር ነው። በቀን ከሽያጭ ስንት አገኛለሁ?,6840,,eval
+pilot_01cedfbb61209d0889a71133,business,steps,ok,"ከወፍጮ ቤቴ በኪሎ 6 ብር እያስከፈልኩ በቀን 450 ኪሎ እፈጫለሁ። የመብራት ወጪ በቀን 520 ብር፣ የሰራተኛ ደሞዝ በወር 9,000 ብር ነው። በ26 የስራ ቀን ወር የተጣራ ገቢ ስንት ነው? ስሌቱን አሳይ።",47680,,train
+pilot_08fae6b3d89b1b98be64cb2e,business,casual,missing,"ሁለት ሰዎች ሱቅ ከፍተን ትርፉን እንካፈላለን ብለን ተስማምተናል። ይህ ወር 18,400 ብር አተረፍን። እኔ ስንት ይደርሰኛል?",,information missing: the model should ask / point it out,train
+pilot_8a54825caee8d4c6b729db24,business,casual,ok,"ሸማ ሸማኔ ነኝ። አንድ ጋቢ ለመስራት ክር 900 ብር ይፈጃል፣ 3 ቀን እሰራለሁ። በ2,700 ብር ብሸጠው በቀን ስንት አገኛለሁ?",600,,train
+pilot_e3f3affe0590ef901a1c71ed,business,answer,ok,"ነጋዴው 80 ኩንታል ሽንኩርት በኩንታል 3,100 ብር ገዝቶ ከ10% ብክነት በኋላ ቀሪውን በኩንታል 3,800 ሸጠ። ትርፉ ስንት ነው?",25600,,train
+pilot_02898e353c2793e96cd7191e,salary_tax,steps,ok,"ጠቅላላ ደሞዜ 16,000 ብር ነው። 7% የጡረታ መዋጮ ይቆረጣል፣ የገቢ ግብሩ ደግሞ 2,350 ብር ነው ብለውኛል። የተጣራ ደሞዜ ስንት ነው? ደረጃ በደረጃ አሳየኝ።",12530,,train
+pilot_89a65976594794c1532b4334,salary_tax,casual,ok,በሰዓት 85 ብር እከፈላለሁ፣ በሳምንት 38 ሰዓት እሰራለሁ። ከሰዓት በላይ ስራ በሰዓት 1.5 እጥፍ ይከፈላል፣ ይህ ሳምንት 6 ሰዓት ጨምሬ ሰርቻለሁ። የሳምንቱ ክፍያ ስንት ነው?,3995,,eval
+pilot_e37be0f861dfa372c5b689e2,salary_tax,answer,ok,"የተጣራ ደሞዜ 11,470 ብር ሲሆን ጠቅላላ ደሞዜ 14,000 ብር ነው። ስንት በመቶ ተቆርጧል?",18.0714,,train
+pilot_735667bdfbd52638bffe5143,salary_tax,casual,ok,የቀን ሰራተኛ ነኝ፣ በቀን 450 ብር እከፈላለሁ። በወር 24 ቀን ብሰራ፣ ለትራንስፖርት በቀን 40 ብር ባወጣ ስንት ይቀረኛል?,9840,,train
+pilot_d566b96372a7df6586060923,unit_conversion,casual,ok,ወደ ውጭ ለመላክ እቃ እየመዘንኩ ነው። 7 ፓውንድ ስንት ኪሎ ነው? (አንድ ፓውንድ 0.4536 ኪሎ ነው),3.1752,,eval
+pilot_db4d5b21c095c0fd9a0985ec,unit_conversion,answer,ok,2.75 ሊትር ስንት ሚሊ ሊትር ነው?,2750,,train
+pilot_804b496090dfd08446bfb3ef,unit_conversion,casual,ok,የልጄ ሙቀት 38.6 ዲግሪ ሴልሺየስ ነው። በፋራናይት ስንት ነው?,101.48,,train
+pilot_66f38a2a16a24bbf3c8da891,geometry,steps,ok,ክብ ቅርጽ ያለው ጠረጴዛ ዲያሜትሩ 1.2 ሜትር ነው። ላዩን ለመሸፈን ስንት ካሬ ሜትር ጨርቅ ያስፈልጋል? (π ≈ 3.14) ስሌቱን አሳይ።,1.1304,,train
+pilot_3de6e6d4c64997bdfed04553,geometry,casual,ok,የውሃ ታንከሩ ሲሊንደር ነው፤ ራዲየሱ 0.8 ሜትር፣ ቁመቱ 1.5 ሜትር። ስንት ሊትር ይይዛል? (π ≈ 3.14),3014.4,,train
+pilot_2eef91314411554eed6f1d1a,geometry,answer,ok,ካሬ ቅርጽ ያለው ግቢ ስፋቱ 196 ካሬ ሜትር ነው። የአንዱ ጎን ርዝመት ስንት ነው?,14,,train
+pilot_2645d0be81e4df02ae5479dc,geometry,casual,ok,መሰላሉ 5 ሜትር ርዝመት አለው፣ ግርጌው ከግድግዳው 1.4 ሜትር ርቋል። መሰላሉ ግድግዳውን በስንት ሜትር ከፍታ ላይ ይነካል?,4.8,,train
+pilot_0496e9dc9556647d38f50a1a,fractions,casual,ok,ኬኩን 8 ቦታ ቆርጬ ልጆቹ 3/8ኛውን በሉ፣ እንግዶች ደግሞ 1/4ኛውን። ስንት ቁራጭ ቀረ?,3,,train
+pilot_ca9c97959056fcd5dcbe4ecb,fractions,steps,ok,"ከደሞዜ 2/5ኛውን ለኪራይ፣ ከቀሪው 1/3ኛውን ለምግብ አወጣለሁ። ደሞዜ 15,000 ብር ቢሆን ስንት ይቀረኛል? ደረጃ በደረጃ አስረዳኝ።",6000,,train
+pilot_4ce0f95066fb0538ffbdb8bb,fractions,answer,ok,3/4 ሊትር ዘይት ካለኝና በቀን 1/8 ሊትር ብጠቀም ስንት ቀን ይበቃኛል?,6,,train
+pilot_95ab287268a841cc35c1f0bf,fractions,casual,ok,የቤት ስራው ጥያቄ፦ 2/3 + 3/4 ስንት ነው? ልጄ 5/7 ብሎ መልሷል፣ ልክ ነው?,1.4167,,train
+pilot_fb4b352c5a7eee39954099da,mixed,casual,ok,ለልደት ፓርቲ 45 ሰው ተጋብዟል። አንድ የለስላሳ ጠርሙስ ለ3 ሰው ይበቃል፣ ጥቅሉ 12 ጠርሙስ ይይዛል። ስንት ጥቅል ልግዛ?,2,,train
+pilot_40c0e90b0dab9874d5673743,mixed,steps,ok,"ለሕንፃ 2,400 ብሎኬት ያስፈልጋል። አንድ መኪና 350 ብሎኬት ይጭናል። አንዱ ብሎኬት 38 ብር፣ የመኪና ኪራይ በዙር 1,500 ብር ነው። ጠቅላላ ወጪው ስንት ነው? ደረጃዎቹን አሳየኝ።",101700,,train
+pilot_dd198f8ba639fe422c2c8c36,mixed,casual,ok,ሞባይል ጥቅል በወር 899 ብር ገዝቼ 30GB አገኛለሁ፣ ግን በቀን 0.8GB ብቻ እጠቀማለሁ። የማልጠቀምበት GB ዋጋው ስንት ብር ይሆናል?,179.8,,train
+pilot_5921547dfceb48cc6268efdd,mixed,casual,ok,"ለትምህርት ቤት 150 ተማሪ ወደ ጉብኝት ይሄዳል። አውቶቡስ 60 ሰው ይይዛል፣ ሚኒባስ 12። አውቶቡስ በቀን 9,000፣ ሚኒባስ 2,200 ብር ይከራያል። በጣም ርካሹ አማራጭ ስንት ያስወጣል?",24600,,train
+pilot_cff6460df1213246cabe27a2,mixed,casual,ok,"የውሃ ቆጣሪዬ ባለፈው ወር 1,248 ሜትር ኪዩብ፣ ዛሬ 1,263 ያሳያል። አንድ ሜትር ኪዩብ 12 ብር ቢሆን ክፍያዬ ስንት ነው?",180,,train
+pilot_c1ca248a436d5fba98c0eeac,mixed,answer,ok,በኦክቶበር ወር (31 ቀን) በቀን 3 ኩባያ ቡና ብጠጣ በወሩ ስንት ኩባያ እጠጣለሁ?,93,,train
+pilot_83949953ab227feca581bbd3,mixed,casual,contradiction,"ልጄ የሂሳብ ጥያቄ ይዞ መጣ፦ ""አንድ ሰው 12 ብርቱካን ገዝቶ ለ5 ጓደኞቹ እኩል አካፈለ፣ እያንዳንዱ 3 አገኘ""። ይሄ ጥያቄ ትክክል ነው?",2.4,data is inconsistent: the model should point it out,train
+pilot_bcc499d57fd45bdd67c6b762,mixed,steps,ok,"የቤት ዕቃ በ36,000 ብር ገዝቼ ቅድሚያ 25% ከፈልኩ። ቀሪውን በ9 ወር እኩል ብከፍል በወር ስንት እከፍላለሁ? ስሌቱን አሳይ።",3000,,train
+pilot_6ca6ec0adfc0e024fcf8a120,mixed,casual,ok,የስልኬ ባትሪ በሰዓት 9% ይቀንሳል። አሁን 62% ላይ ነው። 15% ሲቀረው ማስጠንቀቂያ ይሰጣል። ስንት ሰዓት በኋላ?,5.2222,,train
+pilot_8ef7e33c3d2d78b6f3cdeba7,mixed,casual,ok,ታክሲ ውስጥ ሾፌሩ 5 ሰው በ20 ብር፣ 3 ሰው በ15 ብር አስከፈለ። ከ200 ብር ጋር ቢጀምር አሁን ስንት አለው?,345,,train
+pilot_0b484bfebcc6ece69b8de577,mixed,steps,ok,ጎረቤቴ ለልጁ ልደት 40 ሰው ጋብዟል። ለአንድ ሰው 2 ሳንቡሳ (አንዱ 15 ብር)፣ 1 ለስላሳ (30 ብር) እና አንድ ቁራጭ ኬክ (45 ብር) ያስፈልጋል። ጠቅላላ ወጪው ስንት ነው? ደረጃ በደረጃ አሳየኝ።,4200,,train
+pilot_365052afbab19cdad01e2c28,mixed,answer,ok,"የአንድ ክፍል 7 ቀን የሆቴል ዋጋ 22,050 ብር ከሆነ ለአንድ ሌሊት ስንት ነው?",3150,,train
+pilot_8d060af61430fb6fa7382422,mixed,casual,ok,"ዓመታዊ የመኪና ኢንሹራንስ 9,600 ብር ነው። በወር ብከፍል 850 ብር ነው ይላሉ። በወር መክፈል በዓመት ስንት ያስጨምረኛል?",600,,train
+pilot_9d1e57e4c4acbd2c7b8c1822,mixed,casual,missing,ቤቴን ለማደስ ቀለም ቀቢው 3 ቀን እንደሚፈጅ ተናግሯል። በቀን ስንት እንደሚያስከፍል አልተነጋገርንም። በአጠቃላይ ስንት እከፍለዋለሁ?,,information missing: the model should ask / point it out,train
+pilot_41d237e72eaa67f0accd6fa7,mixed,steps,ok,"አንድ ቦቴ 18,000 ሊትር ውሃ ይዟል፣ በሰዓት 1,200 ሊትር ይቀዳል። ከ4.5 ሰዓት በኋላ ስንት ሊትር ይቀራል? ስንት በመቶስ ይሆናል? ስሌቱን አሳይ።","(12600, 70)",,train
+pilot_fe21c25bb1046950ce96bc0a,mixed,casual,ok,ከ500 ብር ኖቶች 7፣ ከ200 ብር 4፣ ከ100 ብር 9፣ ከ50 ብር 6 አሉኝ። በአጠቃላይ ስንት ብር ነው?,5500,,eval
+pilot_f0525b0e822c3c51954706ac,mixed,answer,ok,አንድ ጥቅል ወረቀት 500 ሉክ ነው። ቢሮው በቀን 140 ሉክ ቢጠቀም 6 ጥቅል ስንት የስራ ቀን ይበቃል?,21.4286,,train
+pilot_f0201e144ed7df54bd2b408f,mixed,casual,ok,ልጄ የወሰደው መድሃኒት በቀን 3 ጊዜ 5 ሚሊ ሊትር ነው። ጠርሙሱ 100 ሚሊ ሊትር ነው። ስንት ቀን ይበቃዋል?,6.6667,,train
+pilot_3ab51da0be0f17c8a1b72216,mixed,casual,ok,"ኢንተርኔት ፍጥነቴ በሰከንድ 2.5 ሜጋባይት ነው። 1.8 ጊጋባይት ፊልም ለማውረድ ስንት ደቂቃ ይፈጃል? (1 ጊጋባይት = 1,024 ሜጋባይት)",12.288,,train
+pilot_aabc5a2d87cdf551b4691eac,mixed,casual,contradiction,በቡድን ጨዋታ ኳሱን ያገባነው 3 ጊዜ ነው፣ ተጋጣሚያችን ደግሞ 2። ውጤቱ 1 ለ 0 ሆነ ይላሉ። እንዴት ይሆናል?,"(3, 2)",data is inconsistent: the model should point it out,train
+pilot_9804c88acb59d4d7a8c9a334,shopping_change,steps,ok,"ለአዲስ ዓመት 2 በግ በ9,800 ብር፣ 5 ኪሎ ቅቤ በኪሎ 1,150 ብር ገዛሁ። 30,000 ብር ይዤ ነበር። ስንት ቀረኝ? ደረጃ በደረጃ አሳየኝ።",4650,,train
+pilot_530b63df4e70e2c8df1e28b8,unit_price,steps,ok,ሳሙና በ3 ፓኬት 135 ብር ወይም በ5 ፓኬት 210 ብር ይሸጣል። በአንድ ሳሙና የቱ ይረክሳል፣ በስንት ብር? ስሌቱን አሳይ።,"(45, 42, 3)",,train
+pilot_1c11d3e8d2e69382b822945e,discount_vat,steps,ok,"የሞባይል ስልክ 18,400 ብር ሲሆን ሱቁ 8% ቅናሽ አድርጎ ከዛ ቫት 15% ጨመረበት። የከፈልኩት ስንት ነው? ደረጃ በደረጃ አሳየኝ።",19467.2,,train
+pilot_21599697444bf44c5009707c,simple_interest,steps,ok,"የቤት ብድር 400,000 ብር በዓመት 13% ቀላል ወለድ ለ5 ዓመት ቢሆን ጠቅላላ የምመልሰው ስንት ነው? በወርስ ስንት ይሆናል? ስሌቱን አሳይ።","(660000, 11000)",,eval
+pilot_f102fe01b8b8e0aa3f70989d,equb,steps,ok,"በእቁባችን 16 አባላት አሉ፣ በየ15 ቀኑ 1,000 ብር እንጥላለን። እቁቡ ሙሉ ዙር ስንት ወር ይፈጃል? አንዱ ሲወጣለት ስንት ያገኛል? ደረጃዎቹን አሳየኝ።","(8, 16000)",,train
+pilot_c0babc4268616b220e3a77dd,bill_split,steps,ok,"የሰፈር ማኅበር 25 አባላት የመንገድ ጥገና 37,500 ብር ፈጀ። 5 ሱቅ ያላቸው አባላት እጥፍ እንዲከፍሉ ተወሰነ። ሌሎቹ ስንት ይከፍላሉ? ሱቅ ያላቸውስ? ስሌቱን አሳይ።","(1250, 2500)",,train
+pilot_1313f18baa8a95622e8c99cc,recipe_scale,steps,ok,ለ5 ሰው ምስር ወጥ 400 ግራም ምስር፣ 3 የሾርባ ማንኪያ በርበሬ ይፈልጋል። ለ12 ሰው ስንት ግራም ምስርና ስንት ማንኪያ በርበሬ ያስፈልጋል? ደረጃ በደረጃ አሳየኝ።,"(960, 7.2)",,train
+pilot_41facf4bff3e4081129e17d8,fuel_taxi,steps,ok,"መኪናዬ በሊትር 14 ኪሎ ሜትር ይሄዳል። በወር 1,100 ኪሎ ሜትር እነዳለሁ። ቤንዚን በሊትር 127.50 ብር ነው። ወርሃዊ የነዳጅ ወጪዬ ስንት ነው? ስሌቱን አሳይ።",10017.8571,,train
+pilot_8f406af9d9f61e047f8d309a,time_schedule,steps,ok,ስብሰባዬ በኢትዮጵያ ሰዓት ከቀኑ 8:30 ይጀምራል። ከቤቴ ቢሮ 50 ደቂቃ ይፈጃል፣ 15 ደቂቃ ቀድሜ መድረስ እፈልጋለሁ። በፈረንጅ ሰዓት ስንት ላይ ልውጣ? ደረጃ በደረጃ አስረዳኝ።,13.4167,,train
+pilot_48755d0ff2c491021c40c5ac,calendar,steps,ok,ልደቴ በኢትዮጵያ አቆጣጠር ሚያዝያ 23 ነው። በ2018 ዓ.ም በፈረንጆች ስንት ቀን ይውላል? እንዴት እንደቀየርከው አሳየኝ።,2026-05-01,,train
+pilot_23c465ce2e5f26e72ddaf045,harvest_yield,steps,ok,"በ2 ሄክታር ማሳ በሄክታር 32 ኩንታል ስንዴ አገኘሁ። 15% ለቤት አስቀርቼ ቀሪውን በኩንታል 4,300 ብር ብሸጥ ስንት አገኛለሁ? ደረጃ በደረጃ አሳየኝ።",233920,,train
+pilot_556e44e347a33a37fe4c841d,plot_area,steps,ok,የኤል (L) ቅርጽ ያለው ቦታ አለኝ፦ አንዱ ክፍል 30 በ 20 ሜትር፣ ሌላው 15 በ 10 ሜትር ነው። ጠቅላላ ስፋቱ ስንት ካሬ ሜትር ነው? ስንት ሄክታርስ? ስሌቱን አሳይ።,"(750, 0.075)",,train
+pilot_70be4b6db76124411938be79,exam_average,steps,ok,የክፍል ፈተና 20%፣ የመካከለኛ ፈተና 30%፣ የመጨረሻ ፈተና 50% ይይዛሉ። ውጤቶቼ 72፣ 64 እና 81 ናቸው። የመጨረሻ ውጤቴ ስንት ነው? ደረጃ በደረጃ አሳየኝ።,74.1,,train
+pilot_8a9e7b0b2026a111bc52e97f,ratio,steps,ok,ቀለም ለመበጥበጥ ነጭና ሰማያዊ 7:3 እቀላቅላለሁ። 25 ሊትር ቀለም ብፈልግ የእያንዳንዱን ስንት ሊትር ልጠቀም? ስሌቱን አሳይ።,"(17.5, 7.5)",,train
+pilot_ec5dde22e0bd1a053c15225e,work_rate,steps,ok,"ሦስት ማሽኖች በአንድ ላይ 1,800 ጠርሙስ በ4 ሰዓት ይሞላሉ። አንዱ ማሽን ቢበላሽ ሁለቱ ቀሪዎች 1,800 ጠርሙስ ስንት ሰዓት ይፈጅባቸዋል? ደረጃዎቹን አሳየኝ።",6,,train
+pilot_eaeec0af78a778efb9b09c26,percentage,steps,ok,"የቤት ኪራዬ ባለፈው ዓመት 6,000 ብር ነበር፣ ዘንድሮ 7,200 ብር ሆነ። ደሞዜ ደግሞ ከ15,000 ወደ 16,500 ብር ጨመረ። የትኛው በበለጠ በመቶ ጨመረ? ስሌቱን አሳይ።","(20, 10)",,train
+pilot_471e08667e9df9c112d5af94,probability,steps,ok,ክፍል ውስጥ 18 ሴቶችና 12 ወንዶች አሉ። ሁለት ተወካዮች በዕጣ ቢመረጡ ሁለቱም ሴቶች የመሆን ዕድሉ ስንት ነው? ደረጃ በደረጃ አሳየኝ።,0.3517,,train
+pilot_6c9c8a00bd67e513acad5bf7,age_puzzle,steps,ok,የእናትና የሴት ልጇ ዕድሜ ጥምርታ 7:2 ነው፣ የዕድሜያቸው ልዩነት 30 ዓመት ነው። እያንዳንዳቸው ስንት ዓመታቸው ነው? ስሌቱን አሳይ።,"(42, 12)",,train
+pilot_f15494ee96cb44241832680e,logic_puzzle,steps,ok,በአንድ መንደር 3 ቤቶች አሉ፤ ቀይ፣ ነጭ፣ አረንጓዴ። ቀዩ ቤት ከነጩ በስተግራ ነው፣ አረንጓዴው ቤት መሃል ላይ አይደለም፣ ነጩ ቤት የመጨረሻው ቀኝ አይደለም። ቤቶቹ ከግራ ወደ ቀኝ እንዴት ተደርድረዋል? ደረጃ በደረጃ አስረዳኝ።,"ቀይ, ነጭ, አረንጓዴ",,train
+pilot_b4d41aab7267d0e89d8f8456,savings_goal,steps,ok,"ለልጄ ዩኒቨርሲቲ ከ6 ዓመት በኋላ 180,000 ብር ያስፈልገኛል። አሁን 30,000 ብር አለኝ። ወለድን ሳላስብ በወር ስንት ማስቀመጥ አለብኝ? ስሌቱን አሳይ።",2083.3333,,train
+pilot_9018cc53ab6eef6ec6bb4a23,speed_distance,steps,ok,ከባሕር ዳር ጎንደር 180 ኪሎ ሜትር ነው። አውቶቡሱ ጠዋት 1:30 (በኢትዮጵያ ሰዓት) ተነስቶ በሰዓት 60 ኪሎ ሜትር ቢጓዝና መንገድ ላይ 20 ደቂቃ ቢያርፍ በኢትዮጵያ ሰዓት ስንት ላይ ይደርሳል? ደረጃ በደረጃ አሳየኝ።,4.8333,,train
+pilot_25ff9814ba75ec8c0b0314c4,business,steps,ok,"ብረት ምጣድ እሰራለሁ። አንዱን ለመስራት ብረት 650 ብር፣ ሌሎች ወጪዎች 120 ብር ይፈጃሉ። በ1,100 ብር እሸጣለሁ። በወር 40,000 ብር ትርፍ ለማግኘት ስንት ምጣድ መሸጥ አለብኝ? ስሌቱን አሳይ።",122,,train
+pilot_79db551d03229990e2bffa91,salary_tax,steps,ok,"ደሞዜ 22,000 ብር ነው። ከዚህ 7% ጡረታ፣ ከቀሪው ደግሞ በግምት 20% ግብር ቢቆረጥ የተጣራው ስንት ይሆናል? (ለማስላት እንዲቀል ይህን ቀላል አሰራር ተጠቀም) ደረጃ በደረጃ አሳየኝ።",16368,,train
+pilot_cc46a491a3031357b0c8d368,geometry,steps,ok,ክፍሌ 5 ሜትር ርዝመት፣ 4 ሜትር ስፋት፣ 3 ሜትር ቁመት አለው። አራቱን ግድግዳዎች ብቻ ልቀባ ነው፤ በርና መስኮት በአጠቃላይ 4 ካሬ ሜትር ይይዛሉ። አንድ ሊትር ቀለም 10 ካሬ ሜትር ይሸፍናል። ስንት ሊትር ያስፈልገኛል? ስሌቱን አሳይ።,5,,train
+pilot_e9dae598f1073bce725670cc,fractions,steps,ok,ማሳዬን 3/8ኛውን ጤፍ፣ 1/4ኛውን በቆሎ ዘርቼ ቀሪውን ባቄላ ልዘራ ነው። ማሳው 2 ሄክታር ቢሆን ለባቄላ ስንት ሄክታር ይቀራል? ደረጃ በደረጃ አሳየኝ።,0.75,,train
+pilot_3736fe84746461707426dcde,unit_price,answer,ok,ማር 1 ኪሎው 720 ብር ከሆነ 350 ግራም ስንት ብር ነው?,252,,train
+pilot_d898203c637dcd2b66d07592,percentage,answer,ok,"ከ2,500 ሰዎች 38% ሞባይል ባንኪንግ ይጠቀማሉ። ስንት ሰዎች ናቸው?",950,,train
+pilot_6860a8886fc94cb1bf042f41,ratio,answer,ok,የአንድ መጽሐፍ የአማርኛና የእንግሊዝኛ ገጾች ጥምርታ 3:2 ነው። መጽሐፉ 240 ገጽ ቢኖረው ስንቱ በአማርኛ ነው?,144,,eval
+pilot_8dc95278fae01281822edd22,calendar,answer,ok,በኢትዮጵያ አቆጣጠር ጳጉሜ 6 ቀን የምትሆነው በስንት ዓመት አንዴ ነው?,4,,train
+pilot_8ac846883a8d68ffc5986ec5,time_schedule,answer,ok,በኢትዮጵያ ሰዓት ማታ 2:15 በፈረንጅ ሰዓት ስንት ነው?,20.25,,train
+pilot_c3c27f71706b3c7bbe9ab48d,work_rate,answer,ok,"አንድ አታሚ በደቂቃ 24 ገጽ ያትማል። 1,000 ገጽ ስንት ደቂቃ ይፈጃል?",41.6667,,train
+pilot_e572e562a0d3ca20e3fd8a7e,geometry,answer,ok,የአራት ማዕዘን ክፍል ስፋቱ 3.5 ሜትር፣ ርዝመቱ 4.8 ሜትር ነው። ስፋቱ ስንት ካሬ ሜትር ነው?,16.8,,train
+pilot_e1183f956bc4c1b6a262d2e6,household_budget,casual,ok,"በቀን ሁለት ጊዜ ባጃጅ በ30 ብር እጠቀማለሁ። ብስክሌት በ6,500 ብር ብገዛ በስንት የስራ ቀን ወጪውን ይመልሳል?",108.3333,,train
+pilot_c889bc5e0950fdec84db02d9,shopping_change,casual,ok,ልጄ ለትምህርት ቤት 10 ደብተር ይፈልጋል። አንዱ 42 ብር ነው፣ ግን 10 ሲገዛ አንዱ በነፃ ይሰጣል ብሏል ነጋዴው። 10 ደብተር ለማግኘት ስንት ልክፈል?,378,,train
+pilot_62b0e9a6d27571d7e1e6d58c,harvest_yield,casual,ok,በግቢዬ ያሉ 6 የአቮካዶ ዛፎች እያንዳንዳቸው በዓመት 150 ፍሬ ይሰጣሉ። አንዱን በ12 ብር ብሸጥ በዓመት ስንት አገኛለሁ?,10800,,train
+pilot_e12cd5ae3b1a91cdcd8ce569,exam_average,casual,ok,ልጄ በ6 ትምህርቶች 85፣ 90፣ 78፣ 92፣ 88 እና 81 አመጣ። አማካዩ 90 ሊደርስ ይችል ነበር ወይ? አሁን ስንት ነው?,85.6667,,train
+pilot_14e4f27e9f6d1e019ca585c7,fuel_taxi,casual,ok,ከመርካቶ ፒያሳ ታክሲ 10 ብር ነው፣ ከፒያሳ አራት ኪሎ 8 ብር። በሳምንት 6 ቀን ደርሶ መልስ ብሄድ ስንት አወጣለሁ?,216,,train
+pilot_af900547db3ac856c4b78abf,mixed,casual,ok,ለሰርግ 300 እንግዳ ይጠበቃል። ለአንድ ጠረጴዛ 10 ሰው ይቀመጣል፣ የጠረጴዛ ኪራይ በአንዱ 150 ብር፣ ወንበር በአንዱ 25 ብር። ለጠረጴዛና ለወንበር ስንት ይወጣል?,12000,,train
+pilot_b07ebf0caaf106c7ac829276,mixed,casual,ok,ፋርማሲው አንድ ፍሬ መድሃኒት 8.75 ብር ይሸጣል። ሀኪሙ በቀን 2 ጊዜ ለ10 ቀን ያዘዘልኝ። ስንት ብር ያስፈልገኛል?,175,,train
+pilot_a970280e22b59621b8fb4ce5,shopping_change,casual,ok,ለቡና ማፍላት 250 ግራም ቡና በ240 ብር፣ ግማሽ ኪሎ ስኳር በ70 ብር እና ፈንዲሻ በ35 ብር ገዛሁ። 500 ብር ሰጥቼ ስንት ይመለስልኛል?,155,,train
+pilot_5bc8185406af2b7414586180,percentage,steps,ok,"ከ1,200 የሰፈራችን ነዋሪዎች 45% ሴቶች ሲሆኑ ከሴቶቹ 30% ተማሪዎች ናቸው። ስንት ሴት ተማሪዎች አሉ? ደረጃ በደረጃ አሳየኝ።",162,,train
+pilot_e1db47129928b0affa333d83,fuel_taxi,casual,ok,ከቤት ወደ ገበያ ባጃጅ 40 ብር ያስከፍላል፣ ታክሲ ደግሞ 15 ብር ግን 20 ደቂቃ በእግር እሄዳለሁ። በወር 12 ጊዜ ብሄድ በታክሲ ስንት እቆጥባለሁ?,300,,train
+pilot_1227de680468866311c2e59e,exam_average,answer,ok,የአምስት ተማሪዎች ውጤት 56፣ 73፣ 88፣ 64 እና 91 ነው። አማካዩ ስንት ነው?,74.4,,train
+pilot_ee83d7c3ea3f1948f44634aa,ratio,casual,ok,በሻይ ቤቴ ሻይና ቡና የሚሸጡበት ጥምርታ 3:2 ነው። ዛሬ 85 ቡና ተሸጧል። ሻይ ስንት ተሽጧል?,127.5,,train
+pilot_990eb3b0e8a6b4768cc30568,harvest_yield,steps,ok,ከ0.8 ሄክታር ማሳ 19.2 ኩንታል ማሽላ አገኘሁ። በሄክታር ምርቱ ስንት ነው? 2.5 ሄክታር ብዘራ በተመሳሳይ ምርታማነት ስንት አገኛለሁ? ስሌቱን አሳይ።,"(24, 60)",,train
+pilot_9685c10bd3fd0ec41c0e1761,simple_interest,casual,ok,"ከሳኮ (ቁጠባና ብድር ማኅበር) 30,000 ብር በዓመት 11% ቀላል ወለድ ለ18 ወር ብበደር ወለዱ ስንት ይሆናል?",4950,,train
+pilot_263b88d9183509ca1a4d5c74,work_rate,steps,ok,እኔ ብቻዬን ቤቱን በ5 ሰዓት አጸዳለሁ፣ እህቴ በ3 ሰዓት። አብረን ብንሰራ ስንት ደቂቃ ይፈጅብናል? ደረጃ በደረጃ አሳየኝ።,112.5,,train
+pilot_4e7e21d1564cddc54c95d93e,probability,answer,ok,ከ1 እስከ 6 ቁጥር ያለው ዳይስ ሲወረወር ጎዶሎ ቁጥር የመውጣት ዕድሉ ስንት ነው?,0.5,,eval
+pilot_880df52b6303a41097d3b04f,calendar,casual,ok,ልጄ የተወለደችው ጳጉሜ 3 ነው። ከመስከረም 1 በፊት ስንት ቀን ቀድማ ተወልዳለች?,3,,train

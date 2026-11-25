@@ -20,8 +20,9 @@ def main():
     markdown("""
 # Private Amharic student bakeoff
 
-Attach the **private** allowlisted input bundle. Use Python 3.12 and exactly one
-NVIDIA GPU with nominal >=16 GB VRAM. Dataset review, corrected-answer merge,
+Attach the **private** allowlisted input bundle. Use Python 3.11–3.13 and one
+visible NVIDIA GPU with nominal >=16 GB VRAM. With Kaggle's T4 x2 allocation,
+the setup cell selects the first T4 before any CUDA imports. Dataset review, corrected-answer merge,
 rejected-answer dispositions and 100 native-speaker spot checks must be complete.
 This notebook defaults to Llama only. Review its results before enabling
 `INCLUDE_GEMMA` for a separate second-stage run directory. Each selected model
@@ -41,13 +42,17 @@ import shutil
 import subprocess
 import sys
 
-if sys.version_info[:2] != (3, 12):
-    raise RuntimeError('Use Python 3.12 for the pinned package candidates.')
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+if sys.version_info[:2] not in ((3, 11), (3, 12), (3, 13)):
+    raise RuntimeError(f'Use Python 3.11, 3.12 or 3.13; this session has {sys.version.split()[0]}.')
+print('Python:', sys.version.split()[0])
 BUNDLE = Path('/kaggle/input/amharic-bakeoff-private')  # Set your PRIVATE dataset path.
-REPO = BUNDLE / 'repo'
 DATASET = BUNDLE / 'frozen'
 WORK = Path('/kaggle/working/bakeoff')
 WORK.mkdir(parents=True, exist_ok=True)
+REPO = WORK / 'repo'
+if not REPO.exists():
+    shutil.copytree(BUNDLE / 'repo', REPO)
 LOG = WORK / 'experiments/LOG.md'
 LOG.parent.mkdir(exist_ok=True)
 if not LOG.exists():
@@ -76,7 +81,14 @@ def record(kind, artifact, command):
     code("""
 LOCK = WORK / 'model_lock.json'
 requirements = WORK / 'requirements.lock.txt' if LOCK.exists() else REPO / 'students/requirements.candidate.txt'
+# Remove unused Kaggle extras tied to its preinstalled Torch/CUDA versions.
+subprocess.run([sys.executable, '-m', 'pip', 'uninstall', '-y',
+                'torchvision', 'torchaudio', 'cuda-python'], check=True)
 subprocess.run([sys.executable, '-m', 'pip', 'install', '-r', str(requirements)], check=True)
+import torch
+import importlib.metadata
+if torch.__version__.split('+')[0] != importlib.metadata.version('torch').split('+')[0]:
+    raise RuntimeError('Restart the Kaggle kernel and rerun setup: an older Torch is still loaded.')
 from students.config import SETTINGS, read_lock, training_steps
 from students.data import load_frozen, sha256, write_json
 from students.modeling import gpu_precision, package_versions
@@ -208,11 +220,12 @@ index = WORK / 'artifact_manifest.json'
 files = {str(path.relative_to(WORK)): sha256(path)
          for path in sorted(WORK.rglob('*')) if path.is_file() and path != index}
 write_json(index, {'dataset_manifest_sha256': sha256(DATASET / 'manifest.json'),
-                  'files': files, 'visibility': 'private', 'packages': package_versions()})
+                  'files': files, 'visibility': 'private', 'packages': package_versions(),
+                  'python_version': sys.version.split()[0]})
 print('Persist private outputs and verify:', index)
 """)
     notebook = {"cells": cells, "metadata": {"kernelspec": {"display_name": "Python 3", "language": "python", "name": "python3"},
-                "language_info": {"name": "python", "version": "3.12"},
+                "language_info": {"name": "python", "version": "3.13"},
                 "kaggle": {"isInternetEnabled": True, "isGpuEnabled": True}}, "nbformat": 4, "nbformat_minor": 5}
     # Stable cell IDs are part of nbformat 4.5.
     for i, cell in enumerate(cells):

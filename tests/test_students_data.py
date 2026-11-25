@@ -129,7 +129,7 @@ class DataTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             args = self.fixture(root)
-            args.spot_check.write_text(args.spot_check.read_text(encoding="utf-8-sig").replace("yes", "no", 1))
+            args.spot_check.write_text(args.spot_check.read_text(encoding="utf-8-sig").replace(",yes,", ",no,", 1))
             rows = [json.loads(line) for line in args.train.read_text().splitlines()]
             rows[0]["id"] = "eval0"
             args.train.write_text("".join(json.dumps(r) + "\n" for r in rows))
@@ -137,6 +137,43 @@ class DataTests(unittest.TestCase):
             self.assertFalse(report["ready"])
             self.assertTrue(any("overlap" in e for e in report["errors"]))
 
+    def test_native_rejection_requires_exclusion_and_preserved_evidence(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            args = self.fixture(root)
+            args.spot_check.write_text(args.spot_check.read_text(encoding="utf-8-sig").replace(",yes,", ",no,", 1))
+            args.review.write_text("id,decision_keep_yes_no,fixed_response,response\ntrain0,no,,Answer train0\n")
+            args.dispositions.write_text("id,disposition,notes\ntrain0,excluded,Native speaker rejected this answer\n")
+            report, _, _ = audit(args)
+            self.assertFalse(report["ready"], "A rejected answer still present in training must fail")
+            lines = args.train.read_bytes().splitlines(keepends=True)
+            args.train.write_bytes(b"".join(lines[1:]))
+            report, _, _ = audit(args)
+            self.assertTrue(report["ready"], report["errors"])
+            self.assertEqual(report["spot_check_decisions"], {"no": 1, "yes": 99})
+            self.assertEqual(report["excluded_spot_check_ids"], ["train0"])
+            original_review, original_dispositions = args.review.read_bytes(), args.dispositions.read_bytes()
+            for review, dispositions in (
+                ("id,decision_keep_yes_no,fixed_response,response\n", original_dispositions.decode()),
+                (original_review.decode(), "id,disposition,notes\ntrain0,excluded,\n"),
+                (original_review.decode().replace("Answer train0", "Different answer"), original_dispositions.decode()),
+                (original_review.decode().replace("no", "yes"), original_dispositions.decode()),
+            ):
+                with self.subTest(review=review, dispositions=dispositions):
+                    args.review.write_text(review)
+                    args.dispositions.write_text(dispositions)
+                    failed, _, _ = audit(args)
+                    self.assertFalse(failed["ready"])
+            args.review.write_bytes(original_review)
+            args.dispositions.write_bytes(original_dispositions)
+            original_spot = args.spot_check.read_bytes()
+            args.spot_check.write_text(args.spot_check.read_text().replace("Native speaker", "", 1))
+            failed, _, _ = audit(args)
+            self.assertFalse(failed["ready"])
+            args.spot_check.write_bytes(original_spot)
+            args.spot_check.write_bytes(b"".join(args.spot_check.read_bytes().splitlines(keepends=True)[:-1]))
+            failed, _, _ = audit(args)
+            self.assertTrue(any("found 99" in e for e in failed["errors"]))
 
 if __name__ == "__main__":
     unittest.main()

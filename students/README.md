@@ -8,20 +8,24 @@ support and its candidate pins remain available for an optional second stage.
 
 All commands run from the repository root as Python modules. Preparation/review,
 offline metrics and unit tests use the standard library. GPU commands need Python
-3.12 and [candidate dependencies](requirements.candidate.txt); these become working
+3.11–3.13 and [candidate dependencies](requirements.candidate.txt); these become working
 pins only for models with successful GPU smoke, resume and adapter-loading checks.
 Use `model_lock.llama.candidate.json` for stage one; the two-model candidate is
 unchanged. Promoted locks list `verified_models`; Llama evidence does not authorize
 Gemma training, evaluation, export or deployment.
 
 ```bash
-python3 -m students.data audit
+python3 -m students.data audit --dataset data/sft/pilot-v1
 python3 -m unittest discover -s tests -v
 ```
 
 An audit exit code of 2 means review is incomplete. No source SFT/review files are
 overwritten. Snapshots, checkpoints, adapters, generated answers and blind sheets
 belong under ignored `outputs/` and must remain private.
+
+The completed native-speaker review is frozen at `outputs/bakeoff/frozen-v1`:
+4,947 training conversations after five documented exclusions, plus 299 held-out
+references and 300 evaluation prompts. See the [version notes](../data/sft/pilot-v1/README.md).
 
 `SETTINGS` in [config.py](config.py) controls training arguments, data-split seeds,
 quantization, template options and generation limits. Completion checks and the

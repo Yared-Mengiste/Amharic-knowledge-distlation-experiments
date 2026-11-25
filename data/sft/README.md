@@ -1,5 +1,11 @@
 # Completed pilot SFT dataset
 
+The reviewed version is [pilot-v1](pilot-v1/README.md): 4,947 training
+conversations, 299 references and 300 evaluation prompts. Its audit passes and
+its local frozen snapshot is `outputs/bakeoff/frozen-v1`. The files listed below
+are the original dataset and review evidence, preserved before five native-review
+exclusions were applied in the new version.
+
 | File | Purpose |
 |---|---|
 | `sft_train.jsonl` | 4,952 accepted user/assistant training conversations. |
@@ -8,7 +14,7 @@
 | `review_queue.csv` | Completed answer decisions and corrected responses used by the merger and student audit. |
 | `rejected.jsonl` | Original hard-rejection records used by the audit. |
 | `rejected_dispositions.csv` | Decisions for all rejected and explicitly excluded rows. |
-| `spot_check.csv` | Prepared 100-answer native-speaker sheet; reviewer approvals remain blank. |
+| `spot_check.csv` | Completed 100-answer native-speaker sheet: Yared accepted 95 and rejected 5. |
 | `teacher_outputs.jsonl` | Original teacher records required to check accepted answer provenance. |
 | `math_answers.csv` | Frozen math checks required by the audit. |
 | `teacher_answer_review_ids.txt` | Original safety/sensitive IDs needed to reproduce filtering. |
@@ -17,8 +23,9 @@
 The final training and reference files are unchanged from the completed review.
 The original queue had 102 corrections, 197 retained answers and 8 exclusions;
 107 hard rejections were recovered and 2 excluded. There are 10 exclusions in
-total. Assistant review is separate from native-speaker approval, which remains
-pending. Do not overwrite this dataset by rerunning the filter into this folder.
+total before native-speaker review. Five further native-review exclusions are
+documented in `pilot-v1/removed.csv`; the original answers and the human review
+sheet remain here. Do not overwrite this dataset by rerunning the filter into this folder.
 
 To verify the accepted files with the existing teacher scripts, rebuild into a
 new scratch directory and compare both accepted JSONL files:
